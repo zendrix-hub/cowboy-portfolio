@@ -1,0 +1,142 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #ffffff;
+    --foreground: #09090b;
+    --bg-page-radial: radial-gradient(circle at 85% 15%, rgba(6, 182, 212, 0.05) 0%, transparent 45%),
+      radial-gradient(circle at 15% 85%, rgba(14, 165, 233, 0.04) 0%, transparent 50%);
+    --blob-opacity: 0.09;
+    --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    --spotlight-color: rgba(6, 182, 212, 0.08);
+  }
+
+  .dark {
+    --background: #09090b;
+    --foreground: #f4f4f5;
+    --bg-page-radial: radial-gradient(circle at 85% 15%, rgba(6, 182, 212, 0.09) 0%, transparent 45%),
+      radial-gradient(circle at 15% 85%, rgba(14, 165, 233, 0.05) 0%, transparent 55%);
+    --blob-opacity: 0.13;
+    --glass-shadow: 0 10px 35px rgba(0, 0, 0, 0.4);
+    --spotlight-color: rgba(6, 182, 212, 0.14);
+  }
+
+  body {
+    background-color: var(--background);
+    background-image: var(--bg-page-radial);
+    background-attachment: fixed;
+    color: var(--foreground);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Accessible visible focus styles */
+  :focus-visible {
+    outline: 2px solid #06b6d4;
+    outline-offset: 2px;
+  }
+}
+
+/* --- ReadHub Login Atmospheric Background Blobs --- */
+.bg-blobs {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: var(--blob-opacity);
+  animation: float 22s infinite alternate ease-in-out;
+}
+
+.blob-1 {
+  width: 380px;
+  height: 380px;
+  background: #06b6d4;
+  top: 8%;
+  left: 4%;
+  animation-duration: 24s;
+}
+
+.blob-2 {
+  width: 440px;
+  height: 440px;
+  background: #0ea5e9;
+  bottom: 8%;
+  right: 6%;
+  animation-delay: -5s;
+  animation-duration: 30s;
+}
+
+.blob-3 {
+  width: 300px;
+  height: 300px;
+  background: #0284c7;
+  top: 48%;
+  left: 45%;
+  animation-delay: -9s;
+  animation-duration: 20s;
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -45px) scale(1.12);
+  }
+  66% {
+    transform: translate(-25px, 25px) scale(0.92);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+/* --- ReadHub Login Floating Toast --- */
+@keyframes slideDownFade {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -20px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+.toast-slide-down {
+  animation: slideDownFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after,
+  .blob {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom utility: Hide scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
