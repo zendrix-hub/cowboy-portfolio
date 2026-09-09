@@ -8,6 +8,7 @@ import ThemeToggle from "@/components/layout/ThemeToggle";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/Icons";
 import { useSectionFocus } from "@/context/SectionFocusContext";
 import { useConstellation } from "@/context/ConstellationContext";
+import StoryModeToggle from "@/components/story/StoryModeToggle";
 import {
   FileText,
   Search,
@@ -121,6 +122,9 @@ export default function CosmicNav() {
 
           {/* Right: Telemetry Actions & Utilities */}
           <div className="flex items-center gap-1 sm:gap-1.5">
+            {/* Experience Mode Switcher (Visible on xl+) */}
+            <StoryModeToggle variant="compact" className="hidden xl:inline-flex mr-1" />
+
             {/* Command Palette Trigger */}
             <button
               type="button"
@@ -194,9 +198,17 @@ export default function CosmicNav() {
         <div
           role="dialog"
           aria-label="Mobile Navigation"
-          className="fixed inset-x-3 top-16 z-40 md:hidden p-4 rounded-2xl bg-white/95 dark:bg-zinc-950/95 backdrop-blur-2xl border border-cyan-500/30 shadow-2xl shadow-cyan-950/40 space-y-2 animate-in fade-in zoom-in-95"
+          className="fixed inset-x-3 top-16 z-40 md:hidden p-4 rounded-2xl bg-white/95 dark:bg-zinc-950/95 backdrop-blur-2xl border border-cyan-500/30 shadow-2xl shadow-cyan-950/40 space-y-3 animate-in fade-in zoom-in-95"
         >
-          <div className="text-[10px] font-mono uppercase tracking-wider text-cyan-600 dark:text-cyan-400 font-bold px-2 pb-1 border-b border-zinc-200/80 dark:border-zinc-800/80">
+          {/* Experience Mode Selector for Mobile */}
+          <div className="flex items-center justify-between pb-2 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-cyan-600 dark:text-cyan-400 font-bold">
+              Experience Mode
+            </span>
+            <StoryModeToggle variant="compact" />
+          </div>
+
+          <div className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-bold px-1">
             Celestial Sectors
           </div>
           <div className="grid grid-cols-2 gap-1.5 pt-1">

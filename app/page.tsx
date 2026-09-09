@@ -12,13 +12,15 @@ import SpotlightGlow from "@/components/ui/SpotlightGlow";
 import FocusableSection from "@/components/ui/FocusableSection";
 import { SectionFocusProvider } from "@/context/SectionFocusContext";
 import { ConstellationProvider } from "@/context/ConstellationContext";
+import { StoryModeProvider } from "@/components/story/StoryModeContext";
 
 export default function Home() {
   return (
     <SectionFocusProvider>
       <ConstellationProvider>
-        {/* Floating Astrogation Telemetry Glass HUD */}
-        <CosmicNav />
+        <StoryModeProvider>
+          {/* Floating Astrogation Telemetry Glass HUD */}
+          <CosmicNav />
 
         {/* Ambient Pointer Glow (will be accompanied by ConstellationCanvas in Milestone 2) */}
         <SpotlightGlow />
@@ -64,6 +66,7 @@ export default function Home() {
             <Footer />
           </main>
         </div>
+        </StoryModeProvider>
       </ConstellationProvider>
     </SectionFocusProvider>
   );

@@ -118,16 +118,34 @@ git status
 
 ---
 
-## 🛠 Active Experiment Checklist (`theme/universe-constellation`)
+### 4. `theme/cowboy-story-scroll`
+- **Role:** Narrative Odyssey Exploratory Branch (Option B)
+- **Status:** `Ready for Review`
+- **Aesthetic:** Retro-futuristic frontier. Blends vintage 1990s CRT computing with modern system architecture.
+- **Core Narrative Flow:**
+  - **Epoch 00 (Childhood Spark):** The Little Cowboy CRT Terminal (`little-cowboy-v2.jpg`) with interactive scanlines, phosphor bloom, mechanical click, 60Hz degauss coil swell, and flyback whistle audio FX. Collapses into high-density archival banner when in Recruiter Spec mode.
+  - **Epoch 01 (The Frontier Trail):** CIT-U BSIT 4th year, algorithms, memory discipline, and clean architecture foundations in About.
+  - **Epoch 02 (The Offline Outlaw):** PlayIT flagship capstone, Vosk edge speech evaluation, zero-cloud architecture under real school constraints in Projects.
+  - **Epoch 03 (The Orbital Relay):** NEC Telecom Software Philippines, Spring Boot 3, FastAPI, stateless token auth, and enterprise telecom scale in Experience.
+  - **Epoch 04 (Cognitive Horizon):** Grounded Applied AI, ChromaDB RAG, Gemini API, and Langfuse observability in Skills.
+- **Key Feature:** Dual Experience Mode toggle (`<StoryModeToggle />` in `<CosmicHero />` and `<CosmicNav />`) switching between **Story Odyssey** (5-chapter narrative immersion) and **Recruiter Spec** (compact, metrics-driven view).
+
+---
+
+## 🛠 Active Experiment Checklist (`theme/universe-constellation` & `theme/cowboy-story-scroll`)
 
 - [x] Git repository initialized & base branches created (`main`, `theme/base-spotlight`)
 - [x] Remote origin linked to `zendrix-hub/cowboy-portfolio`
 - [x] Initial theme branch created: `theme/universe-constellation`
 - [x] Push all branches to GitHub remote (`origin`)
 - [x] **Milestone 1: Dynamic Node Registry (`ConstellationContext` & `<ConstellationNode />`)**
-- [ ] **Milestone 2: Dual-Layer Canvas Engine (`<ConstellationCanvas />` WebGL Nebula + 2D Raycaster)**
-- [ ] **Milestone 3: Origin Star & Pillar-to-Project Vector Linking**
-- [ ] **Milestone 4: Gravitational Singularity Cursor & Ambient Stardust Physics**
-- [ ] **Milestone 5: Floating Procedural Audio HUD & Sound Synthesis**
-- [ ] **Milestone 6: Mobile Touch Adaptation, Reduced-Motion Gate & Build Verification (`npm run build`)**
+- [x] **Option A: Little Cowboy CRT Prologue Card on `theme/universe-constellation`**
+- [x] **Option B: Full 5-Chapter Story Scroll + Story/Spec Switcher on `theme/cowboy-story-scroll`**
+- [ ] User Evaluation: Compare Option A vs Option B to guide grounded cowboy styling
+- [ ] Milestone 2: Dual-Layer Canvas Engine (`<ConstellationCanvas />` WebGL Nebula + 2D Raycaster)
+- [ ] Milestone 3: Origin Star & Pillar-to-Project Vector Linking
+- [ ] Milestone 4: Gravitational Singularity Cursor & Ambient Stardust Physics
+- [ ] Milestone 5: Floating Procedural Audio HUD & Sound Synthesis
+- [ ] Milestone 6: Mobile Touch Adaptation, Reduced-Motion Gate & Build Verification (`npm run build`)
+
 

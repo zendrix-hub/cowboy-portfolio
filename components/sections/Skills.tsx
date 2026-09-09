@@ -1,9 +1,12 @@
+"use client";
+
 import { skillCategories } from "@/data/skills";
 import SectionHeading from "@/components/shared/SectionHeading";
 import { Smartphone, Layout, Server, Sparkles, Terminal } from "lucide-react";
 import FadeIn from "@/components/ui/FadeIn";
 import StaggerChildren, { AnimatedItem } from "@/components/ui/StaggerChildren";
 import { ConstellationNode } from "@/components/interactive/ConstellationNode";
+import { useStoryMode } from "@/components/story/StoryModeContext";
 
 function renderCategoryIcon(categoryName: string) {
   const name = categoryName.toLowerCase();
@@ -49,14 +52,34 @@ function getSkillConnections(skill: string, categoryName: string): string[] {
 }
 
 export default function Skills() {
+  const { mode } = useStoryMode();
+
   return (
     <section id="skills" className="scroll-mt-16 lg:scroll-mt-24 space-y-6">
       <FadeIn>
-        <SectionHeading
-          eyebrow="Capabilities"
-          title="Technical Skills & Architecture"
-          description="A structured overview of core competencies across mobile platforms, backend systems, full-stack web, and applied AI."
-        />
+        {mode === "story" ? (
+          <div className="space-y-2 mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-medium bg-cyan-50 dark:bg-cyan-950/40 text-cyan-700 dark:text-cyan-300 border border-cyan-200/80 dark:border-cyan-800/60">
+              <Sparkles className="w-3.5 h-3.5 text-cyan-500" />
+              <span>Story Odyssey • Epoch 04</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50">
+              Cognitive Horizon:{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 via-sky-500 to-indigo-500 dark:from-cyan-400 dark:via-sky-300 dark:to-indigo-300">
+                Grounded Vector Intelligence
+              </span>
+            </h2>
+            <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 max-w-2xl font-normal">
+              Mapping modern frontier capabilities—combining Google Gemini APIs with ChromaDB RAG and Langfuse observability to anchor generative models in verified reality.
+            </p>
+          </div>
+        ) : (
+          <SectionHeading
+            eyebrow="Capabilities"
+            title="Technical Skills & Architecture"
+            description="A structured overview of core competencies across mobile platforms, backend systems, full-stack web, and applied AI."
+          />
+        )}
       </FadeIn>
 
       <StaggerChildren className="grid grid-cols-1 sm:grid-cols-2 gap-4">

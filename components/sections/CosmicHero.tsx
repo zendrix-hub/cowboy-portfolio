@@ -6,6 +6,7 @@ import { social } from "@/data/social";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/Icons";
 import { ConstellationNode } from "@/components/interactive/ConstellationNode";
 import FadeIn from "@/components/ui/FadeIn";
+import StoryModeToggle from "@/components/story/StoryModeToggle";
 import {
   Mail,
   Check,
@@ -249,6 +250,14 @@ export default function CosmicHero() {
                   {tech}
                 </span>
               ))}
+            </div>
+
+            {/* Experience Mode Switcher (Story Odyssey vs Recruiter Spec) */}
+            <div className="pt-3 flex items-center justify-center sm:justify-start gap-2">
+              <span className="text-[11px] font-mono text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
+                Experience:
+              </span>
+              <StoryModeToggle variant="full" />
             </div>
 
             {/* Primary Action Buttons & Socials */}

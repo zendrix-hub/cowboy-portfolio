@@ -1,8 +1,11 @@
+"use client";
+
 import SectionHeading from "@/components/shared/SectionHeading";
-import { Smartphone, Server, Cpu } from "lucide-react";
+import { Smartphone, Server, Cpu, Sparkles } from "lucide-react";
 import FadeIn from "@/components/ui/FadeIn";
 import StaggerChildren, { AnimatedItem } from "@/components/ui/StaggerChildren";
 import { ConstellationNode } from "@/components/interactive/ConstellationNode";
+import { useStoryMode } from "@/components/story/StoryModeContext";
 
 const PILLARS = [
   {
@@ -61,14 +64,34 @@ const PILLARS = [
 const ORIGIN_CONNECTIONS = ["origin-crt", "pillar-offline", "pillar-backend", "pillar-ai"];
 
 export default function About() {
+  const { mode } = useStoryMode();
+
   return (
     <section id="about" className="scroll-mt-16 lg:scroll-mt-24 space-y-6">
       <FadeIn>
-        <SectionHeading
-          eyebrow="Identity & Approach"
-          title="About Me"
-          description="A grounded look at my engineering approach, technical focus, and architectural priorities."
-        />
+        {mode === "story" ? (
+          <div className="space-y-2 mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-medium bg-cyan-50 dark:bg-cyan-950/40 text-cyan-700 dark:text-cyan-300 border border-cyan-200/80 dark:border-cyan-800/60">
+              <Sparkles className="w-3.5 h-3.5 text-cyan-500" />
+              <span>Story Odyssey • Epoch 01</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50">
+              The Frontier Trail:{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 via-sky-500 to-indigo-500 dark:from-cyan-400 dark:via-sky-300 dark:to-indigo-300">
+                Taming the Machine
+              </span>
+            </h2>
+            <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 max-w-2xl font-normal">
+              Turning childhood curiosity into engineering discipline at CIT-U Cebu—mastering memory structures, algorithmic rigor, and clean architectural principles.
+            </p>
+          </div>
+        ) : (
+          <SectionHeading
+            eyebrow="Identity & Approach"
+            title="About Me"
+            description="A grounded look at my engineering approach, technical focus, and architectural priorities."
+          />
+        )}
 
         {/* Main About Bio Card - Central Origin Core */}
         <ConstellationNode

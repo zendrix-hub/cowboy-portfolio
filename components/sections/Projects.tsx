@@ -6,6 +6,8 @@ import { projects } from "@/data/projects";
 import ProjectCard from "@/components/sections/ProjectCard";
 import SectionHeading from "@/components/shared/SectionHeading";
 import FadeIn from "@/components/ui/FadeIn";
+import { Sparkles } from "lucide-react";
+import { useStoryMode } from "@/components/story/StoryModeContext";
 
 const filterValues = ["all", "featured", "mobile", "web-backend", "ai"] as const;
 type FilterType = (typeof filterValues)[number];
@@ -19,6 +21,7 @@ const FILTERS: { label: string; value: FilterType }[] = [
 ];
 
 export default function Projects() {
+  const { mode } = useStoryMode();
   const [activeFilter, setActiveFilter] = useQueryState(
     "filter",
     parseAsStringLiteral(filterValues).withDefault("all")
@@ -36,11 +39,29 @@ export default function Projects() {
   return (
     <section id="projects" className="scroll-mt-16 lg:scroll-mt-24 space-y-6">
       <FadeIn>
-        <SectionHeading
-          eyebrow="Architecture & Systems"
-          title="Featured Projects"
-          description="Software projects illustrating offline-first architecture, API engineering under real-world constraints, and practical AI integrations."
-        />
+        {mode === "story" ? (
+          <div className="space-y-2 mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-medium bg-cyan-50 dark:bg-cyan-950/40 text-cyan-700 dark:text-cyan-300 border border-cyan-200/80 dark:border-cyan-800/60">
+              <Sparkles className="w-3.5 h-3.5 text-cyan-500" />
+              <span>Story Odyssey • Epoch 02</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50">
+              The Offline Outlaw:{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 via-sky-500 to-indigo-500 dark:from-cyan-400 dark:via-sky-300 dark:to-indigo-300">
+                Zero Cloud Assumptions
+              </span>
+            </h2>
+            <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 max-w-2xl font-normal">
+              Out on the Philippine classroom frontier, networks drop. Real software reliability means engineering offline-first: Vosk Edge ASR and local SQLite without cloud handrails.
+            </p>
+          </div>
+        ) : (
+          <SectionHeading
+            eyebrow="Architecture & Systems"
+            title="Featured Projects"
+            description="Software projects illustrating offline-first architecture, API engineering under real-world constraints, and practical AI integrations."
+          />
+        )}
       </FadeIn>
 
       {/* ReadHub-inspired Segmented Pill Filter Toggle with URL sync via nuqs */}
