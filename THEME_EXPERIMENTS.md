@@ -107,13 +107,14 @@ git status
 ### 3. `theme/universe-constellation`
 - **Role:** Active Exploratory Branch
 - **Status:** `In Progress`
-- **Aesthetic:** Deep cosmic void (`#030712`), celestial nebula glows, radiant star cores.
-- **Core Mechanics:**
-  - **About Me Origin Star:** The "About Me" section acts as the gravitational core / sun of the universe.
-  - **Linking the Dots:** Interactive constellation rays dynamically draw glowing vector lines connecting your 3 pillars (*Edge/Offline*, *Stateless Backend*, *Applied AI*) to their corresponding skills and projects on hover/scroll.
-  - **Gravitational Cursor:** Stardust attraction and light trails following mouse motion.
-  - **Hyperspace Warp Jump:** Cinematic star-streak acceleration when jumping between sections or command palette items.
-  - **Optional Celestial Soundscape:** Subtle Web Audio API resonance on constellation lock.
+- **Aesthetic:** Deep cosmic void (`#030712`), volumetric cyan/violet nebulae, radiant star cores.
+- **Architectural Specifications (Agreed via `/grill-me`):**
+  - **Rendering Engine:** Dual-layer canvas (Lightweight WebGL GLSL fragment shader for volumetric nebula dust + 2D canvas for crisp 60fps vector lines and stardust; 0 external dependencies, <15KB footprint).
+  - **Node Registration:** Dynamic DOM Rect Observer (`<ConstellationNode />` hook/wrapper tracking live viewport bounding boxes on scroll/resize, preserving semantic card layouts with zero hardcoded coordinates).
+  - **Vector Visuals:** Pulsing Photon Energy Streams (cyan/violet gradient lines with travelling photon packets shooting from the Origin Star $\rightarrow$ Pillars $\rightarrow$ Skills $\rightarrow$ Projects, with non-active nodes gently dimming for contrast).
+  - **Cursor Physics:** Gravitational Singularity & Magnetic Snap (attracts nearby stardust into a trailing comet orbit, snapping elastic tether lines to star nodes within an 80px radius).
+  - **Sound Design:** Procedural Web Audio API synthesizer (0 MP3/audio files to download, muted by default with a floating celestial sound toggle HUD, gentle glass resonance on node hover, warp whoosh on navigation jump).
+  - **Performance & Accessibility:** Adaptive Performance Engine (60fps full-particle desktop; 40 particles + touch ripple mobile fallback for battery conservation; full `prefers-reduced-motion` compliance falling back to static celestial glow).
 
 ---
 
@@ -122,10 +123,11 @@ git status
 - [x] Git repository initialized & base branches created (`main`, `theme/base-spotlight`)
 - [x] Remote origin linked to `zendrix-hub/cowboy-portfolio`
 - [x] Initial theme branch created: `theme/universe-constellation`
-- [ ] Push all branches to GitHub remote
-- [ ] Build `<ConstellationCanvas />` background layer with particle & line raycasting
-- [ ] Create `ConstellationContext` for dynamic DOM coordinate tracking (About Me $\leftrightarrow$ Skills $\leftrightarrow$ Projects)
-- [ ] Implement hover vector projection between Pillars and Project Cards
-- [ ] Add Gravitational Cursor & particle physics
-- [ ] Add reduced-motion accessibility toggle and mobile touch fallbacks
-- [ ] Build verification (`npm run build`) and visual smoke test
+- [x] Push all branches to GitHub remote (`origin`)
+- [ ] **Milestone 1: Dynamic Node Registry (`ConstellationContext` & `<ConstellationNode />`)**
+- [ ] **Milestone 2: Dual-Layer Canvas Engine (`<ConstellationCanvas />` WebGL Nebula + 2D Raycaster)**
+- [ ] **Milestone 3: Origin Star & Pillar-to-Project Vector Linking**
+- [ ] **Milestone 4: Gravitational Singularity Cursor & Ambient Stardust Physics**
+- [ ] **Milestone 5: Floating Procedural Audio HUD & Sound Synthesis**
+- [ ] **Milestone 6: Mobile Touch Adaptation, Reduced-Motion Gate & Build Verification (`npm run build`)**
+
