@@ -1,5 +1,6 @@
 import { Suspense } from "react";
-import Sidebar from "@/components/layout/Sidebar";
+import CosmicNav from "@/components/layout/CosmicNav";
+import CosmicHero from "@/components/sections/CosmicHero";
 import About from "@/components/sections/About";
 import Projects from "@/components/sections/Projects";
 import Skills from "@/components/sections/Skills";
@@ -15,27 +16,29 @@ export default function Home() {
   return (
     <SectionFocusProvider>
       <ConstellationProvider>
-        <div className="mx-auto min-h-screen max-w-screen-xl px-6 py-12 md:px-12 md:py-16 lg:px-20 lg:py-0 relative">
-        {/* Interactive Ambient Spotlight Glow (Desktop Pointer) */}
+        {/* Floating Astrogation Telemetry Glass HUD */}
+        <CosmicNav />
+
+        {/* Ambient Pointer Glow (will be accompanied by ConstellationCanvas in Milestone 2) */}
         <SpotlightGlow />
 
-        <div className="lg:flex lg:justify-between lg:gap-14">
-          {/* Left Column: Fixed / Sticky on desktop with Profile & Section Navigation (z-20 keeps sidebar above ambient light) */}
-          <header className="lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-[44%] lg:flex-col lg:justify-between lg:py-12 xl:py-16 relative z-20">
-            <Sidebar />
-          </header>
+        {/* Cinematic Single-Column Cosmic Flow */}
+        <div className="mx-auto min-h-screen max-w-5xl px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Top Origin Singularity Hero */}
+          <CosmicHero />
 
-          {/* Right Column: Scrollable Content Sections */}
-          <main
-            id="content"
-            className="pt-16 lg:w-[52%] lg:py-12 xl:py-16 space-y-20 sm:space-y-28 relative z-10"
-          >
+          {/* Sequential Celestial Workstation & Constellation Stations */}
+          <main id="content" className="space-y-24 sm:space-y-32 pb-24">
             <FocusableSection id="about">
               <About />
             </FocusableSection>
 
             <FocusableSection id="projects">
-              <Suspense fallback={<div className="min-h-[300px] animate-pulse rounded-2xl bg-zinc-100/50 dark:bg-zinc-900/40" />}>
+              <Suspense
+                fallback={
+                  <div className="min-h-[300px] animate-pulse rounded-2xl bg-zinc-100/50 dark:bg-zinc-900/40" />
+                }
+              >
                 <Projects />
               </Suspense>
             </FocusableSection>
@@ -55,8 +58,7 @@ export default function Home() {
             <Footer />
           </main>
         </div>
-      </div>
-    </ConstellationProvider>
-  </SectionFocusProvider>
+      </ConstellationProvider>
+    </SectionFocusProvider>
   );
 }
