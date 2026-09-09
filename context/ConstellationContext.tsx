@@ -40,9 +40,50 @@ const DEFAULT_GLOW_COLORS: Record<ConstellationNodeCategory, string> = {
   custom: "rgba(6, 182, 212, 0.35)",
 };
 
+const EMPTY_SET = new Set<string>();
+const EMPTY_VECTORS: ConstellationVector[] = [];
+const EMPTY_CONNECTIONS: string[] = [];
+
+export function isRectEqual(a?: ConstellationNodeRect, b?: ConstellationNodeRect): boolean {
+  if (a === b) return true;
+  if (!a || !b) return false;
+  return (
+    a.isVisible === b.isVisible &&
+    Math.abs(a.centerX - b.centerX) <= 0.5 &&
+    Math.abs(a.centerY - b.centerY) <= 0.5 &&
+    Math.abs(a.width - b.width) <= 0.5 &&
+    Math.abs(a.height - b.height) <= 0.5
+  );
+}
+
+export function areStringArraysEqual(a?: string[], b?: string[]): boolean {
+  if (a === b) return true;
+  if (!a || !b) return !a && !b;
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) return false;
+  }
+  return true;
+}
+
+export function areObjectsShallowEqual(
+  a?: Record<string, unknown>,
+  b?: Record<string, unknown>
+): boolean {
+  if (a === b) return true;
+  if (!a || !b) return !a && !b;
+  const keysA = Object.keys(a);
+  const keysB = Object.keys(b);
+  if (keysA.length !== keysB.length) return false;
+  for (const key of keysA) {
+    if (a[key] !== b[key]) return false;
+  }
+  return true;
+}
+
 const ConstellationContext = createContext<ConstellationContextValue | null>(null);
 
-function calculateNodeRect(element: HTMLElement): ConstellationNodeRect {
+export function calculateNodeRect(element: HTMLElement): ConstellationNodeRect {
   const rect = element.getBoundingClientRect();
   const scrollX = window.scrollX || window.pageXOffset || 0;
   const scrollY = window.scrollY || window.pageYOffset || 0;
@@ -53,6 +94,8 @@ function calculateNodeRect(element: HTMLElement): ConstellationNodeRect {
   const centerY = rect.top + rect.height / 2;
 
   const isVisible =
+    rect.width > 0 &&
+    rect.height > 0 &&
     rect.bottom >= -100 &&
     rect.top <= viewportHeight + 100 &&
     rect.right >= -100 &&
@@ -80,6 +123,7 @@ export function ConstellationProvider({ children }: { children: React.ReactNode 
   const [activeNodeId, setActiveNodeId] = useState<string | null>(null);
   const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
 
+  const nodesRef = useRef<Map<string, ConstellationNodeData>>(new Map());
   const rafIdRef = useRef<number | null>(null);
   const isScheduledRef = useRef<boolean>(false);
 
@@ -95,46 +139,126 @@ export function ConstellationProvider({ children }: { children: React.ReactNode 
 
     rafIdRef.current = window.requestAnimationFrame(() => {
       isScheduledRef.current = false;
+      rafIdRef.current = null;
 
-      setNodes((currentNodes) => {
-        let changed = false;
-        const updatedMap = new Map<string, ConstellationNodeData>(currentNodes);
-
-        for (const [id, node] of updatedMap.entries()) {
-          if (!node.element || !document.contains(node.element)) continue;
-
-          const newRect = calculateNodeRect(node.element);
-          const oldRect = node.rect;
-
-          if (
-            !oldRect ||
-            Math.abs(oldRect.centerX - newRect.centerX) > 0.5 ||
-            Math.abs(oldRect.centerY - newRect.centerY) > 0.5 ||
-            oldRect.isVisible !== newRect.isVisible
-          ) {
-            updatedMap.set(id, {
+      let changed = false;
+      for (const [id, node] of nodesRef.current.entries()) {
+        if (!node.element || !document.contains(node.element)) {
+          if (node.rect?.isVisible) {
+            nodesRef.current.set(id, {
               ...node,
-              rect: newRect,
+              rect: { ...node.rect, isVisible: false },
             });
             changed = true;
           }
+          continue;
         }
 
-        return changed ? updatedMap : currentNodes;
-      });
+        const newRect = calculateNodeRect(node.element);
+        const oldRect = node.rect;
+
+        if (!isRectEqual(oldRect, newRect)) {
+          nodesRef.current.set(id, {
+            ...node,
+            rect: newRect,
+          });
+          changed = true;
+        }
+      }
+
+      if (changed) {
+        setNodes(new Map(nodesRef.current));
+      }
     });
   }, []);
 
-  // Register a node
+  // Register a node with strict change detection to avoid unnecessary re-renders
   const registerNode = useCallback(
     (input: ConstellationRegistrationInput) => {
       const category: ConstellationNodeCategory = input.category || "custom";
       const tier = input.tier || "minor";
       const color = input.color || DEFAULT_CATEGORY_COLORS[category];
       const glowColor = input.glowColor || DEFAULT_GLOW_COLORS[category];
+      const connections = input.connections || EMPTY_CONNECTIONS;
 
+      const existing = nodesRef.current.get(input.id);
+
+      if (existing) {
+        const elementChanged =
+          input.element !== undefined && existing.element !== input.element;
+        const labelChanged = existing.label !== input.label;
+        const categoryChanged = existing.category !== category;
+        const tierChanged = existing.tier !== tier;
+        const colorChanged = existing.color !== color;
+        const glowColorChanged = existing.glowColor !== glowColor;
+        const connectionsChanged = !areStringArraysEqual(
+          existing.connections,
+          connections
+        );
+        const metadataChanged = !areObjectsShallowEqual(
+          existing.metadata,
+          input.metadata
+        );
+
+        // Bail out immediately without queuing state update if nothing changed
+        if (
+          !elementChanged &&
+          !labelChanged &&
+          !categoryChanged &&
+          !tierChanged &&
+          !colorChanged &&
+          !glowColorChanged &&
+          !connectionsChanged &&
+          !metadataChanged
+        ) {
+          return;
+        }
+
+        const element =
+          input.element !== undefined ? input.element : existing.element;
+        let rect: ConstellationNodeRect | undefined;
+
+        if (
+          element &&
+          typeof window !== "undefined" &&
+          document.contains(element)
+        ) {
+          rect =
+            !existing.rect || elementChanged
+              ? calculateNodeRect(element)
+              : existing.rect;
+        } else {
+          rect = undefined;
+        }
+
+        nodesRef.current.set(input.id, {
+          ...existing,
+          label: input.label,
+          category,
+          tier,
+          connections,
+          color,
+          glowColor,
+          element,
+          rect,
+          metadata: input.metadata,
+        });
+
+        setNodes(new Map(nodesRef.current));
+
+        if (elementChanged || !rect) {
+          refreshNodeRects();
+        }
+        return;
+      }
+
+      // New node registration
       let initialRect: ConstellationNodeRect | undefined;
-      if (input.element && typeof window !== "undefined") {
+      if (
+        input.element &&
+        typeof window !== "undefined" &&
+        document.contains(input.element)
+      ) {
         initialRect = calculateNodeRect(input.element);
       }
 
@@ -143,7 +267,7 @@ export function ConstellationProvider({ children }: { children: React.ReactNode 
         label: input.label,
         category,
         tier,
-        connections: input.connections || [],
+        connections,
         color,
         glowColor,
         element: input.element,
@@ -151,13 +275,8 @@ export function ConstellationProvider({ children }: { children: React.ReactNode 
         metadata: input.metadata,
       };
 
-      setNodes((prev) => {
-        const next = new Map(prev);
-        next.set(input.id, nodeData);
-        return next;
-      });
-
-      // Trigger a batch rect recalculation on next frame
+      nodesRef.current.set(input.id, nodeData);
+      setNodes(new Map(nodesRef.current));
       refreshNodeRects();
     },
     [refreshNodeRects]
@@ -165,36 +284,36 @@ export function ConstellationProvider({ children }: { children: React.ReactNode 
 
   // Unregister a node
   const unregisterNode = useCallback((id: string) => {
-    setNodes((prev) => {
-      if (!prev.has(id)) return prev;
-      const next = new Map(prev);
-      next.delete(id);
-      return next;
-    });
+    if (!nodesRef.current.has(id)) return;
+
+    nodesRef.current.delete(id);
+    setNodes(new Map(nodesRef.current));
+
+    setActiveNodeId((prev) => (prev === id ? null : prev));
+    setHoveredNodeId((prev) => (prev === id ? null : prev));
   }, []);
 
   // Update DOM element reference
   const updateNodeElement = useCallback(
     (id: string, element: HTMLElement | null) => {
-      setNodes((prev) => {
-        const existing = prev.get(id);
-        if (!existing) return prev;
-        if (existing.element === element) return prev;
+      const existing = nodesRef.current.get(id);
+      if (!existing) return;
+      if (existing.element === element) return;
 
-        const next = new Map(prev);
-        const newRect =
-          element && typeof window !== "undefined"
-            ? calculateNodeRect(element)
-            : existing.rect;
+      const newRect =
+        element &&
+        typeof window !== "undefined" &&
+        document.contains(element)
+          ? calculateNodeRect(element)
+          : undefined;
 
-        next.set(id, {
-          ...existing,
-          element,
-          rect: newRect,
-        });
-        return next;
+      nodesRef.current.set(id, {
+        ...existing,
+        element,
+        rect: newRect,
       });
 
+      setNodes(new Map(nodesRef.current));
       refreshNodeRects();
     },
     [refreshNodeRects]
@@ -219,13 +338,15 @@ export function ConstellationProvider({ children }: { children: React.ReactNode 
       window.removeEventListener("resize", handleScrollOrResize);
       if (rafIdRef.current) {
         window.cancelAnimationFrame(rafIdRef.current);
+        rafIdRef.current = null;
       }
+      isScheduledRef.current = false;
     };
   }, [refreshNodeRects]);
 
   // Compute active connections (bidirectional)
   const activeConnections = useMemo<Set<string>>(() => {
-    if (!currentFocusId) return new Set();
+    if (!currentFocusId) return EMPTY_SET;
 
     const result = new Set<string>();
     const currentNode = nodes.get(currentFocusId);
@@ -255,10 +376,10 @@ export function ConstellationProvider({ children }: { children: React.ReactNode 
 
   // Active Vectors (visible lines to be drawn between currentFocusId and its connections)
   const activeVectors = useMemo<ConstellationVector[]>(() => {
-    if (!currentFocusId) return [];
+    if (!currentFocusId) return EMPTY_VECTORS;
 
     const focusNode = nodes.get(currentFocusId);
-    if (!focusNode?.rect || !focusNode.rect.isVisible) return [];
+    if (!focusNode?.rect || !focusNode.rect.isVisible) return EMPTY_VECTORS;
 
     const vectors: ConstellationVector[] = [];
 
@@ -286,30 +407,30 @@ export function ConstellationProvider({ children }: { children: React.ReactNode 
   }, [currentFocusId, activeConnections, nodes]);
 
   // Query helpers
-  const getNode = useCallback((id: string) => nodes.get(id), [nodes]);
+  const getNode = useCallback((id: string) => nodesRef.current.get(id), []);
 
   const getConnectedNodes = useCallback(
     (id: string) => {
-      const node = nodes.get(id);
+      const node = nodesRef.current.get(id);
       if (!node) return [];
 
       const connected: ConstellationNodeData[] = [];
       const ids = new Set(node.connections || []);
 
-      for (const [otherId, otherNode] of nodes.entries()) {
+      for (const [otherId, otherNode] of nodesRef.current.entries()) {
         if (otherNode.connections?.includes(id)) {
           ids.add(otherId);
         }
       }
 
       for (const connId of ids) {
-        const found = nodes.get(connId);
+        const found = nodesRef.current.get(connId);
         if (found) connected.push(found);
       }
 
       return connected;
     },
-    [nodes]
+    []
   );
 
   const isNodeActive = useCallback(

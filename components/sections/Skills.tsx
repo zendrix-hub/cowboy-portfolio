@@ -15,7 +15,13 @@ function renderCategoryIcon(categoryName: string) {
   return <Terminal className="w-4 h-4" />;
 }
 
+const skillConnectionsCache = new Map<string, string[]>();
+
 function getSkillConnections(skill: string, categoryName: string): string[] {
+  const key = `${categoryName}:${skill}`;
+  const existing = skillConnectionsCache.get(key);
+  if (existing) return existing;
+
   const cat = categoryName.toLowerCase();
   const s = skill.toLowerCase();
   const conns: string[] = [];
@@ -38,6 +44,7 @@ function getSkillConnections(skill: string, categoryName: string): string[] {
     conns.push("pillar-ai");
   }
 
+  skillConnectionsCache.set(key, conns);
   return conns;
 }
 

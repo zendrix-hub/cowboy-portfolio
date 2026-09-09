@@ -1,3 +1,5 @@
+import type React from "react";
+
 export type ConstellationNodeCategory =
   | "origin"
   | "pillar"
@@ -73,8 +75,8 @@ export interface ConstellationContextValue {
   activeConnections: Set<string>;
   activeCategory: ConstellationNodeCategory | null;
   activeVectors: ConstellationVector[];
-  setActiveNodeId: (id: string | null) => void;
-  setHoveredNodeId: (id: string | null) => void;
+  setActiveNodeId: React.Dispatch<React.SetStateAction<string | null>>;
+  setHoveredNodeId: React.Dispatch<React.SetStateAction<string | null>>;
   registerNode: (input: ConstellationRegistrationInput) => void;
   unregisterNode: (id: string) => void;
   updateNodeElement: (id: string, element: HTMLElement | null) => void;

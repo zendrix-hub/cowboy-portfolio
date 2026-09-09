@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { Project } from "@/data/projects";
 import {
   ExternalLink,
@@ -34,20 +35,23 @@ export default function ProjectCard({ project }: ProjectCardProps) {
   const isFlagship = project.title === "PlayIT";
   const projectNodeId = `project-${project.title.toLowerCase().replace(/[^a-z0-9]/g, "")}`;
 
-  const connections: string[] = [];
-  if (project.category === "Mobile") {
-    connections.push("pillar-offline");
-  } else if (project.category === "Backend" || project.category === "Web") {
-    connections.push("pillar-backend");
-  } else if (project.category === "AI / Full-Stack") {
-    connections.push("pillar-ai");
-  }
-
-  if (project.tags) {
-    for (const tag of project.tags) {
-      connections.push(`skill-${tag.toLowerCase().replace(/[^a-z0-9]/g, "-")}`);
+  const connections = useMemo(() => {
+    const conns: string[] = [];
+    if (project.category === "Mobile") {
+      conns.push("pillar-offline");
+    } else if (project.category === "Backend" || project.category === "Web") {
+      conns.push("pillar-backend");
+    } else if (project.category === "AI / Full-Stack") {
+      conns.push("pillar-ai");
     }
-  }
+
+    if (project.tags) {
+      for (const tag of project.tags) {
+        conns.push(`skill-${tag.toLowerCase().replace(/[^a-z0-9]/g, "-")}`);
+      }
+    }
+    return conns;
+  }, [project.category, project.tags]);
 
   const nodeColor =
     project.category === "Mobile"

@@ -4,61 +4,63 @@ import FadeIn from "@/components/ui/FadeIn";
 import StaggerChildren, { AnimatedItem } from "@/components/ui/StaggerChildren";
 import { ConstellationNode } from "@/components/interactive/ConstellationNode";
 
-export default function About() {
-  const pillars = [
-    {
-      id: "pillar-offline",
-      icon: Smartphone,
-      title: "Offline-First & Edge Systems",
-      description:
-        "Engineering native Android applications (Kotlin, Compose, Room, Vosk) that function reliably with zero cloud assumptions under real device constraints.",
-      color: "#06b6d4",
-      glowColor: "rgba(6, 182, 212, 0.45)",
-      connections: [
-        "origin-zendrix",
-        "project-playit",
-        "skill-kotlin",
-        "skill-android-sdk",
-        "skill-jetpack-compose",
-        "skill-vosk-edge-asr",
-        "skill-room-sqlite",
-      ],
-    },
-    {
-      id: "pillar-backend",
-      icon: Server,
-      title: "Stateless Backend Architecture",
-      description:
-        "Building modular REST services in Spring Boot 3 & FastAPI with strict JWT authentication, role-based access control, and asynchronous pipelines.",
-      color: "#38bdf8",
-      glowColor: "rgba(56, 189, 248, 0.45)",
-      connections: [
-        "origin-zendrix",
-        "skill-java-17",
-        "skill-spring-boot-3",
-        "skill-spring-security-jwt",
-        "skill-fastapi",
-        "skill-mysql",
-      ],
-    },
-    {
-      id: "pillar-ai",
-      icon: Cpu,
-      title: "Grounded Applied AI",
-      description:
-        "Integrating LLM APIs with local vector retrieval (ChromaDB RAG) to anchor responses in verified domain data rather than model hallucinations.",
-      color: "#a855f7",
-      glowColor: "rgba(168, 85, 247, 0.45)",
-      connections: [
-        "origin-zendrix",
-        "skill-google-gemini-api",
-        "skill-retrieval-augmented-generation-rag",
-        "skill-chromadb",
-        "skill-langfuse-observability",
-      ],
-    },
-  ];
+const PILLARS = [
+  {
+    id: "pillar-offline",
+    icon: Smartphone,
+    title: "Offline-First & Edge Systems",
+    description:
+      "Engineering native Android applications (Kotlin, Compose, Room, Vosk) that function reliably with zero cloud assumptions under real device constraints.",
+    color: "#06b6d4",
+    glowColor: "rgba(6, 182, 212, 0.45)",
+    connections: [
+      "origin-zendrix",
+      "project-playit",
+      "skill-kotlin",
+      "skill-android-sdk",
+      "skill-jetpack-compose",
+      "skill-vosk-edge-asr",
+      "skill-room-sqlite",
+    ],
+  },
+  {
+    id: "pillar-backend",
+    icon: Server,
+    title: "Stateless Backend Architecture",
+    description:
+      "Building modular REST services in Spring Boot 3 & FastAPI with strict JWT authentication, role-based access control, and asynchronous pipelines.",
+    color: "#38bdf8",
+    glowColor: "rgba(56, 189, 248, 0.45)",
+    connections: [
+      "origin-zendrix",
+      "skill-java-17",
+      "skill-spring-boot-3",
+      "skill-spring-security-jwt",
+      "skill-fastapi",
+      "skill-mysql",
+    ],
+  },
+  {
+    id: "pillar-ai",
+    icon: Cpu,
+    title: "Grounded Applied AI",
+    description:
+      "Integrating LLM APIs with local vector retrieval (ChromaDB RAG) to anchor responses in verified domain data rather than model hallucinations.",
+    color: "#a855f7",
+    glowColor: "rgba(168, 85, 247, 0.45)",
+    connections: [
+      "origin-zendrix",
+      "skill-google-gemini-api",
+      "skill-retrieval-augmented-generation-rag",
+      "skill-chromadb",
+      "skill-langfuse-observability",
+    ],
+  },
+];
 
+const ORIGIN_CONNECTIONS = ["pillar-offline", "pillar-backend", "pillar-ai"];
+
+export default function About() {
   return (
     <section id="about" className="scroll-mt-16 lg:scroll-mt-24 space-y-6">
       <FadeIn>
@@ -76,7 +78,7 @@ export default function About() {
           tier="core"
           showAnchorPip
           pipPosition="top-left"
-          connections={["pillar-offline", "pillar-backend", "pillar-ai"]}
+          connections={ORIGIN_CONNECTIONS}
           className="rounded-2xl mb-6 mt-6 block"
         >
           <div className="p-6 sm:p-7 rounded-2xl bg-white/90 dark:bg-zinc-900/60 backdrop-blur-md border border-zinc-200/80 dark:border-zinc-800 space-y-4 shadow-sm">
@@ -93,7 +95,7 @@ export default function About() {
 
         {/* 3 Core Architectural Pillars */}
         <StaggerChildren className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-1">
-          {pillars.map((item) => {
+          {PILLARS.map((item) => {
             const Icon = item.icon;
             return (
               <AnimatedItem key={item.title}>

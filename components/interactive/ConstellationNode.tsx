@@ -1,8 +1,10 @@
 "use client";
 
-import React, { forwardRef, HTMLAttributes } from "react";
+import React, { forwardRef, HTMLAttributes, useCallback, useRef } from "react";
 import { useConstellationNode, UseConstellationNodeOptions } from "@/hooks/useConstellationNode";
 import { cn } from "@/lib/utils";
+
+const EMPTY_CONNECTIONS: string[] = [];
 
 export interface ConstellationNodeProps
   extends UseConstellationNodeOptions,
@@ -21,7 +23,7 @@ export const ConstellationNode = forwardRef<HTMLDivElement, ConstellationNodePro
       label,
       category = "custom",
       tier = "minor",
-      connections = [],
+      connections = EMPTY_CONNECTIONS,
       color,
       glowColor,
       metadata,
@@ -64,40 +66,62 @@ export const ConstellationNode = forwardRef<HTMLDivElement, ConstellationNodePro
       disabled,
     });
 
-    // Merge refs
-    const setRef = (node: HTMLDivElement | null) => {
-      internalRef(node);
-      if (typeof forwardedRef === "function") {
-        forwardedRef(node);
-      } else if (forwardedRef) {
-        forwardedRef.current = node;
-      }
-    };
+    const forwardedRefRef = useRef(forwardedRef);
+    forwardedRefRef.current = forwardedRef;
 
-    const handleEnter = (e: React.MouseEvent<HTMLDivElement>) => {
-      if (interactive) handleMouseEnter();
-      onMouseEnter?.(e);
-    };
+    // Stable ref callback: will never change identity between renders
+    const setRef = useCallback(
+      (node: HTMLDivElement | null) => {
+        internalRef(node);
+        const fRef = forwardedRefRef.current;
+        if (typeof fRef === "function") {
+          fRef(node);
+        } else if (fRef) {
+          fRef.current = node;
+        }
+      },
+      [internalRef]
+    );
 
-    const handleLeave = (e: React.MouseEvent<HTMLDivElement>) => {
-      if (interactive) handleMouseLeave();
-      onMouseLeave?.(e);
-    };
+    const handleEnter = useCallback(
+      (e: React.MouseEvent<HTMLDivElement>) => {
+        if (interactive) handleMouseEnter();
+        onMouseEnter?.(e);
+      },
+      [interactive, handleMouseEnter, onMouseEnter]
+    );
 
-    const handleFoc = (e: React.FocusEvent<HTMLDivElement>) => {
-      if (interactive) handleFocus();
-      onFocus?.(e);
-    };
+    const handleLeave = useCallback(
+      (e: React.MouseEvent<HTMLDivElement>) => {
+        if (interactive) handleMouseLeave();
+        onMouseLeave?.(e);
+      },
+      [interactive, handleMouseLeave, onMouseLeave]
+    );
 
-    const handleBlr = (e: React.FocusEvent<HTMLDivElement>) => {
-      if (interactive) handleBlur();
-      onBlur?.(e);
-    };
+    const handleFoc = useCallback(
+      (e: React.FocusEvent<HTMLDivElement>) => {
+        if (interactive) handleFocus();
+        onFocus?.(e);
+      },
+      [interactive, handleFocus, onFocus]
+    );
 
-    const handleClk = (e: React.MouseEvent<HTMLDivElement>) => {
-      if (interactive) handleClick();
-      onClick?.(e);
-    };
+    const handleBlr = useCallback(
+      (e: React.FocusEvent<HTMLDivElement>) => {
+        if (interactive) handleBlur();
+        onBlur?.(e);
+      },
+      [interactive, handleBlur, onBlur]
+    );
+
+    const handleClk = useCallback(
+      (e: React.MouseEvent<HTMLDivElement>) => {
+        if (interactive) handleClick();
+        onClick?.(e);
+      },
+      [interactive, handleClick, onClick]
+    );
 
     const pipPositionClasses = {
       "top-left": "-top-1 -left-1",

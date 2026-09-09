@@ -35,6 +35,13 @@ const CORE_TAGS = [
   "PostgreSQL",
 ];
 
+const AVATAR_CONNECTIONS = [
+  "origin-zendrix",
+  "pillar-offline",
+  "pillar-backend",
+  "pillar-ai",
+];
+
 export default function Sidebar() {
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [isInfoOpen, setIsInfoOpen] = useState(false);
@@ -124,7 +131,7 @@ export default function Sidebar() {
                 label="Zendrix Riva • Origin Core"
                 category="origin"
                 tier="core"
-                connections={["origin-zendrix", "pillar-offline", "pillar-backend", "pillar-ai"]}
+                connections={AVATAR_CONNECTIONS}
                 showAnchorPip
                 pipPosition="bottom-right"
                 className="shrink-0 rounded-2xl"

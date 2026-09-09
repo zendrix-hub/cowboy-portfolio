@@ -35,6 +35,8 @@ export interface UseConstellationNodeReturn<T extends HTMLElement = HTMLElement>
   handleClick: () => void;
 }
 
+const EMPTY_CONNECTIONS: string[] = [];
+
 export function useConstellationNode<T extends HTMLElement = HTMLElement>(
   options: UseConstellationNodeOptions
 ): UseConstellationNodeReturn<T> {
@@ -43,7 +45,7 @@ export function useConstellationNode<T extends HTMLElement = HTMLElement>(
     label,
     category = "custom",
     tier = "minor",
-    connections = [],
+    connections = EMPTY_CONNECTIONS,
     color,
     glowColor,
     metadata,
@@ -51,7 +53,6 @@ export function useConstellationNode<T extends HTMLElement = HTMLElement>(
   } = options;
 
   const {
-    activeNodeId,
     hoveredNodeId,
     setActiveNodeId,
     setHoveredNodeId,
@@ -66,30 +67,28 @@ export function useConstellationNode<T extends HTMLElement = HTMLElement>(
 
   const elementRef = useRef<T | null>(null);
 
-  // Stable ref callback
+  // Stable ref callback: only updates the DOM element reference
+  // Does NOT depend on connections, label, or metadata to avoid re-invoking ref callback on render
   const ref = useCallback(
     (node: T | null) => {
+      if (elementRef.current === node) return;
       elementRef.current = node;
 
       if (disabled) return;
 
-      if (node) {
-        registerNode({
-          id,
-          label,
-          category,
-          tier,
-          connections,
-          color,
-          glowColor,
-          element: node,
-          metadata,
-        });
-      } else {
-        updateNodeElement(id, null);
-      }
+      updateNodeElement(id, node);
     },
-    [
+    [id, disabled, updateNodeElement]
+  );
+
+  // Register or re-register node when configuration or element changes
+  useEffect(() => {
+    if (disabled) {
+      unregisterNode(id);
+      return;
+    }
+
+    registerNode({
       id,
       label,
       category,
@@ -97,29 +96,9 @@ export function useConstellationNode<T extends HTMLElement = HTMLElement>(
       connections,
       color,
       glowColor,
+      element: elementRef.current,
       metadata,
-      disabled,
-      registerNode,
-      updateNodeElement,
-    ]
-  );
-
-  // Re-register if metadata/connections/label changes while mounted
-  useEffect(() => {
-    if (disabled) return;
-    if (elementRef.current) {
-      registerNode({
-        id,
-        label,
-        category,
-        tier,
-        connections,
-        color,
-        glowColor,
-        element: elementRef.current,
-        metadata,
-      });
-    }
+    });
   }, [
     id,
     label,
@@ -131,6 +110,7 @@ export function useConstellationNode<T extends HTMLElement = HTMLElement>(
     metadata,
     disabled,
     registerNode,
+    unregisterNode,
   ]);
 
   // Clean up on unmount
@@ -147,8 +127,8 @@ export function useConstellationNode<T extends HTMLElement = HTMLElement>(
 
   const handleMouseLeave = useCallback(() => {
     if (disabled) return;
-    setHoveredNodeId(null);
-  }, [disabled, setHoveredNodeId]);
+    setHoveredNodeId((prev) => (prev === id ? null : prev));
+  }, [id, disabled, setHoveredNodeId]);
 
   const handleFocus = useCallback(() => {
     if (disabled) return;
@@ -157,13 +137,13 @@ export function useConstellationNode<T extends HTMLElement = HTMLElement>(
 
   const handleBlur = useCallback(() => {
     if (disabled) return;
-    setHoveredNodeId(null);
-  }, [disabled, setHoveredNodeId]);
+    setHoveredNodeId((prev) => (prev === id ? null : prev));
+  }, [id, disabled, setHoveredNodeId]);
 
   const handleClick = useCallback(() => {
     if (disabled) return;
-    setActiveNodeId(activeNodeId === id ? null : id);
-  }, [id, disabled, activeNodeId, setActiveNodeId]);
+    setActiveNodeId((prev) => (prev === id ? null : id));
+  }, [id, disabled, setActiveNodeId]);
 
   const isActive = isNodeActive(id);
   const isHovered = hoveredNodeId === id;
