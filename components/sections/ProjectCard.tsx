@@ -14,6 +14,7 @@ import {
 import { GithubIcon } from "@/components/ui/Icons";
 import ArchitectureFlow from "@/components/sections/ArchitectureFlow";
 import CardSpotlight from "@/components/ui/CardSpotlight";
+import { ConstellationNode } from "@/components/interactive/ConstellationNode";
 
 interface ProjectCardProps {
   project: Project;
@@ -31,15 +32,49 @@ function renderProjectIcon(title: string, className = "w-6 h-6") {
 
 export default function ProjectCard({ project }: ProjectCardProps) {
   const isFlagship = project.title === "PlayIT";
+  const projectNodeId = `project-${project.title.toLowerCase().replace(/[^a-z0-9]/g, "")}`;
+
+  const connections: string[] = [];
+  if (project.category === "Mobile") {
+    connections.push("pillar-offline");
+  } else if (project.category === "Backend" || project.category === "Web") {
+    connections.push("pillar-backend");
+  } else if (project.category === "AI / Full-Stack") {
+    connections.push("pillar-ai");
+  }
+
+  if (project.tags) {
+    for (const tag of project.tags) {
+      connections.push(`skill-${tag.toLowerCase().replace(/[^a-z0-9]/g, "-")}`);
+    }
+  }
+
+  const nodeColor =
+    project.category === "Mobile"
+      ? "#06b6d4"
+      : project.category === "AI / Full-Stack"
+      ? "#a855f7"
+      : "#38bdf8";
 
   return (
-    <CardSpotlight
-      className={`group flex flex-col h-full rounded-2xl bg-white/90 dark:bg-zinc-900/60 backdrop-blur-md border hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-cyan-950/30 transition-all duration-200 p-6 sm:p-7 ${
-        isFlagship
-          ? "border-cyan-500/50 dark:border-cyan-500/40 ring-1 ring-cyan-500/30 shadow-md shadow-cyan-950/20"
-          : "border-zinc-200/80 dark:border-zinc-800/90 hover:border-cyan-500/50 dark:hover:border-cyan-500/40"
-      }`}
+    <ConstellationNode
+      id={projectNodeId}
+      label={project.title}
+      category="project"
+      tier={isFlagship ? "major" : "minor"}
+      color={nodeColor}
+      connections={connections}
+      showAnchorPip
+      pipPosition="top-right"
+      className="h-full block rounded-2xl"
     >
+      <CardSpotlight
+        className={`group flex flex-col h-full rounded-2xl bg-white/90 dark:bg-zinc-900/60 backdrop-blur-md border hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-cyan-950/30 transition-all duration-200 p-6 sm:p-7 ${
+          isFlagship
+            ? "border-cyan-500/50 dark:border-cyan-500/40 ring-1 ring-cyan-500/30 shadow-md shadow-cyan-950/20"
+            : "border-zinc-200/80 dark:border-zinc-800/90 hover:border-cyan-500/50 dark:hover:border-cyan-500/40"
+        }`}
+      >
       {/* Card Header */}
       <div className="flex items-start gap-4 mb-3">
         {/* Item Icon Box */}
@@ -248,5 +283,6 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         ) : null}
       </div>
     </CardSpotlight>
+  </ConstellationNode>
   );
 }

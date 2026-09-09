@@ -124,7 +124,7 @@ git status
 - [x] Remote origin linked to `zendrix-hub/cowboy-portfolio`
 - [x] Initial theme branch created: `theme/universe-constellation`
 - [x] Push all branches to GitHub remote (`origin`)
-- [ ] **Milestone 1: Dynamic Node Registry (`ConstellationContext` & `<ConstellationNode />`)**
+- [x] **Milestone 1: Dynamic Node Registry (`ConstellationContext` & `<ConstellationNode />`)**
 - [ ] **Milestone 2: Dual-Layer Canvas Engine (`<ConstellationCanvas />` WebGL Nebula + 2D Raycaster)**
 - [ ] **Milestone 3: Origin Star & Pillar-to-Project Vector Linking**
 - [ ] **Milestone 4: Gravitational Singularity Cursor & Ambient Stardust Physics**

@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import FadeIn from "@/components/ui/FadeIn";
 import { useSectionFocus } from "@/context/SectionFocusContext";
+import { ConstellationNode } from "@/components/interactive/ConstellationNode";
 
 const CORE_TAGS = [
   "Kotlin",
@@ -118,33 +119,44 @@ export default function Sidebar() {
           >
             {/* Top Bar: Avatar + ThemeToggle */}
             <div className="flex items-center justify-between gap-3 mb-3.5">
-              <div
-                className="relative w-16 h-16 sm:w-18 sm:h-18 rounded-2xl overflow-hidden border-2 border-cyan-500/50 shadow-lg shadow-cyan-950/25 bg-gradient-to-br from-cyan-100/80 via-zinc-100 to-zinc-200 dark:from-cyan-950/80 dark:via-zinc-900 dark:to-zinc-950 flex-shrink-0 group cursor-pointer transition-transform hover:scale-105"
-                onClick={handleToggle}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-                title="Hover or click to view quick info"
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    handleToggle();
-                  }
-                }}
+              <ConstellationNode
+                id="origin-avatar"
+                label="Zendrix Riva • Origin Core"
+                category="origin"
+                tier="core"
+                connections={["origin-zendrix", "pillar-offline", "pillar-backend", "pillar-ai"]}
+                showAnchorPip
+                pipPosition="bottom-right"
+                className="shrink-0 rounded-2xl"
               >
-                <Image
-                  src="/images/avatar.webp"
-                  alt="Zendrix Riva"
-                  width={72}
-                  height={72}
-                  sizes="72px"
-                  placeholder="blur"
-                  blurDataURL="data:image/webp;base64,UklGRvQAAABXRUJQVlA4WAoAAAAQAAAADwAADwAAQUxQSHkAAAABgFvbtqrq4g6hO5ThkjOogEEIFbjETgEU4KG1QObuHUhof397UkJETABhV5RupmpqOnUA2FupDM8/6FGF8e+YSvX6p0HlwL9TKk7xzz1ORaQPAAlCdwIgSMf5BWAk+o8b6r/x9xQTEUI8E9C8RojuBvrRAhhul0wAAFZQOCBUAAAAMAIAnQEqEAAQAAVAfCWMAA+KLxmPYg67/YAA/p777XzraEQOIzcoUyN21KkqBBr7Z59NfvgQecL9GN8VytJeNZu1wyGkYdOki1X6ArJYuNjNAAAA"
-                  className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-110"
-                  priority
-                />
-              </div>
+                <div
+                  className="relative w-16 h-16 sm:w-18 sm:h-18 rounded-2xl overflow-hidden border-2 border-cyan-500/50 shadow-lg shadow-cyan-950/25 bg-gradient-to-br from-cyan-100/80 via-zinc-100 to-zinc-200 dark:from-cyan-950/80 dark:via-zinc-900 dark:to-zinc-950 flex-shrink-0 group cursor-pointer transition-transform hover:scale-105"
+                  onClick={handleToggle}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                  title="Hover or click to view quick info"
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      handleToggle();
+                    }
+                  }}
+                >
+                  <Image
+                    src="/images/avatar.webp"
+                    alt="Zendrix Riva"
+                    width={72}
+                    height={72}
+                    sizes="72px"
+                    placeholder="blur"
+                    blurDataURL="data:image/webp;base64,UklGRvQAAABXRUJQVlA4WAoAAAAQAAAADwAADwAAQUxQSHkAAAABgFvbtqrq4g6hO5ThkjOogEEIFbjETgEU4KG1QObuHUhof397UkJETABhV5RupmpqOnUA2FupDM8/6FGF8e+YSvX6p0HlwL9TKk7xzz1ORaQPAAlCdwIgSMf5BWAk+o8b6r/x9xQTEUI8E9C8RojuBvrRAhhul0wAAFZQOCBUAAAAMAIAnQEqEAAQAAVAfCWMAA+KLxmPYg67/YAA/p777XzraEQOIzcoUyN21KkqBBr7Z59NfvgQecL9GN8VytJeNZu1wyGkYdOki1X6ArJYuNjNAAAA"
+                    className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-110"
+                    priority
+                  />
+                </div>
+              </ConstellationNode>
 
               {/* Theme Toggle placed at Top Right */}
               <div className="shrink-0">

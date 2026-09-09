@@ -9,11 +9,13 @@ import Footer from "@/components/layout/Footer";
 import SpotlightGlow from "@/components/ui/SpotlightGlow";
 import FocusableSection from "@/components/ui/FocusableSection";
 import { SectionFocusProvider } from "@/context/SectionFocusContext";
+import { ConstellationProvider } from "@/context/ConstellationContext";
 
 export default function Home() {
   return (
     <SectionFocusProvider>
-      <div className="mx-auto min-h-screen max-w-screen-xl px-6 py-12 md:px-12 md:py-16 lg:px-20 lg:py-0 relative">
+      <ConstellationProvider>
+        <div className="mx-auto min-h-screen max-w-screen-xl px-6 py-12 md:px-12 md:py-16 lg:px-20 lg:py-0 relative">
         {/* Interactive Ambient Spotlight Glow (Desktop Pointer) */}
         <SpotlightGlow />
 
@@ -54,6 +56,7 @@ export default function Home() {
           </main>
         </div>
       </div>
-    </SectionFocusProvider>
+    </ConstellationProvider>
+  </SectionFocusProvider>
   );
 }
