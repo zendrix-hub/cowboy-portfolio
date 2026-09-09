@@ -19,6 +19,7 @@ import {
 import { cn } from "@/lib/utils";
 
 const SECTORS = [
+  { id: "prologue", label: "Cowboy", icon: "🤠" },
   { id: "about", label: "Origin", icon: "✦" },
   { id: "projects", label: "Projects", icon: "⬡" },
   { id: "skills", label: "Skills", icon: "◈" },

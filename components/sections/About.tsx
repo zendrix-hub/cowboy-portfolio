@@ -58,7 +58,7 @@ const PILLARS = [
   },
 ];
 
-const ORIGIN_CONNECTIONS = ["pillar-offline", "pillar-backend", "pillar-ai"];
+const ORIGIN_CONNECTIONS = ["origin-crt", "pillar-offline", "pillar-backend", "pillar-ai"];
 
 export default function About() {
   return (

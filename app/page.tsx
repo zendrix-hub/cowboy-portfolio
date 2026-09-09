@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import CosmicNav from "@/components/layout/CosmicNav";
 import CosmicHero from "@/components/sections/CosmicHero";
+import EpochZeroPrologue from "@/components/story/EpochZeroPrologue";
 import About from "@/components/sections/About";
 import Projects from "@/components/sections/Projects";
 import Skills from "@/components/sections/Skills";
@@ -29,6 +30,11 @@ export default function Home() {
 
           {/* Sequential Celestial Workstation & Constellation Stations */}
           <main id="content" className="space-y-24 sm:space-y-32 pb-24">
+            {/* Epoch 0: The Little Cowboy Prologue Terminal */}
+            <FocusableSection id="prologue">
+              <EpochZeroPrologue />
+            </FocusableSection>
+
             <FocusableSection id="about">
               <About />
             </FocusableSection>

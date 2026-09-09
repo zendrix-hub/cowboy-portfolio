@@ -12,7 +12,7 @@ const SectionFocusContext = createContext<SectionFocusContextType>({
   setActiveSection: () => {},
 });
 
-const SECTION_IDS = ["about", "projects", "skills", "experience", "contact"];
+const SECTION_IDS = ["prologue", "about", "projects", "skills", "experience", "contact"];
 
 export function SectionFocusProvider({ children }: { children: React.ReactNode }) {
   const [activeSection, setActiveSection] = useState<string>("about");
