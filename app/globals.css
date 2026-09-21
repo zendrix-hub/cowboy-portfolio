@@ -138,7 +138,13 @@
   box-shadow: 0 2px 0 var(--depth-color, #000000) !important;
 }
 
-/* Details chevron rotation */
+/* Details summary reset and chevron rotation */
+summary::-webkit-details-marker {
+  display: none;
+}
+summary {
+  list-style: none;
+}
 details[open] > summary .biyahe-chevron {
   transform: rotate(180deg);
 }

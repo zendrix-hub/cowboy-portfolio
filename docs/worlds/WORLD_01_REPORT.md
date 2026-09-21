@@ -25,10 +25,10 @@ World 01 ("Biyahe") re-imagines Zendrix Riva's portfolio as an authentic, hand-p
 | **Pinstripe Divider** | `components/biyahe/BiyahePinstripe.tsx` | 10px triple pinstripe divider separating vehicle body panels. |
 | **Route Navigation** | `components/biyahe/BiyaheNav.tsx` | Sticky route-plate header with active section tracking via `IntersectionObserver`. Includes mobile fixed "Routes" trigger and native full-screen `<dialog>`. Mode toggle plate switches between Day mode and "Lights On" night mode. |
 | **Hero Board** | `components/biyahe/BiyaheHero.tsx` | Cobalt band with large Sun destination board, decorative lamp dots, Bungee `{NAME}`, mechanical roll-sign reveal, Cobalt role plate, Chalk intro plate with framed avatar, and pressable CTAs. |
-| **About Section** | `components/biyahe/BiyaheAbout.tsx` | Sun band with 7-column Chalk reading plate (verbatim bio text with "Read more" toggle) and 3 stacked fact plates (Role, Education, Transit Base). |
-| **Projects Section** | `components/biyahe/BiyaheProjects.tsx` | Chalk band featuring DaloyAqua as a full-width Cobalt board with prominent "In Progress" Sun status pill, deterministic SVG stripe window, and supporting projects as expandable Route List rows. |
-| **Skills Section** | `components/biyahe/BiyaheSkills.tsx` | Leaf band with category strips: cycling end-cap plates (Sun, Signal, Cobalt, Chalk) and wrap-around Chalk chips with 3px outlines. |
-| **Experience Section** | `components/biyahe/BiyaheExperience.tsx` | Sun band with the literal Road: 6px black line with dashed white centerline, 24px stop circles (active stop filled Signal), and alternating Chalk reading plates. Mobile layout adapts to vertical road at left. |
+| **About Section** | `components/biyahe/BiyaheAbout.tsx` | Sun band with 7-column Chalk destination reading plate with stamped vehicle decal callout ("Street Code"), verbatim bio text, "Read more" toggle, and 3 stamped metal fact plates (Cobalt, Leaf, Signal) with 4 corner bolt accents and responsive tablet/mobile layout. |
+| **Projects Section** | `components/biyahe/BiyaheProjects.tsx` | Chalk band featuring DaloyAqua as a full-width Cobalt board with prominent "In Progress" Sun status pill, vehicle engine/capacity 3-column spec plate, schematic telemetry window, and supporting projects as expandable Route List rows with non-conflicting pressable action links. |
+| **Skills Section** | `components/biyahe/BiyaheSkills.tsx` | Leaf band with crisp Chalk chassis strips: cycling enamel end-cap plates (Sun, Signal, Cobalt, Chalk) and wrap-around Chalk chips with 3px black outlines and depth bands. |
+| **Experience Section** | `components/biyahe/BiyaheExperience.tsx` | Sun band with mathematically aligned 3-row desktop Highway architecture (Row 1: Top plates with downward stems; Row 2: Fixed horizontal road with 4 centered stop circles; Row 3: Bottom plates with upward stems) and responsive connected vertical road on mobile/tablet. |
 | **Contact Section** | `components/biyahe/BiyaheContact.tsx` | Signal band featuring a large Sun mailto board (`mailto:rivazendrix@gmail.com`), Copy Address pressable plate with live-region announcement, external terminal plates (GitHub, LinkedIn), and clean footer. |
 
 ---
@@ -129,7 +129,8 @@ All 10 required stress test scenarios were reviewed against the Biyahe implement
 
 1. **Default Theme:** Per §2.2 and §5.1, set `defaultTheme="light"` in `app/providers.tsx` because Day mode is an integral part of Biyahe's graphic identity.
 2. **Client State Synchronization:** Leveraged React's `useSyncExternalStore` in `BiyaheNav.tsx` and `BiyaheHero.tsx` to handle hydration state and the session roll-sign check without incurring React 19 / ESLint `react-hooks/set-state-in-effect` violations.
-3. **Owner Review Flags:** **0 flags.** No concept changes or compromises were required.
+3. **Middle Sections Presentation Polish:** Refactored Journey (`BiyaheExperience`) to a 3-row desktop highway architecture guaranteeing 100% horizontal road alignment across variable-height cards; upgraded Projects (`BiyaheProjects`) with a 3-column vehicle engine/capacity spec grid, telemetry schematic window, and isolated summary clicks; enhanced About (`BiyaheAbout`) with vehicle decal street code callouts and rivet accents; and eliminated murky background opacity in Skills (`BiyaheSkills`) using crisp chalk chassis boards.
+4. **Owner Review Flags:** **0 flags.** No concept changes or compromises were required.
 
 ---
 
