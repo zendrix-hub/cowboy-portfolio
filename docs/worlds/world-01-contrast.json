@@ -1,0 +1,17 @@
+[
+  { "label": "W1 Day: Black text on Sun board/band", "fg": "#000000", "bg": "#FFC72C", "min": 4.5 },
+  { "label": "W1 Day: White text on Signal plate/band", "fg": "#FFFFFF", "bg": "#E4262A", "min": 4.5 },
+  { "label": "W1 Day: White text on Cobalt plate/band", "fg": "#FFFFFF", "bg": "#1B3FD1", "min": 4.5 },
+  { "label": "W1 Day: Black text on Leaf strip/band", "fg": "#000000", "bg": "#0F9D58", "min": 4.5 },
+  { "label": "W1 Day: Black text on Chalk reading plate", "fg": "#000000", "bg": "#FFFFFF", "min": 4.5 },
+  { "label": "W1 Night: White text on Chalk reading plate", "fg": "#FFFFFF", "bg": "#131E57", "min": 4.5 },
+  { "label": "W1 Night: White text on Chalk ground", "fg": "#FFFFFF", "bg": "#0B1440", "min": 4.5 },
+  { "label": "W1 Night: Black text on Sun board/band", "fg": "#000000", "bg": "#FFC72C", "min": 4.5 },
+  { "label": "W1 Night: White text on Signal plate/band", "fg": "#FFFFFF", "bg": "#E4262A", "min": 4.5 },
+  { "label": "W1 Night: White text on Cobalt plate/band", "fg": "#FFFFFF", "bg": "#1B3FD1", "min": 4.5 },
+  { "label": "W1 Night: Black text on Leaf strip/band", "fg": "#000000", "bg": "#0F9D58", "min": 4.5 },
+  { "label": "W1 UI: Enamel border on Sun", "fg": "#000000", "bg": "#FFC72C", "min": 3.0 },
+  { "label": "W1 UI: Enamel border on Chalk", "fg": "#000000", "bg": "#FFFFFF", "min": 3.0 },
+  { "label": "W1 UI: White keyline on Night Chalk ground", "fg": "#FFFFFF", "bg": "#0B1440", "min": 3.0 },
+  { "label": "W1 UI: White keyline on Cobalt ground", "fg": "#FFFFFF", "bg": "#1B3FD1", "min": 3.0 }
+]

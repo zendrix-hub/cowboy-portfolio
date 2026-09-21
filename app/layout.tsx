@@ -1,21 +1,22 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Bungee, Lexend } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Providers } from "./providers";
-import Navbar from "@/components/layout/Navbar";
-import CommandMenu from "@/components/layout/CommandMenu";
 import { social } from "@/data/social";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const bungee = Bungee({
+  weight: "400",
   subsets: ["latin"],
+  variable: "--font-bungee",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const lexend = Lexend({
   subsets: ["latin"],
+  variable: "--font-lexend",
+  display: "swap",
 });
 
 const siteUrl =
@@ -57,8 +58,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
+    { media: "(prefers-color-scheme: light)", color: "#1B3FD1" },
+    { media: "(prefers-color-scheme: dark)", color: "#0B1440" },
   ],
 };
 
@@ -105,30 +106,28 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
         <JsonLd />
+        {/* Roll sign one-time session flag script (§6.1.4) */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{if(!sessionStorage.getItem('biyahe-rolled')){window.__BIYAHE_NEEDS_ROLL=true;}}catch(e){}})();`,
+          }}
+        />
       </head>
       <body
         suppressHydrationWarning
-        className={`${geistSans.variable} ${geistMono.variable} font-sans min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased selection:bg-cyan-500 selection:text-white dark:selection:text-zinc-950 relative`}
+        className={`${bungee.variable} ${lexend.variable} font-sans min-h-screen bg-chalk text-foreground antialiased selection:bg-sun selection:text-enamel relative`}
       >
         <Providers>
-          {/* Skip to content link for accessibility (WCAG 2.4.1) */}
+          {/* Skip to content link for accessibility (§11.2, WCAG 2.4.1) */}
           <a
             href="#content"
-            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-cyan-600 focus:text-white focus:rounded-lg focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-zinc-950 focus:text-sm focus:font-medium"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2.5 focus:bg-sun focus:text-enamel focus:font-bungee focus:text-sm focus:border-3 focus:border-enamel focus:rounded-lg focus:shadow-[0_4px_0_#CC9F23]"
           >
-            Skip to content
+            Skip to main content
           </a>
 
-          {/* ReadHub-inspired Atmospheric Ambient Blobs */}
-          <div className="bg-blobs" aria-hidden="true">
-            <div className="blob blob-1" />
-            <div className="blob blob-2" />
-            <div className="blob blob-3" />
-          </div>
-
-          <Navbar />
           {children}
-          <CommandMenu />
+
           <Analytics />
           <SpeedInsights />
         </Providers>
