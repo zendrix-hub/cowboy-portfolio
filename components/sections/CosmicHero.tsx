@@ -237,7 +237,7 @@ export default function CosmicHero() {
               {social.role}
             </p>
             <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl font-normal">
-              Engineering offline-first Android systems, modular Spring Boot APIs, and grounded AI applications with clean architecture and production discipline.
+              {social.intro}
             </p>
 
             {/* Core Tech Stack Tags */}

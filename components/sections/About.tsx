@@ -6,6 +6,7 @@ import FadeIn from "@/components/ui/FadeIn";
 import StaggerChildren, { AnimatedItem } from "@/components/ui/StaggerChildren";
 import { ConstellationNode } from "@/components/interactive/ConstellationNode";
 import { useStoryMode } from "@/components/story/StoryModeContext";
+import { social } from "@/data/social";
 
 const PILLARS = [
   {
@@ -111,7 +112,7 @@ export default function About() {
             </h3>
 
             <p className="text-base sm:text-lg text-zinc-800 dark:text-zinc-200 leading-relaxed font-normal">
-              I build software across mobile, backend, and full-stack environments, with a focus on clean architecture, reliability, and practical engineering. Currently interning at NEC Telecom Software Philippines while completing my final year in BSIT, I enjoy solving problems where thoughtful system design matters—from offline-first Android systems to robust backend services. I value disciplined iteration, clear structure, and software that works dependably in production.
+              {social.about}
             </p>
           </div>
         </ConstellationNode>
