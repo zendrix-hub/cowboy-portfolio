@@ -143,6 +143,9 @@ Per Appendix A of the design exploration specification, all contrast pairs acros
    - Scheduled the initial `rebuildPath()` call asynchronously after mount via `setTimeout(..., 0)` so that DOM coordinates are measured accurately after layout reflow without triggering React's synchronous `setState-in-effect` warning.
 3. **Pure State Visibility for Nodes & Ticks:**
    - Synchronized node and tick visibility with a reactive `visibleNodeIds` state set rather than inspecting ref properties during render, ensuring full compliance with React's strict ref rules.
+4. **SVG Line Engine Optimization & Theme Decoupling:**
+   - Replaced 12,000 synchronous `pathEl.getPointAtLength` calls during theme toggles with in-memory distance sampling (~250 pre-sampled points), dropping query time from 1,500ms to 0.2ms.
+   - Migrated SVG gradient colors from JavaScript attributes to CSS custom properties (`--current-line-upper`, `--current-line-lower`) with a smooth 600ms cubic-bezier transition, eliminating layout reflows and browser crashes during theme switching.
 
 ---
 
@@ -152,3 +155,6 @@ Per Appendix A of the design exploration specification, all contrast pairs acros
 - `6417d3d` — `world-03: implement 6 zones, depth gauge navigation, and scroll-drawn line engine`
 - `110f0b2` — `world-03: add World 03 report`
 - `91d48a8` — `world-03: simplify desk footer to minimalist candidate identity and copyright`
+- `070f7cc` — `docs(worlds): record footer cleanup commit in World 03 report`
+- `f8c4292` — `world-03: optimize SVG line engine with in-memory sampling and smooth 600ms GPU theme transition`
+
