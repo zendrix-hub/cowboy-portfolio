@@ -91,7 +91,7 @@ export default function CurrentHero() {
     >
       <div className="w-full max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
         {/* Reading Column: 7 columns (desktop), text on left */}
-        <div className="lg:col-span-8 flex flex-col items-start max-w-[36rem]">
+        <div className="lg:col-span-7 flex flex-col items-start max-w-[38rem]">
           {/* Name in Fraunces 300 with origin marker */}
           <h1
             id="hero-title"
@@ -150,15 +150,15 @@ export default function CurrentHero() {
           </div>
         </div>
 
-        {/* Channel Side: 4 columns (desktop), uncropped seamless portrait with scroll submersion drift */}
-        <div className="lg:col-span-4 flex justify-start lg:justify-end items-center pt-4 lg:pt-0">
+        {/* Channel Side: 5 columns (desktop), beautifully placed, centered on mobile, right-aligned on desktop */}
+        <div className="lg:col-span-5 flex justify-center lg:justify-end items-center pt-6 lg:pt-0">
           <div
             ref={portraitRef}
-            className="relative w-full max-w-[18rem] sm:max-w-[21rem] lg:max-w-[23rem] will-change-transform"
+            className="relative w-full max-w-[19rem] sm:max-w-[22rem] lg:max-w-[25rem] will-change-transform"
           >
-            {/* Ambient water depth refraction behind portrait */}
+            {/* Luminous ambient lighting backdrop */}
             <div
-              className="absolute inset-0 -m-4 rounded-full bg-[radial-gradient(circle_at_center,var(--line)_0%,transparent_70%)] opacity-20 dark:opacity-25 pointer-events-none blur-2xl"
+              className="absolute inset-0 -m-6 rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.7)_0%,transparent_70%)] dark:bg-[radial-gradient(circle_at_center,var(--line)_0%,transparent_70%)] opacity-50 dark:opacity-20 pointer-events-none blur-3xl"
               aria-hidden="true"
             />
 
@@ -170,8 +170,8 @@ export default function CurrentHero() {
                 height={1254}
                 priority
                 unoptimized
-                className="w-full h-full object-contain brightness-[1.01] contrast-[1.02] dark:brightness-[0.95] dark:contrast-[1.01] transition-[transform,filter] duration-700 ease-out hover:scale-[1.015]"
-                sizes="(max-width: 640px) 18rem, (max-width: 1024px) 21rem, 23rem"
+                className="w-full h-full object-contain brightness-[1.01] contrast-[1.02] dark:brightness-[0.96] dark:contrast-[1.01] transition-transform duration-500 ease-out hover:scale-[1.015]"
+                sizes="(max-width: 640px) 19rem, (max-width: 1024px) 22rem, 25rem"
               />
             </div>
           </div>
