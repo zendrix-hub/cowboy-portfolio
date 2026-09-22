@@ -87,9 +87,9 @@ export default function CurrentHero() {
     <section
       id="home"
       aria-labelledby="hero-title"
-      className="zone-1 relative min-h-[90svh] flex flex-col justify-between px-6 sm:px-12 lg:px-20 pt-[clamp(140px,18vh,220px)] pb-[clamp(80px,10vh,140px)] select-text"
+      className="zone-1 relative min-h-[80svh] flex flex-col justify-center px-6 sm:px-12 lg:px-20 pt-24 sm:pt-32 lg:pt-36 pb-12 sm:pb-16 select-text"
     >
-      <div className="w-full max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-end relative z-10">
+      <div className="w-full max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
         {/* Reading Column: 7 columns (desktop), text on left */}
         <div className="lg:col-span-8 flex flex-col items-start max-w-[36rem]">
           {/* Name in Fraunces 300 with origin marker */}
@@ -108,17 +108,17 @@ export default function CurrentHero() {
           </h1>
 
           {/* Role in Hanken 500 1.25rem */}
-          <p className="mt-8 text-[1.25rem] font-medium text-[var(--fg-2)] tracking-normal">
+          <p className="mt-5 sm:mt-6 text-[1.25rem] font-medium text-[var(--fg-2)] tracking-normal">
             {social.role}
           </p>
 
           {/* Intro in Hanken 1.125rem / 1.7 */}
-          <p className="mt-6 text-[1.125rem] leading-[1.7] text-[var(--fg)]">
+          <p className="mt-4 sm:mt-5 text-[1.125rem] leading-[1.7] text-[var(--fg)]">
             {social.intro}
           </p>
 
           {/* Actions: Primary pill & Secondary drawn link */}
-          <div className="mt-10 flex flex-wrap items-center gap-6 sm:gap-8">
+          <div className="mt-8 flex flex-wrap items-center gap-6 sm:gap-8">
             <a
               href="#projects"
               className="primary-pill focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
@@ -151,7 +151,7 @@ export default function CurrentHero() {
         </div>
 
         {/* Channel Side: 4 columns (desktop), uncropped seamless portrait with scroll submersion drift */}
-        <div className="lg:col-span-4 flex justify-start lg:justify-end items-end pt-8 lg:pt-0">
+        <div className="lg:col-span-4 flex justify-start lg:justify-end items-center pt-4 lg:pt-0">
           <div
             ref={portraitRef}
             className="relative w-full max-w-[18rem] sm:max-w-[21rem] lg:max-w-[23rem] will-change-transform"

@@ -22,7 +22,7 @@ export default function CurrentAbout() {
     <section
       id="about"
       aria-labelledby="about-title"
-      className="zone-2 relative min-h-[90svh] flex flex-col justify-center px-6 sm:px-12 lg:px-20 py-[clamp(140px,18vh,220px)] select-text"
+      className="zone-2 relative min-h-[90svh] flex flex-col justify-center px-6 sm:px-12 lg:px-20 py-[clamp(100px,12vh,160px)] select-text"
     >
       <div className="w-full max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start relative z-10">
         {/* Left Area (Desktop Channel Margin & Verified Facts): 4 columns */}
