@@ -135,11 +135,25 @@ export default function BiyaheContact() {
 
       {/* Footer with Triple Pinstripe (§6.1.10) */}
       <BiyahePinstripe />
-      <footer className="bg-black text-white py-10 px-4 sm:px-6 text-center space-y-2.5">
-        <div className="font-bungee text-xs sm:text-sm text-[#FFC72C]">
+      <footer className="bg-black text-white py-12 px-4 sm:px-6 text-center space-y-4">
+        {/* Back to First Stop Stamped Plate */}
+        <div className="flex justify-center">
+          <button
+            type="button"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            aria-label="Return to the first stop (Back to top)"
+            style={{ ["--depth-color" as string]: "#1632A7" }}
+            className="pressable-plate px-6 py-3 bg-[#1B3FD1] text-white font-bungee text-xs sm:text-sm tracking-wider flex items-center gap-2 shadow-[0_4px_0_#000] border-2 border-white"
+          >
+            <span aria-hidden="true">▲</span>
+            <span>BACK TO FIRST STOP</span>
+          </button>
+        </div>
+
+        <div className="font-bungee text-xs sm:text-sm text-[#FFC72C] pt-2">
           BIYAHE ROUTE SYSTEM // {social.displayName.toUpperCase()}
         </div>
-        <p className="font-lexend text-xs text-white/70">
+        <p className="font-lexend text-xs text-white/70 max-w-xl mx-auto">
           Designed with graphic language of Philippine transit route boards. Built with Next.js &amp; Tailwind CSS.
         </p>
         <p className="font-lexend text-[11px] text-white/50">
