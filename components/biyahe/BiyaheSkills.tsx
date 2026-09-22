@@ -35,7 +35,7 @@ const ENDCAP_CONFIGS = [
 
 export default function BiyaheSkills() {
   return (
-    <section id="skills" className="bg-[#0F9D58] text-black py-12 sm:py-20 lg:py-24">
+    <section id="skills" className="bg-[#0F9D58] text-black pt-8 sm:pt-10 lg:pt-12 pb-12 sm:pb-16 lg:pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-10">
         {/* Section Title Header (§6.1.8) */}
         <div className="flex items-center gap-3">
