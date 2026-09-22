@@ -158,15 +158,14 @@ export default function BiyaheContact() {
           </a>
         </div>
 
-        <div className="font-bungee text-xs sm:text-sm text-[#FFC72C] pt-1">
-          BIYAHE ROUTE SYSTEM // {social.displayName.toUpperCase()}
+        <div className="pt-2 space-y-1">
+          <p className="font-lexend font-medium text-sm text-white">
+            {social.displayName} — {social.role}
+          </p>
+          <p className="font-lexend text-xs text-white/70">
+            &copy; {new Date().getFullYear()} {social.displayName}. All rights reserved.
+          </p>
         </div>
-        <p className="font-lexend text-xs text-white/70 max-w-xl mx-auto">
-          Designed with graphic language of Philippine transit route boards. Built with Next.js &amp; Tailwind CSS.
-        </p>
-        <p className="font-lexend text-[11px] text-white/50">
-          © {new Date().getFullYear()} {social.name}. All verified portfolio data preserved.
-        </p>
       </footer>
     </>
   );
