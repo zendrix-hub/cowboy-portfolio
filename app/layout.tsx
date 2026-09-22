@@ -1,21 +1,37 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Barlow_Condensed, Barlow, IBM_Plex_Mono, Kalam } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Providers } from "./providers";
-import Navbar from "@/components/layout/Navbar";
-import CommandMenu from "@/components/layout/CommandMenu";
 import { social } from "@/data/social";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const barlowCondensed = Barlow_Condensed({
+  weight: ["600"],
   subsets: ["latin"],
+  variable: "--font-barlow-condensed",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const barlow = Barlow({
+  weight: ["400", "600"],
   subsets: ["latin"],
+  variable: "--font-barlow",
+  display: "swap",
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  weight: ["400"],
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
+
+const kalam = Kalam({
+  weight: ["400"],
+  subsets: ["latin"],
+  variable: "--font-kalam",
+  display: "swap",
 });
 
 const siteUrl =
@@ -56,9 +72,10 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  viewportFit: "cover",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
+    { media: "(prefers-color-scheme: light)", color: "#DDE4EA" },
+    { media: "(prefers-color-scheme: dark)", color: "#082B4A" },
   ],
 };
 
@@ -102,33 +119,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <JsonLd />
       </head>
       <body
         suppressHydrationWarning
-        className={`${geistSans.variable} ${geistMono.variable} font-sans min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased selection:bg-cyan-500 selection:text-white dark:selection:text-zinc-950 relative`}
+        className={`${barlow.variable} ${barlowCondensed.variable} ${ibmPlexMono.variable} ${kalam.variable} font-sans min-h-screen bg-desk text-ink antialiased selection:bg-ink selection:text-sheet relative`}
       >
         <Providers>
           {/* Skip to content link for accessibility (WCAG 2.4.1) */}
           <a
             href="#content"
-            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-cyan-600 focus:text-white focus:rounded-lg focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-zinc-950 focus:text-sm focus:font-medium"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-ink focus:text-sheet focus:border-2 focus:border-ink focus:text-sm focus:font-medium"
           >
-            Skip to content
+            Skip to main content
           </a>
 
-          {/* ReadHub-inspired Atmospheric Ambient Blobs */}
-          <div className="bg-blobs" aria-hidden="true">
-            <div className="blob blob-1" />
-            <div className="blob blob-2" />
-            <div className="blob blob-3" />
-          </div>
-
-          <Navbar />
           {children}
-          <CommandMenu />
+
           <Analytics />
           <SpeedInsights />
         </Providers>

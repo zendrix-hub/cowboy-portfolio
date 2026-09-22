@@ -4,158 +4,110 @@
 
 @layer base {
   :root {
-    --background: #ffffff;
-    --foreground: #09090b;
-    --bg-page-radial: radial-gradient(circle at 85% 15%, rgba(6, 182, 212, 0.05) 0%, transparent 45%),
-      radial-gradient(circle at 15% 85%, rgba(14, 165, 233, 0.04) 0%, transparent 50%);
-    --blob-opacity: 0.09;
-    --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    --spotlight-color: rgba(6, 182, 212, 0.08);
+    --desk: #DDE4EA;
+    --sheet: #F8FAFC;
+    --ink: #0F2233;
+    --ink-2: #41586B;
+    --rule: #5B7489;
+    --redline: #C4161C;
+    --focus: #0F2233;
   }
 
   .dark {
-    --background: #09090b;
-    --foreground: #f4f4f5;
-    --bg-page-radial: radial-gradient(circle at 85% 15%, rgba(6, 182, 212, 0.09) 0%, transparent 45%),
-      radial-gradient(circle at 15% 85%, rgba(14, 165, 233, 0.05) 0%, transparent 55%);
-    --blob-opacity: 0.13;
-    --glass-shadow: 0 10px 35px rgba(0, 0, 0, 0.4);
-    --spotlight-color: rgba(6, 182, 212, 0.14);
+    --desk: #082B4A;
+    --sheet: #0B3A63;
+    --ink: #F2F7FB;
+    --ink-2: #B9CFE2;
+    --rule: #7FA6C9;
+    --redline: #FF8A80;
+    --focus: #FFE066;
+  }
+
+  /* Square radius and zero shadows everywhere for As-Built */
+  *, *::before, *::after {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  html {
+    background-color: var(--desk);
+    color: var(--ink);
+    scroll-behavior: smooth;
+    /* scroll-padding offsets set responsively in AsBuiltNav */
+    scroll-padding-top: 24px;
   }
 
   body {
-    background-color: var(--background);
-    background-image: var(--bg-page-radial);
-    background-attachment: fixed;
-    color: var(--foreground);
+    background-color: var(--desk);
+    color: var(--ink);
+    margin: 0;
+    padding: 0;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
-  /* Accessible visible focus styles */
+  /* Instant state transitions (0ms) across all elements per §6.2.11 */
+  *, *::before, *::after {
+    transition: none !important;
+  }
+
+  /* Focus outline: 3px solid var(--focus); outline-offset: 3px, square */
   :focus-visible {
-    outline: 2px solid #06b6d4;
-    outline-offset: 2px;
+    outline: 3px solid var(--focus) !important;
+    outline-offset: 3px !important;
+  }
+
+  /* High contrast / forced-colors mode */
+  @media (forced-colors: active) {
+    * {
+      forced-color-adjust: auto;
+    }
+    :focus-visible {
+      outline: 3px solid Highlight !important;
+    }
   }
 }
 
-/* --- ReadHub Login Atmospheric Background Blobs --- */
-.bg-blobs {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: -1;
-  pointer-events: none;
-}
-
-.blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(90px);
-  opacity: var(--blob-opacity);
-  animation: float 22s infinite alternate ease-in-out;
-}
-
-.blob-1 {
-  width: 380px;
-  height: 380px;
-  background: #06b6d4;
-  top: 8%;
-  left: 4%;
-  animation-duration: 24s;
-}
-
-.blob-2 {
-  width: 440px;
-  height: 440px;
-  background: #0ea5e9;
-  bottom: 8%;
-  right: 6%;
-  animation-delay: -5s;
-  animation-duration: 30s;
-}
-
-.blob-3 {
-  width: 300px;
-  height: 300px;
-  background: #0284c7;
-  top: 48%;
-  left: 45%;
-  animation-delay: -9s;
-  animation-duration: 20s;
-}
-
-@keyframes float {
-  0% {
-    transform: translate(0, 0) scale(1);
+/* Redline draw animation for the single orchestrated moment */
+@media (prefers-reduced-motion: no-preference) {
+  .draw-redline {
+    animation: drawRedline 800ms linear forwards;
   }
-  33% {
-    transform: translate(30px, -45px) scale(1.12);
-  }
-  66% {
-    transform: translate(-25px, 25px) scale(0.92);
-  }
-  100% {
-    transform: translate(0, 0) scale(1);
+  .fade-in-triangle {
+    animation: fadeInTriangle 160ms ease-out 800ms forwards;
   }
 }
 
-/* --- ReadHub Login Floating Toast --- */
-@keyframes slideDownFade {
+@keyframes drawRedline {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fadeInTriangle {
   from {
     opacity: 0;
-    transform: translate(-50%, -20px) scale(0.96);
   }
   to {
     opacity: 1;
-    transform: translate(-50%, 0) scale(1);
   }
 }
 
-.toast-slide-down {
-  animation: slideDownFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* Reduced motion support */
+/* Reduced motion overrides per §11.4 */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  ::before,
-  ::after,
-  .blob {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+  .draw-redline {
+    stroke-dashoffset: 0 !important;
+    animation: none !important;
+  }
+  .fade-in-triangle {
+    opacity: 1 !important;
+    animation: none !important;
+  }
 }
-
-/* Custom utility: Hide scrollbar */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-/* --- CRT Scanlines & Phosphor Bloom --- */
-.crt-scanlines {
-  background: linear-gradient(
-    rgba(18, 16, 16, 0) 50%,
-    rgba(0, 0, 0, 0.28) 50%
-  );
-  background-size: 100% 4px;
-}
-
-@keyframes crt-flicker {
-  0% { opacity: 0.97; }
-  50% { opacity: 1; }
-  100% { opacity: 0.98; }
-}
-
-.crt-flicker {
-  animation: crt-flicker 0.2s infinite;
-}
-

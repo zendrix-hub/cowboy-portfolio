@@ -1,0 +1,22 @@
+[
+  { "label": "Print: ink on sheet (body/titles)", "fg": "#0F2233", "bg": "#F8FAFC", "min": 4.5 },
+  { "label": "Print: ink-2 on sheet (secondary)", "fg": "#41586B", "bg": "#F8FAFC", "min": 4.5 },
+  { "label": "Print: rule on sheet (borders/rules)", "fg": "#5B7489", "bg": "#F8FAFC", "min": 3.0 },
+  { "label": "Print: redline on sheet (status text)", "fg": "#C4161C", "bg": "#F8FAFC", "min": 4.5 },
+  { "label": "Print: sheet on ink (inverted cell)", "fg": "#F8FAFC", "bg": "#0F2233", "min": 4.5 },
+  { "label": "Print: ink on desk (sheet index/footer text)", "fg": "#0F2233", "bg": "#DDE4EA", "min": 4.5 },
+  { "label": "Print: ink-2 on desk (footer meta)", "fg": "#41586B", "bg": "#DDE4EA", "min": 4.5 },
+  { "label": "Print: rule on desk (table/block rules)", "fg": "#5B7489", "bg": "#DDE4EA", "min": 3.0 },
+  { "label": "Print: focus on sheet", "fg": "#0F2233", "bg": "#F8FAFC", "min": 3.0 },
+  { "label": "Print: focus on desk", "fg": "#0F2233", "bg": "#DDE4EA", "min": 3.0 },
+  { "label": "Blueprint: ink on sheet (body/titles)", "fg": "#F2F7FB", "bg": "#0B3A63", "min": 4.5 },
+  { "label": "Blueprint: ink-2 on sheet (secondary)", "fg": "#B9CFE2", "bg": "#0B3A63", "min": 4.5 },
+  { "label": "Blueprint: rule on sheet (borders/rules)", "fg": "#7FA6C9", "bg": "#0B3A63", "min": 3.0 },
+  { "label": "Blueprint: redline on sheet (status text)", "fg": "#FF8A80", "bg": "#0B3A63", "min": 4.5 },
+  { "label": "Blueprint: sheet on ink (inverted cell)", "fg": "#0B3A63", "bg": "#F2F7FB", "min": 4.5 },
+  { "label": "Blueprint: ink on desk (sheet index/footer text)", "fg": "#F2F7FB", "bg": "#082B4A", "min": 4.5 },
+  { "label": "Blueprint: ink-2 on desk (footer meta)", "fg": "#B9CFE2", "bg": "#082B4A", "min": 4.5 },
+  { "label": "Blueprint: rule on desk (table/block rules)", "fg": "#7FA6C9", "bg": "#082B4A", "min": 3.0 },
+  { "label": "Blueprint: focus on sheet", "fg": "#FFE066", "bg": "#0B3A63", "min": 3.0 },
+  { "label": "Blueprint: focus on desk", "fg": "#FFE066", "bg": "#082B4A", "min": 3.0 }
+]
