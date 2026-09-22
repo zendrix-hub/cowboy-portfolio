@@ -19,11 +19,12 @@ export default function BiyaheContact() {
   };
 
   return (
-    <section
-      id="contact"
-      className="bg-[#E4262A] text-white py-12 sm:py-20 lg:py-28 relative"
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+    <>
+      <section
+        id="contact"
+        className="bg-[#E4262A] text-white pt-12 sm:pt-20 lg:pt-28 pb-16 sm:pb-24 relative"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         {/* Section Title */}
         <div className="flex items-center gap-3">
           <div className="biyahe-plate bg-[#FFC72C] text-black px-5 py-2.5 font-bungee text-xl sm:text-3xl tracking-wide uppercase inline-block">
@@ -130,22 +131,21 @@ export default function BiyaheContact() {
           </div>
         </div>
       </div>
+    </section>
 
       {/* Footer with Triple Pinstripe (§6.1.10) */}
-      <div className="mt-16 sm:mt-24">
-        <BiyahePinstripe />
-        <footer className="bg-black text-white py-8 px-4 sm:px-6 text-center space-y-2">
-          <div className="font-bungee text-xs sm:text-sm text-[#FFC72C]">
-            BIYAHE ROUTE SYSTEM // {social.displayName.toUpperCase()}
-          </div>
-          <p className="font-lexend text-xs text-white/70">
-            Designed with graphic language of Philippine transit route boards. Built with Next.js &amp; Tailwind CSS.
-          </p>
-          <p className="font-lexend text-[11px] text-white/50">
-            © {new Date().getFullYear()} {social.name}. All verified portfolio data preserved.
-          </p>
-        </footer>
-      </div>
-    </section>
+      <BiyahePinstripe />
+      <footer className="bg-black text-white py-10 px-4 sm:px-6 text-center space-y-2.5">
+        <div className="font-bungee text-xs sm:text-sm text-[#FFC72C]">
+          BIYAHE ROUTE SYSTEM // {social.displayName.toUpperCase()}
+        </div>
+        <p className="font-lexend text-xs text-white/70">
+          Designed with graphic language of Philippine transit route boards. Built with Next.js &amp; Tailwind CSS.
+        </p>
+        <p className="font-lexend text-[11px] text-white/50">
+          © {new Date().getFullYear()} {social.name}. All verified portfolio data preserved.
+        </p>
+      </footer>
+    </>
   );
 }
