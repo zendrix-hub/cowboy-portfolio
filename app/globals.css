@@ -33,8 +33,23 @@
     background-color: var(--desk);
     color: var(--ink);
     scroll-behavior: smooth;
-    /* scroll-padding offsets set responsively in AsBuiltNav */
+    /* Responsive scroll padding per §6.2.5 & WCAG 2.4.11 */
     scroll-padding-top: 24px;
+    scroll-padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+  }
+
+  @media (min-width: 640px) and (max-width: 1023px) {
+    html {
+      scroll-padding-top: 64px;
+      scroll-padding-bottom: 24px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    html {
+      scroll-padding-top: 24px;
+      scroll-padding-bottom: 24px;
+    }
   }
 
   body {

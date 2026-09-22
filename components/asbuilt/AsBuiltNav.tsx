@@ -61,13 +61,13 @@ export function AsBuiltNav() {
     <>
       {/* 
         1. DESKTOP NAV (≥1024px)
-        Sticky left rail, 208px wide, top: 24px.
+        Sticky left rail, 208px wide, pinned at top: 24px throughout full page scroll per §6.2.5.
         2px-outlined block, 40px rows, 1px rules.
       */}
-      <aside className="hidden lg:block w-[208px] shrink-0">
+      <aside className="hidden lg:block w-[208px] shrink-0 sticky top-6 z-30 self-start">
         <nav
           aria-label="Sheet index"
-          className="sticky top-6 w-[208px] border-2 border-ink bg-sheet select-none z-30"
+          className="w-[208px] border-2 border-ink bg-sheet select-none"
         >
           <div className="divide-y divide-ink">
             {NAV_SHEETS.map((item) => {
@@ -76,6 +76,7 @@ export function AsBuiltNav() {
                 <a
                   key={item.id}
                   href={`#${item.id}`}
+                  onClick={() => setActiveId(item.id)}
                   aria-current={isCurrent ? "location" : undefined}
                   className={`h-10 flex items-center px-3 text-[0.9375rem] font-semibold tracking-normal transition-none ${
                     isCurrent
@@ -122,6 +123,7 @@ export function AsBuiltNav() {
               <a
                 key={item.id}
                 href={`#${item.id}`}
+                onClick={() => setActiveId(item.id)}
                 aria-current={isCurrent ? "location" : undefined}
                 className={`flex-1 flex items-center justify-center px-2 font-semibold transition-none ${
                   isCurrent
@@ -165,6 +167,7 @@ export function AsBuiltNav() {
             <a
               key={item.id}
               href={`#${item.id}`}
+              onClick={() => setActiveId(item.id)}
               aria-label={`Sheet ${item.number}, ${item.label}`}
               aria-current={isCurrent ? "location" : undefined}
               className={`flex items-center justify-center transition-none ${

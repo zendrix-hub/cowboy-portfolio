@@ -56,9 +56,9 @@ Per Appendix A of the design exploration specification, all 20 token pairs acros
   Marked `aria-hidden="true"` because all values exist as accessible content elsewhere on the sheet.
 
 ### 3.2 Navigation: Sheet Index (`components/asbuilt/AsBuiltNav.tsx`)
-- **Desktop (≥1024px):** 208px sticky left rail (`top: 24px`) with six 40px sheet rows plus a dedicated theme toggle cell. The active row inverts (`bg-ink text-sheet`) with `aria-current="location"` tracked by an `IntersectionObserver` (`rootMargin: "-45% 0px -50% 0px"`).
-- **Tablet (640px–1023px):** Sticky top index strip (48px height) sharing table-cell borders.
-- **Mobile (<640px):** Fixed bottom sheet strip (56px + `env(safe-area-inset-bottom)`) with touch targets ≥48px. Current cell displays numeral and label; inactive cells display numerals with full `aria-label="Sheet n, Title"`.
+- **Desktop (≥1024px):** 208px sticky left rail (`sticky top-6 z-30 self-start`) pinned at `top: 24px` alongside the drawing sheets throughout the entire page scroll. Six 40px sheet rows plus a dedicated theme toggle cell. The active row inverts (`bg-ink text-sheet`) with `aria-current="location"` tracked by an `IntersectionObserver` (`rootMargin: "-45% 0px -50% 0px"`) and instant click inversion.
+- **Tablet (640px–1023px):** Sticky top index strip (48px height) sharing table-cell borders, paired with `scroll-padding-top: 64px` so jumped content is never obscured (WCAG 2.4.11).
+- **Mobile (<640px):** Fixed bottom sheet strip (56px + `env(safe-area-inset-bottom)`) with touch targets ≥48px and `scroll-padding-bottom: calc(72px + env(safe-area-inset-bottom))` preventing any footer/title-block obscuration.
 - **Theme Toggle:** Toggles between Print (default) and Blueprint. Labeled with the alternate mode name ("Blueprint" in Print, "Print" in Blueprint) per §11.6. On mobile, a dedicated toggle sits at the top of the cover sheet (per §6.2.5).
 
 ### 3.3 Sheet 1: Cover Sheet (`components/asbuilt/AsBuiltHero.tsx`)
