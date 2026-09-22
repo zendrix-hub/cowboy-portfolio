@@ -85,12 +85,11 @@ Per Appendix A of the design exploration specification, all 20 token pairs acros
   - Text links ("Open project", "Source code") with accessible names containing the project title.
 
 ### 3.6 Sheet 4: Skills Sheet (`components/asbuilt/AsBuiltSkills.tsx`)
-- **Dual Presentation Modes (Instant 0ms Toggle):**
-  1. **Schedule View (Schedule 04-A):** Comprehensive, scannable technical specifications grouped across all 5 architectural domains. Features domain focus callouts, specification counts, and verified project application chips (`■ PlayIT`, `■ ReadHub`, etc.) identifying real production/thesis deployments alongside foundational core competencies.
-  2. **Cross-Reference Matrix (Matrix 04-B):** Formal drawing-set cross-reference matrix with vertical project headers (`writing-mode: vertical-rl; transform: rotate(180deg)`), sticky first column (`sticky left-0 bg-sheet z-10`), filled 10px `--ink` squares on exact matches (`skill === tag`), and technical em-dashes (`—`) for core competencies.
-- **Drawing Telemetry Bar:** Live summary metrics displaying 38 Specifications, 5 Architectural Domains, and 4 Mapped Repositories.
-- **Strict Exact Matching (§2.5):** Exact equality (`skill === tag`) strictly maintained with zero fuzzy normalization or regex heuristics.
-- **Mobile (<640px):** Clean single-column schedule view with domain focus callouts and zero horizontal page overflow.
+- **Master Schedule Form (Schedule 04-A):** Adopted the clean, comprehensive technical schedule form across all viewports per §6.2.8 and §6.2.12 ("Desktop: Matrix (or schedule form)", "Mobile: Always the schedule form"), eliminating the sparse, uninviting 38×4 matrix in favor of immediate readability, superior mobile ergonomics, and comprehensive technical depth.
+- **Structured Domain Schedules:** 5 archival panels (04-A.1 Mobile Systems, 04-A.2 Backend, 04-A.3 Web, 04-A.4 AI & Data, 04-A.5 DevOps) each featuring its architectural domain focus principle, specification count badges, and verified project deployment chips (`■ PlayIT`, `■ ReadHub`, `■ DaloyAqua`).
+- **Drawing Telemetry Bar:** Live summary metrics displaying 38 Verified Specifications, 5 Architectural Domains, and 4 Repositories Mapped.
+- **Strict Exact Matching (§2.5):** Exact equality (`skill === tag`) strictly maintained for repository verification badges with zero fuzzy heuristics.
+- **Zero Empty Cells:** Replaces the 91%-empty matrix grid with complete, authoritative specification cards and foundational competency badges across all viewports.
 
 ### 3.7 Sheet 5: Experience Revision History (`components/asbuilt/AsBuiltExperience.tsx`)
 - Formatted as a formal engineering revision history `<table>` with columns: **Rev | Period | Title | Organization | Description**.
@@ -156,5 +155,5 @@ Per Appendix A of the design exploration specification, all 20 token pairs acros
 - `e2b0c80` — `world-02: add World 02 report`
 - `5864679` — `world-02: elevate As-Built with project sub-sheets, pipeline schematics, and drafting details`
 - `6bca1fd` — `world-02: align As-Built components with §6.2 spec and revert unrequested sub-sheets`
-- `1a0bae9` — `world-02: fix desktop left rail sticky pinning and responsive scroll padding`
-- `final` — `world-02: elevate skills section with comprehensive schedule and dual-view switcher`
+- `fd9aade` — `world-02: elevate skills section with comprehensive schedule and dual-view switcher`
+- `final` — `world-02: adopt pure schedule form for Sheet 4 per Option 1 and §6.2.12`
