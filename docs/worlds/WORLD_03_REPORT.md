@@ -150,4 +150,5 @@ Per Appendix A of the design exploration specification, all contrast pairs acros
 
 - `b3aa87e` — `world-03: setup design tokens, fonts, contrast verification, and base styles`
 - `6417d3d` — `world-03: implement 6 zones, depth gauge navigation, and scroll-drawn line engine`
-- `final` — `world-03: add World 03 report`
+- `110f0b2` — `world-03: add World 03 report`
+- `91d48a8` — `world-03: simplify desk footer to minimalist candidate identity and copyright`
