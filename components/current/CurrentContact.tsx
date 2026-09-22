@@ -194,7 +194,7 @@ export default function CurrentContact() {
       </div>
 
       {/* Desk Footer (§6.3.10): Hanken 0.9375rem, --fg-2, generous space, no borders */}
-      <footer className="w-full max-w-[1440px] mx-auto mt-32 pt-12 text-[0.9375rem] text-[var(--fg-2)] flex flex-col sm:flex-row items-baseline justify-between gap-4 relative z-10">
+      <footer className="w-full max-w-[1440px] mx-auto mt-32 pt-12 text-[0.9375rem] text-[var(--fg-2)] relative z-10">
         <div>
           <p className="font-medium text-[var(--fg)]">
             {social.displayName} — {social.role}
@@ -203,9 +203,6 @@ export default function CurrentContact() {
             &copy; {currentYear} {social.displayName}. All rights reserved.
           </p>
         </div>
-        <p className="text-right sm:text-left opacity-75 max-w-[28rem]">
-          Built with Next.js, TypeScript & Tailwind CSS. Designed as World 03: The Current.
-        </p>
       </footer>
     </section>
   );
