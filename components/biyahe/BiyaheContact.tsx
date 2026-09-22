@@ -22,9 +22,9 @@ export default function BiyaheContact() {
     <>
       <section
         id="contact"
-        className="bg-[#E4262A] text-white pt-12 sm:pt-20 lg:pt-28 pb-8 sm:pb-10 relative"
+        className="bg-[#E4262A] text-white pt-10 sm:pt-16 lg:pt-20 pb-4 sm:pb-6 relative"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-8">
         {/* Section Title */}
         <div className="flex items-center gap-3">
           <div className="biyahe-plate bg-[#FFC72C] text-black px-5 py-2.5 font-bungee text-xl sm:text-3xl tracking-wide uppercase inline-block">
@@ -135,12 +135,9 @@ export default function BiyaheContact() {
 
       {/* Footer with Triple Pinstripe (§6.1.10) */}
       <BiyahePinstripe />
-      <footer className="bg-black text-white pt-8 pb-10 sm:pt-10 sm:pb-12 px-4 sm:px-6 text-center space-y-4">
+      <footer className="bg-black text-white pt-5 pb-8 sm:pt-6 sm:pb-10 px-4 sm:px-6 text-center space-y-3">
         {/* Terminal Return Route Plate (§6.1.10) */}
-        <div className="flex flex-col items-center justify-center gap-2">
-          <span className="font-mono text-[11px] text-[#FFC72C] tracking-widest uppercase">
-            TERMINAL RETURN // ROTONDA
-          </span>
+        <div className="flex justify-center">
           <a
             href="#home"
             onClick={(e) => {
@@ -154,14 +151,14 @@ export default function BiyaheContact() {
             }}
             aria-label="Return to the first stop (Hero section)"
             style={{ ["--depth-color" as string]: "#FFFFFF" }}
-            className="pressable-plate px-8 py-4 bg-[#FFC72C] text-black font-bungee text-sm sm:text-base tracking-wider inline-flex items-center gap-3 border-3 border-black ring-4 ring-white shadow-[0_6px_0_#FFFFFF] hover:bg-white hover:ring-[#FFC72C] transition-all"
+            className="pressable-plate px-7 py-3 sm:px-8 sm:py-3.5 bg-[#FFC72C] text-black font-bungee text-xs sm:text-sm tracking-wider inline-flex items-center gap-2.5 border-3 border-black ring-4 ring-white shadow-[0_5px_0_#FFFFFF] hover:bg-white hover:ring-[#FFC72C] transition-all"
           >
-            <span aria-hidden="true" className="text-lg">▲</span>
+            <span aria-hidden="true" className="text-base sm:text-lg">▲</span>
             <span>BACK TO FIRST STOP</span>
           </a>
         </div>
 
-        <div className="font-bungee text-xs sm:text-sm text-[#FFC72C] pt-2">
+        <div className="font-bungee text-xs sm:text-sm text-[#FFC72C] pt-1">
           BIYAHE ROUTE SYSTEM // {social.displayName.toUpperCase()}
         </div>
         <p className="font-lexend text-xs text-white/70 max-w-xl mx-auto">
