@@ -9,7 +9,7 @@ export default function CurrentHero() {
       aria-labelledby="hero-title"
       className="zone-1 relative min-h-[90svh] flex flex-col justify-between px-6 sm:px-12 lg:px-20 pt-[clamp(140px,18vh,220px)] pb-[clamp(80px,10vh,140px)] select-text"
     >
-      <div className="w-full max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start relative z-10">
+      <div className="w-full max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-end relative z-10">
         {/* Reading Column: 7 columns (desktop), text on left */}
         <div className="lg:col-span-8 flex flex-col items-start max-w-[36rem]">
           {/* Name in Fraunces 300 with origin marker */}
@@ -70,18 +70,27 @@ export default function CurrentHero() {
           </div>
         </div>
 
-        {/* Channel Side: 4 columns (desktop), unframed 3:4 editorial portrait with soft bottom dissolve */}
-        <div className="lg:col-span-4 flex justify-start lg:justify-end items-center pt-4 lg:pt-0">
-          <div className="w-full max-w-[15rem] sm:max-w-[17rem] lg:max-w-[20rem] aspect-[3/4] overflow-hidden current-portrait-mask">
-            <Image
-              src="/images/Riva_ID.png"
-              alt={social.name}
-              width={400}
-              height={533}
-              priority
-              className="w-full h-full object-cover object-top brightness-[1.02] contrast-[1.02] dark:brightness-[0.94] dark:contrast-[1.01] transition-[transform,filter] duration-700 ease-out hover:scale-[1.015]"
-              sizes="(max-width: 640px) 15rem, (max-width: 1024px) 17rem, 20rem"
+        {/* Channel Side: 4 columns (desktop), uncropped seamless portrait */}
+        <div className="lg:col-span-4 flex justify-start lg:justify-end items-end pt-8 lg:pt-0">
+          <div className="relative w-full max-w-[18rem] sm:max-w-[21rem] lg:max-w-[23rem]">
+            {/* Ambient water depth refraction behind portrait */}
+            <div
+              className="absolute inset-0 -m-4 rounded-full bg-[radial-gradient(circle_at_center,var(--line)_0%,transparent_70%)] opacity-20 dark:opacity-25 pointer-events-none blur-2xl"
+              aria-hidden="true"
             />
+
+            <div className="relative w-full aspect-square current-portrait-mask">
+              <Image
+                src="/images/Riva_ID.png"
+                alt={social.name}
+                width={1254}
+                height={1254}
+                priority
+                quality={100}
+                className="w-full h-full object-contain brightness-[1.01] contrast-[1.02] dark:brightness-[0.95] dark:contrast-[1.01] transition-[transform,filter] duration-700 ease-out hover:scale-[1.015]"
+                sizes="(max-width: 640px) 18rem, (max-width: 1024px) 21rem, 23rem"
+              />
+            </div>
           </div>
         </div>
       </div>
