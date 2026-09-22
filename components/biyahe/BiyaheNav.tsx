@@ -70,8 +70,19 @@ export default function BiyaheNav() {
   const { theme, setTheme, resolvedTheme } = useTheme();
   const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
   const [activeSection, setActiveSection] = useState("home");
+  const [showScrollTop, setShowScrollTop] = useState(false);
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
+
+  // Track scroll position to reveal floating return plate
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 350);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // IntersectionObserver to track current section (§6.1.5)
   useEffect(() => {
@@ -193,6 +204,33 @@ export default function BiyaheNav() {
           <span>ROUTES</span>
         </button>
       </div>
+
+      {/* Floating Quick Return "First Stop" Button (§6.1.5) */}
+      {showScrollTop && (
+        <aside
+          aria-label="Quick return navigation"
+          className="fixed z-50 bottom-5 left-4 sm:bottom-6 sm:right-6 sm:left-auto pointer-events-auto transition-opacity duration-200"
+        >
+          <a
+            href="#home"
+            onClick={(e) => {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+              try {
+                window.history.pushState(null, "", "#home");
+              } catch {
+                // Ignore history push errors
+              }
+            }}
+            aria-label="Back to first stop (Hero section)"
+            style={{ ["--depth-color" as string]: "#000000" }}
+            className="pressable-plate px-4 py-2.5 sm:px-5 sm:py-3 bg-[#FFC72C] text-black font-bungee text-xs sm:text-sm tracking-wider flex items-center gap-2 border-3 border-black shadow-[0_4px_0_#000000] hover:bg-white hover:text-black transition-colors"
+          >
+            <span aria-hidden="true" className="text-sm sm:text-base">▲</span>
+            <span>FIRST STOP</span>
+          </a>
+        </aside>
+      )}
 
       {/* Mobile Native Full-Screen Route Dialog (§6.1.5, §6.1.13) */}
       <dialog

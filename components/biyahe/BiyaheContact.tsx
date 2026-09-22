@@ -135,19 +135,30 @@ export default function BiyaheContact() {
 
       {/* Footer with Triple Pinstripe (§6.1.10) */}
       <BiyahePinstripe />
-      <footer className="bg-black text-white py-12 px-4 sm:px-6 text-center space-y-4">
-        {/* Back to First Stop Stamped Plate */}
-        <div className="flex justify-center">
-          <button
-            type="button"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            aria-label="Return to the first stop (Back to top)"
-            style={{ ["--depth-color" as string]: "#1632A7" }}
-            className="pressable-plate px-6 py-3 bg-[#1B3FD1] text-white font-bungee text-xs sm:text-sm tracking-wider flex items-center gap-2 shadow-[0_4px_0_#000] border-2 border-white"
+      <footer className="bg-black text-white py-12 px-4 sm:px-6 text-center space-y-6">
+        {/* Terminal Return Route Plate (§6.1.10) */}
+        <div className="flex flex-col items-center justify-center gap-2">
+          <span className="font-mono text-[11px] text-[#FFC72C] tracking-widest uppercase">
+            TERMINAL RETURN // ROTONDA
+          </span>
+          <a
+            href="#home"
+            onClick={(e) => {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+              try {
+                window.history.pushState(null, "", "#home");
+              } catch {
+                // Ignore history push errors
+              }
+            }}
+            aria-label="Return to the first stop (Hero section)"
+            style={{ ["--depth-color" as string]: "#FFFFFF" }}
+            className="pressable-plate px-8 py-4 bg-[#FFC72C] text-black font-bungee text-sm sm:text-base tracking-wider inline-flex items-center gap-3 border-3 border-black ring-4 ring-white shadow-[0_6px_0_#FFFFFF] hover:bg-white hover:ring-[#FFC72C] transition-all"
           >
-            <span aria-hidden="true">▲</span>
+            <span aria-hidden="true" className="text-lg">▲</span>
             <span>BACK TO FIRST STOP</span>
-          </button>
+          </a>
         </div>
 
         <div className="font-bungee text-xs sm:text-sm text-[#FFC72C] pt-2">
