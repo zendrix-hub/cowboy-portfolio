@@ -17,6 +17,9 @@
     --line: #0F5560;
     --focus: #0B2A30;
 
+    --current-line-upper: #0F5560;
+    --current-line-lower: #BFF0EA;
+
     --gauge-core: #F2FBFA;
     --gauge-casing: #0B2A30;
   }
@@ -34,6 +37,9 @@
     --fg-2: #CDE7E4;
     --line: #BFF0EA;
     --focus: #F2FBFA;
+
+    --current-line-upper: #BFF0EA;
+    --current-line-lower: #BFF0EA;
 
     --gauge-core: #F2FBFA;
     --gauge-casing: #0B2A30;
@@ -57,6 +63,7 @@
     padding: 0;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    transition: background-color 600ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* Accessible visible focus styles (§6.3.11, §11.5) */
@@ -66,10 +73,12 @@
   }
 }
 
-/* Zone Tokens (§6.3.2) */
+/* Zone Tokens with Smooth 600ms Theme Transitions (§6.3.2) */
 .zone-1 {
   background-color: var(--zone-1-bg);
   --zone-bg: var(--zone-1-bg);
+  transition: background-color 600ms cubic-bezier(0.4, 0, 0.2, 1),
+              color 600ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 :root:not(.dark) .zone-1 {
   --fg: #0B2A30;
@@ -81,6 +90,8 @@
 .zone-2 {
   background-color: var(--zone-2-bg);
   --zone-bg: var(--zone-2-bg);
+  transition: background-color 600ms cubic-bezier(0.4, 0, 0.2, 1),
+              color 600ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 :root:not(.dark) .zone-2 {
   --fg: #0B2A30;
@@ -92,6 +103,8 @@
 .zone-3 {
   background-color: var(--zone-3-bg);
   --zone-bg: var(--zone-3-bg);
+  transition: background-color 600ms cubic-bezier(0.4, 0, 0.2, 1),
+              color 600ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 :root:not(.dark) .zone-3 {
   --fg: #F2FBFA;
@@ -103,6 +116,8 @@
 .zone-4 {
   background-color: var(--zone-4-bg);
   --zone-bg: var(--zone-4-bg);
+  transition: background-color 600ms cubic-bezier(0.4, 0, 0.2, 1),
+              color 600ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 :root:not(.dark) .zone-4 {
   --fg: #F2FBFA;
@@ -114,11 +129,15 @@
 .zone-4-alt {
   background-color: var(--zone-4-alt-bg) !important;
   --zone-bg: var(--zone-4-alt-bg) !important;
+  transition: background-color 600ms cubic-bezier(0.4, 0, 0.2, 1),
+              color 600ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .zone-5 {
   background-color: var(--zone-5-bg);
   --zone-bg: var(--zone-5-bg);
+  transition: background-color 600ms cubic-bezier(0.4, 0, 0.2, 1),
+              color 600ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 :root:not(.dark) .zone-5 {
   --fg: #F2FBFA;
@@ -130,6 +149,8 @@
 .zone-6 {
   background-color: var(--zone-6-bg);
   --zone-bg: var(--zone-6-bg);
+  transition: background-color 600ms cubic-bezier(0.4, 0, 0.2, 1),
+              color 600ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 :root:not(.dark) .zone-6 {
   --fg: #F2FBFA;
@@ -207,7 +228,9 @@
   text-decoration: none;
   border: none;
   cursor: pointer;
-  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 600ms cubic-bezier(0.4, 0, 0.2, 1),
+              color 600ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -221,10 +244,33 @@
   transition-duration: 100ms;
 }
 
+/* SVG Line Gradient Hard Stops with CSS-Driven Transitions */
+.current-stop-upper {
+  stop-color: var(--current-line-upper);
+  transition: stop-color 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.current-stop-lower {
+  stop-color: var(--current-line-lower);
+  transition: stop-color 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 /* Reduced Motion (§6.3.11, §11.4) */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto !important;
+  }
+  .zone-1,
+  .zone-2,
+  .zone-3,
+  .zone-4,
+  .zone-5,
+  .zone-6,
+  .zone-4-alt,
+  .current-stop-upper,
+  .current-stop-lower,
+  body {
+    transition: none !important;
   }
   .drawn-link::after {
     transition: none !important;

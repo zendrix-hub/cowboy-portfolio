@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useCallback, useSyncExternalStore } from "react";
-import { useTheme } from "next-themes";
 
 interface SamplePoint {
+  x: number;
   y: number;
   len: number;
 }
@@ -68,7 +68,7 @@ export default function CurrentLine() {
 
   const [pathData, setPathData] = useState<string>("");
   const [totalHeight, setTotalHeight] = useState<number>(1000);
-  const [gradientStops, setGradientStops] = useState<{ offset: string; color: string }[]>([]);
+  const [z3BoundaryPercent, setZ3BoundaryPercent] = useState<number>(33);
   const [nodes, setNodes] = useState<NodeData[]>([]);
   const [ticks, setTicks] = useState<TickData[]>([]);
   const [visibleNodeIds, setVisibleNodeIds] = useState<Set<string>>(new Set());
@@ -76,15 +76,26 @@ export default function CurrentLine() {
   const samplesRef = useRef<SamplePoint[]>([]);
   const totalLengthRef = useRef<number>(0);
   const introProgressRef = useRef<number>(0);
+  const lastDimensionsRef = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
 
-  const { resolvedTheme } = useTheme();
+  const nodesRef = useRef<NodeData[]>(nodes);
+  const ticksRef = useRef<TickData[]>(ticks);
+
+  useEffect(() => {
+    nodesRef.current = nodes;
+  }, [nodes]);
+
+  useEffect(() => {
+    ticksRef.current = ticks;
+  }, [ticks]);
+
   const isReducedMotion = useSyncExternalStore(
     subscribeMedia,
     getReducedMotionSnapshot,
     () => false
   );
 
-  // Build waypoints and Catmull-Rom path
+  // Build waypoints and Catmull-Rom path (independent of theme to avoid theme-switch recalculations)
   const rebuildPath = useCallback(() => {
     const pageWrapper = document.getElementById("current-page-wrapper");
     if (!pageWrapper) return;
@@ -92,6 +103,16 @@ export default function CurrentLine() {
     const wrapperRect = pageWrapper.getBoundingClientRect();
     const layoutWidth = wrapperRect.width;
     const layoutHeight = wrapperRect.height;
+
+    // Prevent redundant rebuilds if dimensions haven't changed significantly
+    if (
+      Math.abs(lastDimensionsRef.current.w - layoutWidth) < 2 &&
+      Math.abs(lastDimensionsRef.current.h - layoutHeight) < 2
+    ) {
+      return;
+    }
+    lastDimensionsRef.current = { w: layoutWidth, h: layoutHeight };
+
     const isDesktop = layoutWidth >= 1024;
     const isTablet = layoutWidth >= 640 && layoutWidth < 1024;
 
@@ -114,24 +135,11 @@ export default function CurrentLine() {
       };
     });
 
-    // Hard-stop gradient offsets
-    const isDeep = resolvedTheme === "dark";
-    const lightLineColor = isDeep ? "#BFF0EA" : "#0F5560";
-    const darkLineColor = "#BFF0EA";
-
-    const stops: { offset: string; color: string }[] = [];
-    if (zoneRects[2]) {
+    // Compute Zone 3 boundary percentage for CSS-based gradient stops
+    if (zoneRects[2] && layoutHeight > 0) {
       const z3Boundary = Math.max(0, Math.min(layoutHeight, zoneRects[2].top));
-      const pct = ((z3Boundary / layoutHeight) * 100).toFixed(2);
-      stops.push({ offset: "0%", color: lightLineColor });
-      stops.push({ offset: `${pct}%`, color: lightLineColor });
-      stops.push({ offset: `${pct}%`, color: darkLineColor });
-      stops.push({ offset: "100%", color: darkLineColor });
-    } else {
-      stops.push({ offset: "0%", color: darkLineColor });
-      stops.push({ offset: "100%", color: darkLineColor });
+      setZ3BoundaryPercent((z3Boundary / layoutHeight) * 100);
     }
-    setGradientStops(stops);
 
     const waypoints: [number, number][] = [];
     const detectedNodes: NodeData[] = [];
@@ -418,9 +426,10 @@ export default function CurrentLine() {
     setPathData(svgPath);
     setNodes(detectedNodes);
     setTicks(detectedTicks);
-  }, [resolvedTheme]);
+  }, []);
 
   // Pre-sample path geometry once rendered (§6.3.12 step 4)
+  // OPTIMIZED: Samples in memory once to avoid thousands of getPointAtLength calls
   useEffect(() => {
     const pathEl = pathRef.current;
     if (!pathEl || !pathData) return;
@@ -433,42 +442,43 @@ export default function CurrentLine() {
       const step = 24;
       for (let d = 0; d <= len; d += step) {
         const pt = pathEl.getPointAtLength(d);
-        samples.push({ y: pt.y, len: d });
+        samples.push({ x: pt.x, y: pt.y, len: d });
       }
       samplesRef.current = samples;
 
-      // Associate nodes and ticks with length on path for synchronized fade-in
-      setNodes((prevNodes) =>
-        prevNodes.map((node) => {
-          let closestDist = Infinity;
-          let matchedLen = 0;
-          for (let d = 0; d <= len; d += 16) {
-            const pt = pathEl.getPointAtLength(d);
-            const dist = Math.hypot(pt.x - node.x, pt.y - node.y);
-            if (dist < closestDist) {
-              closestDist = dist;
-              matchedLen = d;
+      // In-memory distance check against samples (0 DOM calls!)
+      // Asynchronously schedule setState to satisfy react-hooks/set-state-in-effect
+      requestAnimationFrame(() => {
+        setNodes((prevNodes) =>
+          prevNodes.map((node) => {
+            let closestDist = Infinity;
+            let matchedLen = 0;
+            for (let i = 0; i < samples.length; i++) {
+              const dist = Math.hypot(samples[i].x - node.x, samples[i].y - node.y);
+              if (dist < closestDist) {
+                closestDist = dist;
+                matchedLen = samples[i].len;
+              }
             }
-          }
-          return { ...node, lengthOnPath: matchedLen };
-        })
-      );
+            return { ...node, lengthOnPath: matchedLen };
+          })
+        );
 
-      setTicks((prevTicks) =>
-        prevTicks.map((tick) => {
-          let closestDist = Infinity;
-          let matchedLen = 0;
-          for (let d = 0; d <= len; d += 16) {
-            const pt = pathEl.getPointAtLength(d);
-            const dist = Math.hypot(pt.x - tick.x1, pt.y - tick.y1);
-            if (dist < closestDist) {
-              closestDist = dist;
-              matchedLen = d;
+        setTicks((prevTicks) =>
+          prevTicks.map((tick) => {
+            let closestDist = Infinity;
+            let matchedLen = 0;
+            for (let i = 0; i < samples.length; i++) {
+              const dist = Math.hypot(samples[i].x - tick.x1, samples[i].y - tick.y1);
+              if (dist < closestDist) {
+                closestDist = dist;
+                matchedLen = samples[i].len;
+              }
             }
-          }
-          return { ...tick, lengthOnPath: matchedLen };
-        })
-      );
+            return { ...tick, lengthOnPath: matchedLen };
+          })
+        );
+      });
     } catch {
       // Path measurement fallback
     }
@@ -531,7 +541,7 @@ export default function CurrentLine() {
         // targetY = scrollY + 0.85 * innerHeight (§6.3.12 step 4)
         const targetY = window.scrollY + 0.85 * window.innerHeight;
 
-        // Binary search samples array for precomputed length
+        // Binary search samples array for precomputed length (O(log n))
         let low = 0;
         let high = samples.length - 1;
         while (low <= high) {
@@ -550,7 +560,7 @@ export default function CurrentLine() {
           Math.max(introProgressRef.current, scrollLen)
         );
 
-        // Set stroke-dashoffset = totalLength - drawnLength
+        // Update stroke-dashoffset via style without React rerender
         pathEl.style.strokeDasharray = `${total}`;
         pathEl.style.strokeDashoffset = `${Math.max(0, total - currentDrawn)}`;
 
@@ -559,14 +569,14 @@ export default function CurrentLine() {
           let changed = false;
           const next = new Set(prev);
 
-          nodes.forEach((node) => {
+          nodesRef.current.forEach((node) => {
             if (currentDrawn >= node.lengthOnPath && !next.has(node.id)) {
               next.add(node.id);
               changed = true;
             }
           });
 
-          ticks.forEach((tick, idx) => {
+          ticksRef.current.forEach((tick, idx) => {
             const tickId = `tick-${idx}`;
             if (currentDrawn >= tick.lengthOnPath && !next.has(tickId)) {
               next.add(tickId);
@@ -586,14 +596,14 @@ export default function CurrentLine() {
       window.removeEventListener("scroll", updateScrollLength);
       if (rafId) cancelAnimationFrame(rafId);
     };
-  }, [isReducedMotion, pathData, nodes, ticks]);
+  }, [isReducedMotion, pathData]);
 
   // Debounced ResizeObserver & document.fonts.ready (§6.3.12 step 2)
   useEffect(() => {
     let timer: NodeJS.Timeout;
     const debouncedRebuild = () => {
       clearTimeout(timer);
-      timer = setTimeout(rebuildPath, 100);
+      timer = setTimeout(rebuildPath, 150);
     };
 
     const pageWrapper = document.getElementById("current-page-wrapper");
@@ -606,8 +616,8 @@ export default function CurrentLine() {
       document.fonts.ready.then(debouncedRebuild);
     }
 
-    // Schedule initial build asynchronously to avoid synchronous cascading renders
-    const initialHandle = setTimeout(rebuildPath, 0);
+    // Initial build
+    const initialHandle = setTimeout(rebuildPath, 50);
 
     return () => {
       clearTimeout(initialHandle);
@@ -625,11 +635,19 @@ export default function CurrentLine() {
       focusable="false"
     >
       <defs>
-        {/* Hard-stop gradient switching between zone line colors (§6.3.12) */}
-        <linearGradient id="current-ink" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2={totalHeight}>
-          {gradientStops.map((stop, idx) => (
-            <stop key={idx} offset={stop.offset} stopColor={stop.color} />
-          ))}
+        {/* CSS-driven hard-stop gradient: smooth 600ms color transition on theme switch */}
+        <linearGradient
+          id="current-ink"
+          gradientUnits="userSpaceOnUse"
+          x1="0"
+          y1="0"
+          x2="0"
+          y2={totalHeight}
+        >
+          <stop offset="0%" className="current-stop-upper" />
+          <stop offset={`${z3BoundaryPercent.toFixed(2)}%`} className="current-stop-upper" />
+          <stop offset={`${z3BoundaryPercent.toFixed(2)}%`} className="current-stop-lower" />
+          <stop offset="100%" className="current-stop-lower" />
         </linearGradient>
       </defs>
 
@@ -689,6 +707,7 @@ export default function CurrentLine() {
               fill={node.isFilled ? "url(#current-ink)" : "var(--zone-bg, #0C3742)"}
               stroke="url(#current-ink)"
               strokeWidth="2"
+              className="transition-colors duration-500"
             />
             {/* Inner Core if hollow */}
             {!node.isFilled && (
@@ -698,6 +717,7 @@ export default function CurrentLine() {
                 r="2.5"
                 fill="url(#current-ink)"
                 opacity="0.4"
+                className="transition-opacity duration-500"
               />
             )}
           </g>
