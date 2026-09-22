@@ -79,13 +79,14 @@ export function AsBuiltHero() {
 
           {/* Right Column (cols 9 to 12): Owner photo in framed viewport */}
           <div className="lg:col-span-4 w-full max-w-[280px] sm:max-w-[320px] lg:max-w-none mx-auto lg:mx-0">
-            <FramedViewport aspectRatio="aspect-[4/5] w-full">
+            <FramedViewport aspectRatio="aspect-square w-full">
               <Image
-                src="/images/avatar.webp"
+                src="/images/Riva_ID.png"
                 alt={social.name}
                 fill
                 priority
-                sizes="(max-width: 640px) 280px, (max-width: 1024px) 320px, 340px"
+                quality={95}
+                sizes="(max-width: 640px) 320px, (max-width: 1024px) 380px, 420px"
                 className="object-cover object-top"
               />
             </FramedViewport>
