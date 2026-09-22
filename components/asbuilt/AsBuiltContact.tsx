@@ -160,11 +160,11 @@ export function AsBuiltContact() {
         role="contentinfo"
         className="w-full max-w-[1120px] mx-auto py-8 text-center text-ink-2 font-mono text-[0.875rem] border-t-2 border-rule/40 space-y-1"
       >
-        <p>
-          &copy; 2026 {social.displayName}. All rights reserved.
+        <p className="font-semibold text-ink">
+          {social.displayName} — {social.role}
         </p>
-        <p className="text-xs text-ink-2">
-          Designed with disciplined minimalism. Built with Next.js, TypeScript &amp; Tailwind CSS.
+        <p className="opacity-80">
+          &copy; 2026 {social.displayName}. All rights reserved.
         </p>
       </footer>
     </>
