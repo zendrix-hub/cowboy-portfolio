@@ -246,20 +246,26 @@ export default function BiyaheNav() {
           </div>
         </div>
 
-        {/* Dialog Footer with Mode Toggle */}
+        {/* Dialog Footer with Return to First Stop */}
         <div className="pt-4 border-t-2 border-white/20 flex items-center justify-between">
-          <button
-            type="button"
-            onClick={toggleTheme}
-            style={{ ["--depth-color" as string]: isNight ? "#1632A7" : "#CC9F23" }}
-            className={`pressable-plate flex-1 py-3 text-sm font-bungee flex items-center justify-center gap-2 ${
-              isNight
-                ? "bg-[#1B3FD1] text-white border-3 border-black"
-                : "bg-[#FFC72C] text-black border-3 border-black"
-            }`}
+          <a
+            href="#home"
+            onClick={(e) => {
+              e.preventDefault();
+              closeDialog();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+              try {
+                window.history.pushState(null, "", "#home");
+              } catch {
+                // ignore
+              }
+            }}
+            style={{ ["--depth-color" as string]: "#CC9F23" }}
+            className="pressable-plate flex-1 py-3 text-sm font-bungee flex items-center justify-center gap-2 bg-[#FFC72C] text-black border-3 border-black"
           >
-            <span>MODE: {isNight ? "LIGHTS ON (NIGHT)" : "DAY"}</span>
-          </button>
+            <span aria-hidden="true">▲</span>
+            <span>BACK TO FIRST STOP</span>
+          </a>
         </div>
       </dialog>
     </>
