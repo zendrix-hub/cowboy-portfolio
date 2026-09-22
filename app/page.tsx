@@ -1,73 +1,42 @@
-import { Suspense } from "react";
-import CosmicNav from "@/components/layout/CosmicNav";
-import CosmicHero from "@/components/sections/CosmicHero";
-import EpochZeroPrologue from "@/components/story/EpochZeroPrologue";
-import About from "@/components/sections/About";
-import Projects from "@/components/sections/Projects";
-import Skills from "@/components/sections/Skills";
-import Experience from "@/components/sections/Experience";
-import Contact from "@/components/sections/Contact";
-import Footer from "@/components/layout/Footer";
-import SpotlightGlow from "@/components/ui/SpotlightGlow";
-import FocusableSection from "@/components/ui/FocusableSection";
-import { SectionFocusProvider } from "@/context/SectionFocusContext";
-import { ConstellationProvider } from "@/context/ConstellationContext";
-import { StoryModeProvider } from "@/components/story/StoryModeContext";
+import React from "react";
+import DepthGauge from "@/components/current/DepthGauge";
+import CurrentLine from "@/components/current/CurrentLine";
+import CurrentHero from "@/components/current/CurrentHero";
+import CurrentAbout from "@/components/current/CurrentAbout";
+import CurrentProjects from "@/components/current/CurrentProjects";
+import CurrentSkills from "@/components/current/CurrentSkills";
+import CurrentExperience from "@/components/current/CurrentExperience";
+import CurrentContact from "@/components/current/CurrentContact";
 
 export default function Home() {
   return (
-    <SectionFocusProvider>
-      <ConstellationProvider>
-        <StoryModeProvider>
-          {/* Floating Astrogation Telemetry Glass HUD */}
-          <CosmicNav />
+    <div id="current-page-wrapper" className="relative w-full overflow-x-hidden min-h-screen">
+      {/* Fixed Depth Gauge Navigation (§6.3.5) */}
+      <DepthGauge />
 
-        {/* Ambient Pointer Glow (will be accompanied by ConstellationCanvas in Milestone 2) */}
-        <SpotlightGlow />
+      {/* The Scroll-Drawn Continuous Line (§6.3.12) */}
+      <CurrentLine />
 
-        {/* Cinematic Single-Column Cosmic Flow */}
-        <div className="mx-auto min-h-screen max-w-5xl px-4 sm:px-6 lg:px-8 relative z-10">
-          {/* Top Origin Singularity Hero */}
-          <CosmicHero />
+      {/* Main Content Landmarks & 6 Zones (§4.1, §6.3.2, §11.2) */}
+      <main id="content" className="relative z-10 w-full flex flex-col">
+        {/* Zone 1: Surface (Hero) */}
+        <CurrentHero />
 
-          {/* Sequential Celestial Workstation & Constellation Stations */}
-          <main id="content" className="space-y-24 sm:space-y-32 pb-24">
-            {/* Epoch 0: The Little Cowboy Prologue Terminal */}
-            <FocusableSection id="prologue">
-              <EpochZeroPrologue />
-            </FocusableSection>
+        {/* Zone 2: Sunlit (About) */}
+        <CurrentAbout />
 
-            <FocusableSection id="about">
-              <About />
-            </FocusableSection>
+        {/* Zone 3: Twilight (Projects & Eddy Chamber) */}
+        <CurrentProjects />
 
-            <FocusableSection id="projects">
-              <Suspense
-                fallback={
-                  <div className="min-h-[300px] animate-pulse rounded-2xl bg-zinc-100/50 dark:bg-zinc-900/40" />
-                }
-              >
-                <Projects />
-              </Suspense>
-            </FocusableSection>
+        {/* Zone 4: Strata (Skills) */}
+        <CurrentSkills />
 
-            <FocusableSection id="skills">
-              <Skills />
-            </FocusableSection>
+        {/* Zone 5: Waypoints (Experience) */}
+        <CurrentExperience />
 
-            <FocusableSection id="experience">
-              <Experience />
-            </FocusableSection>
-
-            <FocusableSection id="contact">
-              <Contact />
-            </FocusableSection>
-
-            <Footer />
-          </main>
-        </div>
-        </StoryModeProvider>
-      </ConstellationProvider>
-    </SectionFocusProvider>
+        {/* Zone 6: Abyss (Contact & Desk Footer) */}
+        <CurrentContact />
+      </main>
+    </div>
   );
 }
