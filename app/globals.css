@@ -256,7 +256,8 @@
 }
 
 /* World 03 Editorial Portrait Mask: eased multi-stop cubic dissolve from mid-chest (zero hard cutoff) */
-.current-portrait-mask {
+.current-portrait-mask,
+.current-portrait-mask img {
   -webkit-mask-image: linear-gradient(
     to bottom,
     #000 0%,
@@ -275,6 +276,10 @@
     rgba(0, 0, 0, 0.15) 95%,
     transparent 100%
   );
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
 }
 
 /* Reduced Motion (§6.3.11, §11.4) */

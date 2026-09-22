@@ -8,14 +8,12 @@ export default function CurrentHero() {
   const portraitRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Graceful fallback for prefers-reduced-motion (§6.3.11, §11.4)
+    const el = portraitRef.current;
+    if (!el) return;
+
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
-    if (prefersReducedMotion) return;
-
-    const el = portraitRef.current;
-    if (!el) return;
 
     let ticking = false;
 
@@ -23,15 +21,17 @@ export default function CurrentHero() {
       if (!ticking) {
         window.requestAnimationFrame(() => {
           const scrollY = window.scrollY || window.pageYOffset;
-          // Smoothly dissolve portrait as user descends past the surface (first 360px of scroll)
-          const fadeProgress = Math.min(1, Math.max(0, scrollY / 360));
-          const opacity = 1 - fadeProgress;
-          // Natural submersion drift (0.18x parallax)
-          const translateY = scrollY * 0.18;
+          // Smoothly dissolve portrait as user descends past the surface (first 300px of scroll)
+          const fadeProgress = Math.min(1, Math.max(0, scrollY / 300));
+          const opacity = Math.max(0, 1 - fadeProgress);
 
           if (el) {
             el.style.opacity = opacity.toFixed(3);
-            el.style.transform = `translate3d(0, ${translateY.toFixed(1)}px, 0)`;
+            if (!prefersReducedMotion) {
+              // Natural submersion drift (0.22x parallax downwards)
+              const translateY = scrollY * 0.22;
+              el.style.transform = `translate3d(0, ${translateY.toFixed(1)}px, 0)`;
+            }
           }
           ticking = false;
         });
@@ -133,7 +133,7 @@ export default function CurrentHero() {
                 width={1254}
                 height={1254}
                 priority
-                quality={100}
+                unoptimized
                 className="w-full h-full object-contain brightness-[1.01] contrast-[1.02] dark:brightness-[0.95] dark:contrast-[1.01] transition-[transform,filter] duration-700 ease-out hover:scale-[1.015]"
                 sizes="(max-width: 640px) 18rem, (max-width: 1024px) 21rem, 23rem"
               />
