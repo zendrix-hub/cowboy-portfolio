@@ -84,9 +84,13 @@ Per Appendix A of the design exploration specification, all 20 token pairs acros
   - One-line description under the title in `--ink-2` (`line-clamp-1`).
   - Text links ("Open project", "Source code") with accessible names containing the project title.
 
-### 3.6 Sheet 4: Skills Matrix (`components/asbuilt/AsBuiltSkills.tsx`)
-- **Desktop & Tablet:** Cross-referencing matrix with vertical project headers (`writing-mode: vertical-rl; transform: rotate(180deg)`). Filled 10px `--ink` square marks exact matches (`skill === tag`) with visually hidden text (`<span className="sr-only">Used in {project}</span>`). Keyboard-accessible scroll container (`tabIndex={0}`).
-- **Mobile Fallback (<640px):** Two-column schedule table (**Category | Items**) with Plex Mono wrapping items separated by 16px gaps.
+### 3.6 Sheet 4: Skills Sheet (`components/asbuilt/AsBuiltSkills.tsx`)
+- **Dual Presentation Modes (Instant 0ms Toggle):**
+  1. **Schedule View (Schedule 04-A):** Comprehensive, scannable technical specifications grouped across all 5 architectural domains. Features domain focus callouts, specification counts, and verified project application chips (`■ PlayIT`, `■ ReadHub`, etc.) identifying real production/thesis deployments alongside foundational core competencies.
+  2. **Cross-Reference Matrix (Matrix 04-B):** Formal drawing-set cross-reference matrix with vertical project headers (`writing-mode: vertical-rl; transform: rotate(180deg)`), sticky first column (`sticky left-0 bg-sheet z-10`), filled 10px `--ink` squares on exact matches (`skill === tag`), and technical em-dashes (`—`) for core competencies.
+- **Drawing Telemetry Bar:** Live summary metrics displaying 38 Specifications, 5 Architectural Domains, and 4 Mapped Repositories.
+- **Strict Exact Matching (§2.5):** Exact equality (`skill === tag`) strictly maintained with zero fuzzy normalization or regex heuristics.
+- **Mobile (<640px):** Clean single-column schedule view with domain focus callouts and zero horizontal page overflow.
 
 ### 3.7 Sheet 5: Experience Revision History (`components/asbuilt/AsBuiltExperience.tsx`)
 - Formatted as a formal engineering revision history `<table>` with columns: **Rev | Period | Title | Organization | Description**.
@@ -151,6 +155,6 @@ Per Appendix A of the design exploration specification, all 20 token pairs acros
 - `3c72313` — `world-02: implement skills matrix, experience revision history, and contact transmittal`
 - `e2b0c80` — `world-02: add World 02 report`
 - `5864679` — `world-02: elevate As-Built with project sub-sheets, pipeline schematics, and drafting details`
-- `5d1d0c9` — `world-02: fix blurry avatar by upgrading to full-resolution Riva_ID and 1254x1254 webp source`
 - `6bca1fd` — `world-02: align As-Built components with §6.2 spec and revert unrequested sub-sheets`
-- `final` — `world-02: add World 02 report` (Final Phase 4 Commit)
+- `1a0bae9` — `world-02: fix desktop left rail sticky pinning and responsive scroll padding`
+- `final` — `world-02: elevate skills section with comprehensive schedule and dual-view switcher`

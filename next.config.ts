@@ -20,6 +20,7 @@ const cspHeader = `
 const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
+    qualities: [75, 95],
   },
   experimental: {
     optimizePackageImports: ["lucide-react"],
