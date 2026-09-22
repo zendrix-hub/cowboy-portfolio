@@ -43,8 +43,9 @@ export function AsBuiltExperience() {
                   role="columnheader"
                   scope="col"
                   className="py-2 px-3 w-[8%] border-r border-rule text-center"
+                  title="Revision Sequence (Chronological: A = Oldest, D = Latest)"
                 >
-                  Rev
+                  Rev <span className="sr-only">(Chronological Order)</span>
                 </th>
                 <th
                   role="columnheader"

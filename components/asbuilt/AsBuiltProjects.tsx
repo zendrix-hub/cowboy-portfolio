@@ -207,12 +207,6 @@ export function AsBuiltProjects() {
                   />
                 </svg>
               </FramedViewport>
-              <p
-                className="font-mono text-xs text-ink-2 mt-2 text-right"
-                aria-hidden="true"
-              >
-                SECTION HATCH // DALOYAQUA
-              </p>
             </div>
 
           </div>
@@ -223,12 +217,12 @@ export function AsBuiltProjects() {
           Project | Status | Stack | Links
         */}
         <div className="space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between border-b border-rule pb-2">
             <h3 className="font-condensed font-semibold text-2xl sm:text-3xl text-ink">
-              Project Schedule
+              Other Projects
             </h3>
             <span className="font-mono text-xs text-ink-2">
-              SCHEDULE 03-A
+              {supportingProjects.length} Projects Documented
             </span>
           </div>
 

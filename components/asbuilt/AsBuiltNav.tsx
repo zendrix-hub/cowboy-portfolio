@@ -14,10 +14,10 @@ export interface NavSheetItem {
 export const NAV_SHEETS: NavSheetItem[] = [
   { id: "home", number: 1, label: "Home", shortLabel: "Home" },
   { id: "about", number: 2, label: "About", shortLabel: "About" },
-  { id: "projects", number: 3, label: "Projects", shortLabel: "Proj." },
-  { id: "skills", number: 4, label: "Skills", shortLabel: "Skil." },
-  { id: "experience", number: 5, label: "Experience", shortLabel: "Exp." },
-  { id: "contact", number: 6, label: "Contact", shortLabel: "Cont." },
+  { id: "projects", number: 3, label: "Projects", shortLabel: "Projects" },
+  { id: "skills", number: 4, label: "Skills", shortLabel: "Skills" },
+  { id: "experience", number: 5, label: "Experience", shortLabel: "Experience" },
+  { id: "contact", number: 6, label: "Contact", shortLabel: "Contact" },
 ];
 
 const subscribe = () => () => {};

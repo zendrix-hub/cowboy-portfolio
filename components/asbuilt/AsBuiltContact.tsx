@@ -74,10 +74,10 @@ export function AsBuiltContact() {
             </div>
           </div>
 
-          {/* Social Links Table: Platform | Address per §6.2.10 */}
+          {/* Social Links Table: Platform | Link / Profile */}
           <div className="space-y-4">
             <h3 className="font-condensed font-semibold text-2xl text-ink">
-              Transmittal Records
+              Online Profiles &amp; Direct Contacts
             </h3>
 
             <div className="border-2 border-ink bg-sheet">
@@ -105,7 +105,7 @@ export function AsBuiltContact() {
                       scope="col"
                       className="py-2 px-4 w-2/3"
                     >
-                      Address
+                      Link / Profile
                     </th>
                   </tr>
                 </thead>

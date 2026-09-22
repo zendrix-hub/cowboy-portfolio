@@ -156,4 +156,7 @@ Per Appendix A of the design exploration specification, all 20 token pairs acros
 - `5864679` — `world-02: elevate As-Built with project sub-sheets, pipeline schematics, and drafting details`
 - `6bca1fd` — `world-02: align As-Built components with §6.2 spec and revert unrequested sub-sheets`
 - `fd9aade` — `world-02: elevate skills section with comprehensive schedule and dual-view switcher`
-- `final` — `world-02: adopt pure schedule form for Sheet 4 per Option 1 and §6.2.12`
+- `f9cf629` — `world-02: adopt pure schedule form for Sheet 4 per Option 1 and §6.2.12`
+- `current` — `world-02: audit microcopy and simplify naming conventions for reviewer friendliness`
+
+For a line-by-line before/after mapping and rationale, see [REVIEWER_FRIENDLY_AUDIT.md](file:///home/zendrix/projects/portfolio/docs/worlds/REVIEWER_FRIENDLY_AUDIT.md).

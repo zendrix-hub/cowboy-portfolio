@@ -59,7 +59,7 @@ export function AsBuiltAbout() {
                     scope="col"
                     className="py-2 px-3 w-3/5"
                   >
-                    Record
+                    Detail
                   </th>
                 </tr>
               </thead>
