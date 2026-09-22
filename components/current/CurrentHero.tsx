@@ -150,29 +150,32 @@ export default function CurrentHero() {
           </div>
         </div>
 
-        {/* Channel Side: 5 columns (desktop), beautifully placed, centered on mobile, right-aligned on desktop */}
-        <div className="lg:col-span-5 flex justify-center lg:justify-end items-center pt-6 lg:pt-0">
+        {/* Channel Side: 5 columns (desktop), full increased size with smooth current float animation */}
+        <div className="lg:col-span-5 flex justify-center lg:justify-end items-center pt-8 lg:pt-0">
           <div
             ref={portraitRef}
-            className="relative w-full max-w-[19rem] sm:max-w-[22rem] lg:max-w-[25rem] will-change-transform"
+            className="relative w-full max-w-[21rem] sm:max-w-[26rem] lg:max-w-[31rem] xl:max-w-[33rem] will-change-transform animate-portrait-enter"
           >
-            {/* Luminous ambient lighting backdrop */}
-            <div
-              className="absolute inset-0 -m-6 rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.7)_0%,transparent_70%)] dark:bg-[radial-gradient(circle_at_center,var(--line)_0%,transparent_70%)] opacity-50 dark:opacity-20 pointer-events-none blur-3xl"
-              aria-hidden="true"
-            />
-
-            <div className="relative w-full aspect-square current-portrait-mask">
-              <Image
-                src="/images/Riva_ID.png"
-                alt={social.name}
-                width={1254}
-                height={1254}
-                priority
-                unoptimized
-                className="w-full h-full object-contain brightness-[1.01] contrast-[1.02] dark:brightness-[0.96] dark:contrast-[1.01] transition-transform duration-500 ease-out hover:scale-[1.015]"
-                sizes="(max-width: 640px) 19rem, (max-width: 1024px) 22rem, 25rem"
+            {/* Inner Floating Buoyancy Wrapper */}
+            <div className="relative w-full aspect-square animate-current-float">
+              {/* Luminous ambient lighting backdrop with gentle pulse */}
+              <div
+                className="absolute inset-0 -m-8 rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.75)_0%,transparent_70%)] dark:bg-[radial-gradient(circle_at_center,var(--line)_0%,transparent_70%)] opacity-50 dark:opacity-25 pointer-events-none blur-3xl animate-ambient-pulse"
+                aria-hidden="true"
               />
+
+              <div className="relative w-full h-full aspect-square current-portrait-mask">
+                <Image
+                  src="/images/Riva_ID.png"
+                  alt={social.name}
+                  width={1254}
+                  height={1254}
+                  priority
+                  unoptimized
+                  className="w-full h-full object-contain brightness-[1.01] contrast-[1.02] dark:brightness-[0.96] dark:contrast-[1.01] transition-transform duration-500 ease-out hover:scale-[1.02]"
+                  sizes="(max-width: 640px) 21rem, (max-width: 1024px) 26rem, 33rem"
+                />
+              </div>
             </div>
           </div>
         </div>
