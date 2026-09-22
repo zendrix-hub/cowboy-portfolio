@@ -1,7 +1,10 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useSyncExternalStore } from "react";
+import { useTheme } from "next-themes";
 import BiyahePinstripe from "./BiyahePinstripe";
+
+const emptySubscribe = () => () => {};
 
 interface NavRoute {
   id: string;
@@ -64,6 +67,8 @@ const ROUTES: NavRoute[] = [
 ];
 
 export default function BiyaheNav() {
+  const { theme, setTheme, resolvedTheme } = useTheme();
+  const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
   const [activeSection, setActiveSection] = useState("home");
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
@@ -107,6 +112,12 @@ export default function BiyaheNav() {
     }
   };
 
+  const isNight = mounted && (resolvedTheme === "dark" || theme === "dark");
+
+  const toggleTheme = () => {
+    setTheme(isNight ? "light" : "dark");
+  };
+
   return (
     <>
       {/* Desktop & Tablet Sticky Navigation Header (§6.1.5) */}
@@ -141,28 +152,27 @@ export default function BiyaheNav() {
             </div>
           </nav>
 
-          {/* Back to First Stop Return Plate (§6.1.5) */}
+          {/* Mode Toggle Plate */}
           <div className="flex items-center gap-2">
-            <a
-              href="#home"
-              onClick={(e) => {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: "smooth" });
-                try {
-                  window.history.pushState(null, "", "#home");
-                } catch {
-                  // ignore
-                }
-              }}
-              aria-label="Back to first stop (Hero section)"
-              style={{ ["--depth-color" as string]: "#CC9F23" }}
-              className="pressable-plate px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-bungee flex items-center gap-1.5 bg-[#FFC72C] text-black border-3 border-black hover:bg-white transition-colors"
+            <button
+              type="button"
+              onClick={toggleTheme}
+              aria-label={isNight ? "Switch to Day mode" : "Switch to Lights On night mode"}
+              style={{ ["--depth-color" as string]: isNight ? "#1632A7" : "#CC9F23" }}
+              className={`pressable-plate px-3 py-1.5 sm:py-2 text-xs font-bungee flex items-center gap-1.5 ${
+                isNight
+                  ? "bg-[#1B3FD1] text-white border-3 border-black"
+                  : "bg-[#FFC72C] text-black border-3 border-black"
+              }`}
             >
-              <span aria-hidden="true">▲</span>
-              <span>
-                <span className="hidden sm:inline">BACK TO </span>FIRST STOP
-              </span>
-            </a>
+              <span
+                className={`w-2.5 h-2.5 rounded-full border border-black ${
+                  isNight ? "bg-[#FFC72C]" : "bg-[#1B3FD1]"
+                }`}
+                aria-hidden="true"
+              />
+              <span>{isNight ? "LIGHTS ON" : "DAY MODE"}</span>
+            </button>
           </div>
         </div>
         <BiyahePinstripe />
@@ -236,26 +246,20 @@ export default function BiyaheNav() {
           </div>
         </div>
 
-        {/* Dialog Footer with Return to First Stop */}
+        {/* Dialog Footer with Mode Toggle */}
         <div className="pt-4 border-t-2 border-white/20 flex items-center justify-between">
-          <a
-            href="#home"
-            onClick={(e) => {
-              e.preventDefault();
-              closeDialog();
-              window.scrollTo({ top: 0, behavior: "smooth" });
-              try {
-                window.history.pushState(null, "", "#home");
-              } catch {
-                // ignore
-              }
-            }}
-            style={{ ["--depth-color" as string]: "#CC9F23" }}
-            className="pressable-plate flex-1 py-3 text-sm font-bungee flex items-center justify-center gap-2 bg-[#FFC72C] text-black border-3 border-black"
+          <button
+            type="button"
+            onClick={toggleTheme}
+            style={{ ["--depth-color" as string]: isNight ? "#1632A7" : "#CC9F23" }}
+            className={`pressable-plate flex-1 py-3 text-sm font-bungee flex items-center justify-center gap-2 ${
+              isNight
+                ? "bg-[#1B3FD1] text-white border-3 border-black"
+                : "bg-[#FFC72C] text-black border-3 border-black"
+            }`}
           >
-            <span aria-hidden="true">▲</span>
-            <span>BACK TO FIRST STOP</span>
-          </a>
+            <span>MODE: {isNight ? "LIGHTS ON (NIGHT)" : "DAY"}</span>
+          </button>
         </div>
       </dialog>
     </>
