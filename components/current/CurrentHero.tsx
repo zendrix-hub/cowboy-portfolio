@@ -20,17 +20,51 @@ export default function CurrentHero() {
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          const scrollY = window.scrollY || window.pageYOffset;
-          // Smoothly dissolve portrait as user descends past the surface (first 300px of scroll)
-          const fadeProgress = Math.min(1, Math.max(0, scrollY / 300));
-          const opacity = Math.max(0, 1 - fadeProgress);
+          const vh = window.innerHeight;
+          const aboutEl =
+            document.getElementById("about-title") ||
+            document.getElementById("about");
 
-          if (el) {
-            el.style.opacity = opacity.toFixed(3);
-            if (!prefersReducedMotion) {
-              // Natural submersion drift (0.22x parallax downwards)
-              const translateY = scrollY * 0.22;
-              el.style.transform = `translate3d(0, ${translateY.toFixed(1)}px, 0)`;
+          if (aboutEl) {
+            const rect = aboutEl.getBoundingClientRect();
+            // Fading effect activates upon scrolling when the 'about' text reaches 70% of viewport
+            const fadeStart = vh * 0.7;
+            const fadeEnd = vh * 0.3;
+
+            let opacity = 1;
+            let progress = 0;
+
+            if (rect.top <= fadeStart) {
+              progress = Math.min(
+                1,
+                Math.max(0, (fadeStart - rect.top) / (fadeStart - fadeEnd))
+              );
+              opacity = Math.max(0, 1 - progress);
+            }
+
+            if (el) {
+              el.style.opacity = opacity.toFixed(3);
+              if (!prefersReducedMotion) {
+                // Natural submersion drift as about scrolls into reading view
+                const translateY = progress * 45;
+                el.style.transform = `translate3d(0, ${translateY.toFixed(1)}px, 0)`;
+              }
+            }
+          } else {
+            // Fallback if about element is not yet found
+            const scrollY = window.scrollY || window.pageYOffset;
+            const fadeStart = vh * 0.4;
+            const fadeEnd = vh * 0.8;
+            let opacity = 1;
+            if (scrollY > fadeStart) {
+              const progress = Math.min(
+                1,
+                Math.max(0, (scrollY - fadeStart) / (fadeEnd - fadeStart))
+              );
+              opacity = Math.max(0, 1 - progress);
+            }
+            if (el) {
+              el.style.opacity = opacity.toFixed(3);
             }
           }
           ticking = false;
@@ -40,10 +74,12 @@ export default function CurrentHero() {
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll, { passive: true });
     handleScroll();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
     };
   }, []);
 
