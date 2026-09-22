@@ -70,17 +70,17 @@ export default function CurrentHero() {
           </div>
         </div>
 
-        {/* Channel Side: 4 columns (desktop), unframed photo */}
+        {/* Channel Side: 4 columns (desktop), unframed 3:4 editorial portrait with soft bottom dissolve */}
         <div className="lg:col-span-4 flex justify-start lg:justify-end items-center pt-4 lg:pt-0">
-          <div className="w-full max-w-[18rem] sm:max-w-[22rem] overflow-hidden">
+          <div className="w-full max-w-[15rem] sm:max-w-[17rem] lg:max-w-[20rem] aspect-[3/4] overflow-hidden current-portrait-mask">
             <Image
               src="/images/Riva_ID.png"
               alt={social.name}
-              width={352}
-              height={352}
+              width={400}
+              height={533}
               priority
-              className="w-full h-auto object-cover rounded-none grayscale-[20%] contrast-[105%]"
-              sizes="(max-width: 640px) 18rem, 22rem"
+              className="w-full h-full object-cover object-top brightness-[1.02] contrast-[1.02] dark:brightness-[0.94] dark:contrast-[1.01] transition-[transform,filter] duration-700 ease-out hover:scale-[1.015]"
+              sizes="(max-width: 640px) 15rem, (max-width: 1024px) 17rem, 20rem"
             />
           </div>
         </div>

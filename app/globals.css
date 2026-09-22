@@ -255,6 +255,12 @@
   transition: stop-color 600ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* World 03 Editorial Portrait Mask with subtle bottom dissolve */
+.current-portrait-mask {
+  -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+}
+
 /* Reduced Motion (§6.3.11, §11.4) */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -276,6 +282,10 @@
     transition: none !important;
   }
   .primary-pill {
+    transition: none !important;
+    transform: none !important;
+  }
+  .current-portrait-mask img {
     transition: none !important;
     transform: none !important;
   }
