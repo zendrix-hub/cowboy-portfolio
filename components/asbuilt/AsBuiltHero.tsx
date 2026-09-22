@@ -6,6 +6,15 @@ import { FramedViewport } from "./FramedViewport";
 import { MobileCoverThemeToggle } from "./AsBuiltNav";
 import { social } from "@/data/social";
 
+/**
+ * Sheet 1: Cover Sheet per §6.2.4:
+ * - {NAME} as <h1> at cover scale clamp(3rem, 12vw, 9.5rem) / line-height 0.92, with dimension line.
+ * - {INTRO} unedited verbatim, max 56ch.
+ * - Two cell buttons: "See projects" (filled) and "Send an email" (outlined).
+ * - Owner photo in framed viewport (cols 9 to 12).
+ * - Mobile theme toggle bar at top of cover sheet.
+ * - Title block: {NAME} | {ROLE} | Sheet 1 of 6.
+ */
 export function AsBuiltHero() {
   return (
     <AsBuiltSheet
@@ -19,7 +28,7 @@ export function AsBuiltHero() {
       <MobileCoverThemeToggle />
 
       <div className="w-full">
-        {/* Name as the <h1> at cover scale per §6.2.4: clamp(3rem, 12vw, 9.5rem) / line-height 0.92 */}
+        {/* Name as the <h1> at cover scale per §6.2.4 */}
         <div className="w-full mb-4 sm:mb-6">
           <h1
             id="home-heading"
@@ -56,24 +65,6 @@ export function AsBuiltHero() {
               >
                 Send an email
               </a>
-            </div>
-
-            {/* Official Architectural Engineering Stamp Block */}
-            <div
-              className="mt-6 border-2 border-ink p-3 w-fit bg-sheet select-none relative"
-              aria-label="Official drawing set issuance stamp"
-            >
-              <div className="border border-rule/50 p-2.5 flex flex-col gap-1 text-center font-mono text-[11px] sm:text-xs leading-tight text-ink">
-                <div className="font-bold tracking-wider text-ink border-b border-rule/30 pb-1">
-                  ISSUED FOR RECORD SET
-                </div>
-                <div className="text-ink-2">
-                  DOC NO: <span className="text-ink font-semibold">AS-BUILT-2026</span> • REV D
-                </div>
-                <div className="text-[10px] text-rule">
-                  VERIFIED ARCHITECTURE & SYSTEM DATA
-                </div>
-              </div>
             </div>
           </div>
 

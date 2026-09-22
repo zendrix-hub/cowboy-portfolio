@@ -154,17 +154,17 @@ export function AsBuiltContact() {
 
       {/* 
         Desk Footer below Sheet 6 per §6.2.10:
-        Existing footer content only, in Plex Mono 0.875rem on the desk.
+        Existing footer content only, in Plex Mono 0.875rem on the desk below the last sheet.
       */}
       <footer
         role="contentinfo"
-        className="w-full max-w-[1120px] mx-auto py-8 text-center text-ink-2 font-mono text-[0.875rem] border-t-2 border-rule/40"
+        className="w-full max-w-[1120px] mx-auto py-8 text-center text-ink-2 font-mono text-[0.875rem] border-t-2 border-rule/40 space-y-1"
       >
-        <p className="mb-1">
-          © 2026 Zendrix Bello Riva. All verified portfolio data preserved.
+        <p>
+          &copy; 2026 {social.displayName}. All rights reserved.
         </p>
-        <p className="text-xs text-rule">
-          AS-BUILT RECORD SET // DRAWING SET EDITION // NO CAD SIMULATION
+        <p className="text-xs text-ink-2">
+          Designed with disciplined minimalism. Built with Next.js, TypeScript &amp; Tailwind CSS.
         </p>
       </footer>
     </>

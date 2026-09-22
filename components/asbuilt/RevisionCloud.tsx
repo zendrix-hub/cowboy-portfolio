@@ -48,6 +48,15 @@ export function RevisionCloud({ status, className = "" }: RevisionCloudProps) {
     const element = containerRef.current;
     if (!element) return;
 
+    // Check if already 60% visible at hydration per §6.2.11
+    const rect = element.getBoundingClientRect();
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+    const visibleHeight = Math.max(0, Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0));
+    if (rect.height > 0 && visibleHeight / rect.height >= 0.6) {
+      setIsAnimationCompleted(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
