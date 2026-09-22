@@ -140,7 +140,8 @@ All 10 required stress test scenarios were reviewed against the Biyahe implement
    - **Prestigious PlayIT Gold Transit Emblem:** Decorated PlayIT with a stamped gold emblem: `★ FLAGSHIP CAPSTONE THESIS • 100% ON-DEVICE OFFLINE` (Sun yellow `#FFC72C` with black enamel border and `DepEd Grade 1 Deployment • Code Restricted` notice), strictly omitting external links per owner instruction.
    - **Inline Expandable Architecture & Data Contracts:** Each board includes an inline toggle (`[▼ EXPAND 4-STAGE ARCHITECTURE & DATA CONTRACTS]`) that expands right inside the board on the page—revealing verified LTO inspection KPI scorecards, full 4-stage architecture grids, explicit data contracts (`[IN]`, `[PROC]`, `[OUT]`), and engineering tradeoffs. PlayIT is expanded by default.
    - **Snug Spacing:** Capped vertical padding across Projects (`pb-8 sm:pb-10 lg:pb-12`) and Skills (`pt-8 sm:pt-10 lg:pt-12`), eliminating the previous dead space void for a seamless transit body panel flow across `BiyahePinstripe`.
-6. **Owner Review Flags:** **0 flags.** All adjustments faithfully reflect owner direction and repository truth.
+6. **Footer Chassis Grounding:** Fixed the layout where the red Contact section bottom padding was leaking beneath the black footer. Extracted the black footer (`<footer>`) into a dedicated bottom landmark separated by `BiyahePinstripe`, anchoring it solidly to the very bottom of the document with zero color bleeding.
+7. **Owner Review Flags:** **0 flags.** All adjustments faithfully reflect owner direction and repository truth.
 
 ---
 
