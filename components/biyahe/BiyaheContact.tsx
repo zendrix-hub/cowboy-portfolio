@@ -22,7 +22,7 @@ export default function BiyaheContact() {
     <>
       <section
         id="contact"
-        className="bg-[#E4262A] text-white pt-12 sm:pt-20 lg:pt-28 pb-16 sm:pb-24 relative"
+        className="bg-[#E4262A] text-white pt-12 sm:pt-20 lg:pt-28 pb-8 sm:pb-10 relative"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         {/* Section Title */}
@@ -135,7 +135,7 @@ export default function BiyaheContact() {
 
       {/* Footer with Triple Pinstripe (§6.1.10) */}
       <BiyahePinstripe />
-      <footer className="bg-black text-white py-12 px-4 sm:px-6 text-center space-y-6">
+      <footer className="bg-black text-white pt-8 pb-10 sm:pt-10 sm:pb-12 px-4 sm:px-6 text-center space-y-4">
         {/* Terminal Return Route Plate (§6.1.10) */}
         <div className="flex flex-col items-center justify-center gap-2">
           <span className="font-mono text-[11px] text-[#FFC72C] tracking-widest uppercase">
