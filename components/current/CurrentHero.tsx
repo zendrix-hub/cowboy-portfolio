@@ -1,8 +1,52 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import { social } from "@/data/social";
 
 export default function CurrentHero() {
+  const portraitRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Graceful fallback for prefers-reduced-motion (§6.3.11, §11.4)
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (prefersReducedMotion) return;
+
+    const el = portraitRef.current;
+    if (!el) return;
+
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollY = window.scrollY || window.pageYOffset;
+          // Smoothly dissolve portrait as user descends past the surface (first 360px of scroll)
+          const fadeProgress = Math.min(1, Math.max(0, scrollY / 360));
+          const opacity = 1 - fadeProgress;
+          // Natural submersion drift (0.18x parallax)
+          const translateY = scrollY * 0.18;
+
+          if (el) {
+            el.style.opacity = opacity.toFixed(3);
+            el.style.transform = `translate3d(0, ${translateY.toFixed(1)}px, 0)`;
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <section
       id="home"
@@ -70,9 +114,12 @@ export default function CurrentHero() {
           </div>
         </div>
 
-        {/* Channel Side: 4 columns (desktop), uncropped seamless portrait */}
+        {/* Channel Side: 4 columns (desktop), uncropped seamless portrait with scroll submersion drift */}
         <div className="lg:col-span-4 flex justify-start lg:justify-end items-end pt-8 lg:pt-0">
-          <div className="relative w-full max-w-[18rem] sm:max-w-[21rem] lg:max-w-[23rem]">
+          <div
+            ref={portraitRef}
+            className="relative w-full max-w-[18rem] sm:max-w-[21rem] lg:max-w-[23rem] will-change-transform"
+          >
             {/* Ambient water depth refraction behind portrait */}
             <div
               className="absolute inset-0 -m-4 rounded-full bg-[radial-gradient(circle_at_center,var(--line)_0%,transparent_70%)] opacity-20 dark:opacity-25 pointer-events-none blur-2xl"
