@@ -1,73 +1,46 @@
-import { Suspense } from "react";
-import CosmicNav from "@/components/layout/CosmicNav";
-import CosmicHero from "@/components/sections/CosmicHero";
-import EpochZeroPrologue from "@/components/story/EpochZeroPrologue";
-import About from "@/components/sections/About";
-import Projects from "@/components/sections/Projects";
-import Skills from "@/components/sections/Skills";
-import Experience from "@/components/sections/Experience";
-import Contact from "@/components/sections/Contact";
-import Footer from "@/components/layout/Footer";
-import SpotlightGlow from "@/components/ui/SpotlightGlow";
-import FocusableSection from "@/components/ui/FocusableSection";
-import { SectionFocusProvider } from "@/context/SectionFocusContext";
-import { ConstellationProvider } from "@/context/ConstellationContext";
-import { StoryModeProvider } from "@/components/story/StoryModeContext";
+import { AsBuiltNav } from "@/components/asbuilt/AsBuiltNav";
+import { AsBuiltHero } from "@/components/asbuilt/AsBuiltHero";
+import { AsBuiltAbout } from "@/components/asbuilt/AsBuiltAbout";
+import { AsBuiltProjects } from "@/components/asbuilt/AsBuiltProjects";
+import { AsBuiltSkills } from "@/components/asbuilt/AsBuiltSkills";
+import { AsBuiltExperience } from "@/components/asbuilt/AsBuiltExperience";
+import { AsBuiltContact } from "@/components/asbuilt/AsBuiltContact";
 
 export default function Home() {
   return (
-    <SectionFocusProvider>
-      <ConstellationProvider>
-        <StoryModeProvider>
-          {/* Floating Astrogation Telemetry Glass HUD */}
-          <CosmicNav />
+    <div className="min-h-screen bg-desk text-ink selection:bg-ink selection:text-sheet">
+      <div className="max-w-[1376px] mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+        <div className="flex flex-col lg:flex-row gap-8 items-start">
+          
+          {/* Sheet Index Navigation per §6.2.5 */}
+          <AsBuiltNav />
 
-        {/* Ambient Pointer Glow (will be accompanied by ConstellationCanvas in Milestone 2) */}
-        <SpotlightGlow />
+          {/* Main Drawing Set Sheets on the Desk per §6.2.2 */}
+          <main
+            id="content"
+            className="flex-1 w-full max-w-[1120px] min-w-0 pb-20 sm:pb-24 lg:pb-28"
+          >
+            {/* Sheet 1: Cover Sheet */}
+            <AsBuiltHero />
 
-        {/* Cinematic Single-Column Cosmic Flow */}
-        <div className="mx-auto min-h-screen max-w-5xl px-4 sm:px-6 lg:px-8 relative z-10">
-          {/* Top Origin Singularity Hero */}
-          <CosmicHero />
+            {/* Sheet 2: About Sheet */}
+            <AsBuiltAbout />
 
-          {/* Sequential Celestial Workstation & Constellation Stations */}
-          <main id="content" className="space-y-24 sm:space-y-32 pb-24">
-            {/* Epoch 0: The Little Cowboy Prologue Terminal */}
-            <FocusableSection id="prologue">
-              <EpochZeroPrologue />
-            </FocusableSection>
+            {/* Sheet 3: Projects Sheet (Detail Block & Schedule) */}
+            <AsBuiltProjects />
 
-            <FocusableSection id="about">
-              <About />
-            </FocusableSection>
+            {/* Sheet 4: Skills Sheet (Matrix & Schedule Fallback) */}
+            <AsBuiltSkills />
 
-            <FocusableSection id="projects">
-              <Suspense
-                fallback={
-                  <div className="min-h-[300px] animate-pulse rounded-2xl bg-zinc-100/50 dark:bg-zinc-900/40" />
-                }
-              >
-                <Projects />
-              </Suspense>
-            </FocusableSection>
+            {/* Sheet 5: Experience Sheet (Revision History) */}
+            <AsBuiltExperience />
 
-            <FocusableSection id="skills">
-              <Skills />
-            </FocusableSection>
-
-            <FocusableSection id="experience">
-              <Experience />
-            </FocusableSection>
-
-            <FocusableSection id="contact">
-              <Contact />
-            </FocusableSection>
-
-            <Footer />
+            {/* Sheet 6: Contact Sheet (Transmittal & Desk Footer) */}
+            <AsBuiltContact />
           </main>
+
         </div>
-        </StoryModeProvider>
-      </ConstellationProvider>
-    </SectionFocusProvider>
+      </div>
+    </div>
   );
 }
