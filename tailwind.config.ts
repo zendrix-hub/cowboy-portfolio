@@ -10,12 +10,15 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
-        mono: ["var(--font-geist-mono)", "monospace"],
+        display: ["var(--font-fraunces)", "serif"],
+        sans: ["var(--font-hanken)", "system-ui", "sans-serif"],
+        fraunces: ["var(--font-fraunces)", "serif"],
+        hanken: ["var(--font-hanken)", "system-ui", "sans-serif"],
       },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        fg: "var(--fg)",
+        "fg-2": "var(--fg-2)",
+        line: "var(--line)",
       },
     },
   },
