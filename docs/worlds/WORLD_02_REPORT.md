@@ -1,7 +1,7 @@
 # World 02: "As-Built" (The Drawing Set) — Implementation Report
 
 **Branch:** `portfolio/world-02-as-built`  
-**Phase:** Phase 4 Checkpoint  
+**Phase:** Phase 4 Checkpoint & Engineering Elevation Pass  
 **Design Reference:** `PORTFOLIO_DESIGN_EXPLORATION.md` §6.2  
 
 ---
@@ -9,6 +9,11 @@
 ## 1. Executive Summary
 
 World 02 conceives the developer portfolio as an issued, record drawing set for a structure that is actively built and continuously documented. Every section is an archival drawing **sheet** framed on an architectural **desk**, navigation functions as a **sheet index**, projects are presented as a **detail sheet** and **project schedule**, technical capabilities form a cross-referencing **matrix**, career milestones read as an engineering **revision history**, and contact is formatted as a formal **transmittal**.
+
+Following user review, the branch was elevated with high-density architectural details:
+1. **Architectural Sub-Sheets (3-A to 3-E)** unlocking deep 4-stage pipeline schematics, I/O data contracts, timing/hardware specs, and engineering tradeoffs for every project.
+2. **Authentic Drafting Detailing:** Boxed "ISSUED FOR RECORD SET" engineering stamps on the Cover Sheet and Zone coordinate indicators (Zones 1–8) along sheet margins.
+3. **Interactive Skills Matrix Cross-Reference:** Instant cross-filtering between projects and skillsets.
 
 Structure is the design: tables, rules, and double-line framing replace ornamental cards, floating gradient blobs, and drop shadows. Radius is strictly **0 everywhere**, state changes are instant (0ms), and the redline ink color is rigorously reserved for revision markings.
 
@@ -43,11 +48,12 @@ Per Appendix A of the design exploration specification, all 20 token pairs acros
 
 ### 3.1 Sheet Skeleton & Title Block (`components/asbuilt/AsBuiltSheet.tsx`)
 - **Double Frame:** 3px outer `--ink` border enclosing a 1px `--rule` inner frame inset by 8px on desktop and tablet. On mobile (<640px), the inner frame drops cleanly to maximize usable viewport width while retaining the 3px outer border.
+- **Drafting Zone Coordinates:** Top margin displays discrete architectural drafting coordinates (Zone 1 through Zone 8).
 - **Dimension Line:** Reusable `<DimensionLine />` component with 45° oblique end ticks spanning under sheet titles (`aria-hidden="true"`).
 - **Title Block:** Standardized 40px tall, 2px-outlined block anchored to the bottom-right of every sheet. Contains three 1px-divided cells:
   1. `{NAME}` (Barlow Condensed 600)
-  2. Section Title or Role (Barlow 400)
-  3. `Sheet n of 6` (IBM Plex Mono 400)
+  2. Section Title, Project Name, or Role (Barlow 400)
+  3. `Sheet n of 6` or `Sheet 3-X of 6` (IBM Plex Mono 400)
   The title block is marked `aria-hidden="true"` because all values exist as accessible content elsewhere on the sheet.
 
 ### 3.2 Navigation: Sheet Index (`components/asbuilt/AsBuiltNav.tsx`)
@@ -60,6 +66,7 @@ Per Appendix A of the design exploration specification, all 20 token pairs acros
 - `<h1>` cover title at `clamp(2.75rem, 11vw, 9.25rem)`.
 - Verbatim unedited intro text from `data/social.ts` (`max-w-[56ch]`).
 - Filled primary cell button ("See projects") and outlined secondary cell button ("Send an email").
+- Boxed architectural engineering stamp block: `ISSUED FOR RECORD SET // AS-BUILT-2026 // REV D`.
 - Owner portrait in Framed Viewport (`components/asbuilt/FramedViewport.tsx`) with 12px L-shaped drafting corner ticks.
 - Mobile theme toggle bar at the top of the cover sheet (per §6.2.5).
 
@@ -67,18 +74,24 @@ Per Appendix A of the design exploration specification, all 20 token pairs acros
 - 7-column reading column for verified prose (`data/social.about` and `data/social.tagline`).
 - 5-column schedule table of verified repository facts (Role, Current Affiliation, Education, Location, Academic Email) using semantic `<table>` structure.
 
-### 3.5 Sheet 3: Projects Sheet (`components/asbuilt/AsBuiltProjects.tsx`)
-- **Featured Detail Block (DaloyAqua):**
-  - Project title in Barlow Condensed 600 (`clamp(2.25rem, 5vw, 4rem)`).
-  - Status ("In Progress") inside the **Redline Revision Cloud** (`components/asbuilt/RevisionCloud.tsx`).
-  - **Orchestrated Moment:** The first time the block is 60% visible (`IntersectionObserver`, `threshold: 0.6`), the 24-scallop cloud path draws over 800ms linear (`stroke-dashoffset` on `pathLength="1"`), followed by a 160ms fade-in of the 16px revision triangle. Status text is real DOM text in Kalam font and visible throughout.
-  - Reduced motion preference (`prefers-reduced-motion: reduce`) or pre-scrolled visibility immediately renders the fully drawn state with zero animation.
-  - Section hatch window: 45° angle, 8px pitch 1px `--rule` SVG hatch pattern in a framed viewport with 12px corner ticks.
-  - 2-column specification table (Stack, Links, Role, Architecture).
-- **Project Schedule Table:** Real `<table>` displaying supporting projects (PlayIT, ReadHub, Gordon RamsAi) with columns for Project (≥40% width), Status, Stack, and Links.
+### 3.5 Sheet 3: Projects Sheet & Sub-Sheets (`components/asbuilt/AsBuiltProjects.tsx` & `ProjectSubSheet.tsx`)
+- **Sub-Sheet Index Strip:**
+  - `Sheet 3-A: Overview & Schedule`
+  - `Sheet 3-B: DaloyAqua Backend`
+  - `Sheet 3-C: PlayIT Android ASR`
+  - `Sheet 3-D: ReadHub Full-Stack`
+  - `Sheet 3-E: Gordon RamsAi RAG`
+- **Sheet 3-A (Overview & Schedule):**
+  - **DaloyAqua Featured Detail Block:** Title in Barlow Condensed 600, status in Kalam font inside the **Redline Revision Cloud** with 800ms linear draw on 60% intersection, 45° section hatch window, and specification table.
+  - **Project Schedule Table:** Complete schedule with direct "Inspect Specs [3-X]" quick jumps.
+- **Sheets 3-B through 3-E (Technical Sub-Sheets):**
+  - Problem definitions and boundary constraints.
+  - **4-Stage Pipeline Schematic:** Visual horizontal nodes (`01` through `04`) with technology badges and drafting dimension lines.
+  - **Interactive Step Inspector:** Stage description, full Input/Processing/Output Data Contract Table, hardware and timing metrics, and engineering tradeoff rationale.
 
 ### 3.6 Sheet 4: Skills Matrix (`components/asbuilt/AsBuiltSkills.tsx`)
-- **Desktop & Tablet:** Full cross-referencing matrix. Category header rows group skills. Columns represent projects with vertical text headers (`writing-mode: vertical-rl; transform: rotate(180deg)`). Filled 10px `--ink` square marks exact matches against project stack tags with visually hidden text (`<span className="sr-only">Used in {project}</span>`).
+- **Desktop & Tablet:** Cross-referencing matrix with vertical project headers (`writing-mode: vertical-rl; transform: rotate(180deg)`). Filled 10px `--ink` square marks exact matches against project stack tags with visually hidden text (`<span className="sr-only">Used in {project}</span>`).
+- **Interactive Cross-Highlighting:** Clicking a project column or skill row illuminates the matching intersections instantly (0ms) across the grid with active filter controls.
 - **Mobile Fallback:** Two-column schedule table (**Category | Items**) with Plex Mono wrapping chips.
 
 ### 3.7 Sheet 5: Experience Revision History (`components/asbuilt/AsBuiltExperience.tsx`)
@@ -122,6 +135,8 @@ Per Appendix A of the design exploration specification, all 20 token pairs acros
    - Utilized React's idiomatic `useSyncExternalStore` for client mounting and media-query evaluation (`prefers-reduced-motion`) without cascading renders or hydration mismatch.
 2. **Dimension Lines:**
    - Realized as clean, non-scaling vector lines with 45° angled drafting ticks, ensuring crisp rendering across high-DPI displays.
+3. **Sub-Sheet Navigation Hierarchy:**
+   - Sub-sheets expand Sheet 3 into architectural sub-assemblies (3-A through 3-E) without altering root document URL anchors, maintaining clean compliance with §2.4 and §11.2.
 
 ---
 
@@ -132,4 +147,5 @@ Per Appendix A of the design exploration specification, all 20 token pairs acros
 - `dba78a4` — `world-02: implement cover and about sheets`
 - `efbf737` — `world-02: implement projects sheet with redline revision cloud and schedule`
 - `3c72313` — `world-02: implement skills matrix, experience revision history, and contact transmittal`
-- Final commit: `world-02: add World 02 report`
+- `e2b0c80` — `world-02: add World 02 report`
+- `world-02: elevate As-Built with project sub-sheets, pipeline schematics, and drafting details`

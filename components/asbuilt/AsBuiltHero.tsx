@@ -57,6 +57,24 @@ export function AsBuiltHero() {
                 Send an email
               </a>
             </div>
+
+            {/* Official Architectural Engineering Stamp Block */}
+            <div
+              className="mt-6 border-2 border-ink p-3 w-fit bg-sheet select-none relative"
+              aria-label="Official drawing set issuance stamp"
+            >
+              <div className="border border-rule/50 p-2.5 flex flex-col gap-1 text-center font-mono text-[11px] sm:text-xs leading-tight text-ink">
+                <div className="font-bold tracking-wider text-ink border-b border-rule/30 pb-1">
+                  ISSUED FOR RECORD SET
+                </div>
+                <div className="text-ink-2">
+                  DOC NO: <span className="text-ink font-semibold">AS-BUILT-2026</span> • REV D
+                </div>
+                <div className="text-[10px] text-rule">
+                  VERIFIED ARCHITECTURE & SYSTEM DATA
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Right Column (cols 9 to 12): Owner photo in framed viewport */}

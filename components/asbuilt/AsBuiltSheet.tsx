@@ -6,6 +6,7 @@ interface AsBuiltSheetProps {
   id: string;
   sheetNumber: number;
   totalSheets?: number;
+  sheetLabel?: string;
   title: string;
   middleBlockText?: string;
   isCover?: boolean;
@@ -17,6 +18,7 @@ export function AsBuiltSheet({
   id,
   sheetNumber,
   totalSheets = 6,
+  sheetLabel,
   title,
   middleBlockText,
   isCover = false,
@@ -28,6 +30,8 @@ export function AsBuiltSheet({
     ? (middleBlockText || social.role)
     : (middleBlockText || title);
 
+  const displaySheetNumber = sheetLabel || `Sheet ${sheetNumber} of ${totalSheets}`;
+
   return (
     <section
       id={id}
@@ -35,11 +39,31 @@ export function AsBuiltSheet({
       className={`w-full max-w-[1120px] mx-auto mb-12 sm:mb-14 lg:mb-16 bg-sheet border-[3px] border-ink text-ink relative ${className}`}
     >
       {/* 
+        Subtle architectural drafting coordinate marks:
+        Top: 1, 2, 3, 4, 5, 6, 7, 8
+        Left: A, B, C, D
+        Authentic to structural and architectural drawing sheets.
+      */}
+      <div
+        className="hidden sm:flex justify-between items-center px-4 py-0.5 border-b border-rule/30 font-mono text-[9px] text-rule select-none"
+        aria-hidden="true"
+      >
+        <span>ZONE 1</span>
+        <span>ZONE 2</span>
+        <span>ZONE 3</span>
+        <span>ZONE 4</span>
+        <span>ZONE 5</span>
+        <span>ZONE 6</span>
+        <span>ZONE 7</span>
+        <span>ZONE 8</span>
+      </div>
+
+      {/* 
         Inner frame per §6.2.3 & §6.2.12:
         1px --rule inner frame inset 8px on tablet/desktop (p-2 on wrapper, border border-rule).
         On mobile (<640px), drop inner frame and m-2 inset.
       */}
-      <div className="p-0 sm:p-2">
+      <div className="p-0 sm:p-2 relative">
         <div className="border-0 sm:border sm:border-rule p-4 sm:p-6 lg:p-8 flex flex-col justify-between min-h-[400px]">
           
           {/* Header area: Sheet Title with Dimension Line */}
@@ -85,7 +109,7 @@ export function AsBuiltSheet({
               </div>
               {/* Cell 3: Sheet n of N */}
               <div className="px-2 truncate font-mono text-[0.875rem] leading-tight text-ink">
-                Sheet {sheetNumber} of {totalSheets}
+                {displaySheetNumber}
               </div>
             </div>
           </div>
