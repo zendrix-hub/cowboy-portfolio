@@ -179,7 +179,7 @@ export default function BiyaheNav() {
       </header>
 
       {/* Mobile Fixed "Routes" Trigger Plate (<640px) (§6.1.5) */}
-      <div className="sm:hidden fixed bottom-5 right-4 z-50 pointer-events-auto">
+      <div className="sm:hidden fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom))] right-4 z-50 pointer-events-auto">
         <button
           ref={triggerRef}
           type="button"

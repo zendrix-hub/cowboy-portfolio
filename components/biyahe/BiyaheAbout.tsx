@@ -84,62 +84,67 @@ export default function BiyaheAbout() {
             </div>
           </div>
 
-          {/* Fact Plates (5 cols on desktop, row of 3 on tablet, stacked on mobile §6.1.12) */}
-          <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-4">
-            {/* Fact 1: Cobalt Stamped Plate */}
-            <div className="biyahe-plate bg-[#1B3FD1] text-white p-5 sm:p-6 space-y-2 relative shadow-[0_4px_0_#000000]">
-              {/* Corner Bolt Accents (§6.1.6) */}
-              <span className="w-2.5 h-2.5 rounded-full bg-black/30 border border-white/40 absolute top-2.5 left-2.5" aria-hidden="true" />
-              <span className="w-2.5 h-2.5 rounded-full bg-black/30 border border-white/40 absolute top-2.5 right-2.5" aria-hidden="true" />
-              <span className="w-2.5 h-2.5 rounded-full bg-black/30 border border-white/40 absolute bottom-2.5 left-2.5" aria-hidden="true" />
-              <span className="w-2.5 h-2.5 rounded-full bg-black/30 border border-white/40 absolute bottom-2.5 right-2.5" aria-hidden="true" />
+          {/* Stamped Cargo Manifest Plate (§4.3) */}
+          <div className="lg:col-span-5 biyahe-board bg-white dark:bg-[#131E57] border-3 border-black text-black dark:text-white p-5 sm:p-6 space-y-4 shadow-[0_6px_0_#000000] relative">
+            {/* Stamped Corner Rivet Accents */}
+            <span className="w-2.5 h-2.5 rounded-full bg-black/20 border border-black/40 absolute top-2.5 left-2.5 pointer-events-none" aria-hidden="true" />
+            <span className="w-2.5 h-2.5 rounded-full bg-black/20 border border-black/40 absolute top-2.5 right-2.5 pointer-events-none" aria-hidden="true" />
+            <span className="w-2.5 h-2.5 rounded-full bg-black/20 border border-black/40 absolute bottom-2.5 left-2.5 pointer-events-none" aria-hidden="true" />
+            <span className="w-2.5 h-2.5 rounded-full bg-black/20 border border-black/40 absolute bottom-2.5 right-2.5 pointer-events-none" aria-hidden="true" />
 
-              <div className="font-bungee text-xs text-[#FFC72C] tracking-wider uppercase pl-2">
-                ENGINEERING ROLE
+            {/* Manifest Header Bar */}
+            <div className="flex items-center justify-between border-b-2 border-black/15 dark:border-white/15 pb-2.5">
+              <div className="font-bungee text-xs text-[#1B3FD1] dark:text-[#FFC72C] tracking-wider uppercase flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#1B3FD1] dark:bg-[#FFC72C] inline-block" />
+                <span>CARGO MANIFEST // SPECIFICATIONS</span>
               </div>
-              <div className="font-lexend font-bold text-base sm:text-lg pl-2 leading-tight">
-                {social.role}
-              </div>
-              <div className="font-lexend text-xs text-white/80 pl-2">
-                {social.subrole}
-              </div>
+              <span className="font-mono text-[10px] font-bold text-black/60 dark:text-white/60 uppercase tracking-widest">
+                VERIFIED [3/3]
+              </span>
             </div>
 
-            {/* Fact 2: Leaf Stamped Plate */}
-            <div className="biyahe-plate bg-[#0F9D58] text-black p-5 sm:p-6 space-y-2 relative shadow-[0_4px_0_#000000]">
-              {/* Corner Bolt Accents (§6.1.6) */}
-              <span className="w-2.5 h-2.5 rounded-full bg-black/30 border border-black/40 absolute top-2.5 left-2.5" aria-hidden="true" />
-              <span className="w-2.5 h-2.5 rounded-full bg-black/30 border border-black/40 absolute top-2.5 right-2.5" aria-hidden="true" />
-              <span className="w-2.5 h-2.5 rounded-full bg-black/30 border border-black/40 absolute bottom-2.5 left-2.5" aria-hidden="true" />
-              <span className="w-2.5 h-2.5 rounded-full bg-black/30 border border-black/40 absolute bottom-2.5 right-2.5" aria-hidden="true" />
+            {/* Manifest Stamped Chips */}
+            <div className="flex flex-col gap-3">
+              {/* Manifest Item 1: Cobalt Stamped Chip */}
+              <div className="biyahe-plate bg-[#1B3FD1] text-white p-3.5 sm:p-4 space-y-1 relative shadow-[0_3px_0_#000000]">
+                <div className="flex items-center justify-between text-[11px] font-bungee text-[#FFC72C] tracking-wider uppercase">
+                  <span>ENGINEERING ROLE</span>
+                  <span className="text-[10px] text-white/80 font-mono">[✓ ACTIVE]</span>
+                </div>
+                <div className="font-lexend font-bold text-sm sm:text-base leading-tight">
+                  {social.role}
+                </div>
+                <div className="font-lexend text-xs text-white/80">
+                  {social.subrole}
+                </div>
+              </div>
 
-              <div className="font-bungee text-xs text-black/75 tracking-wider uppercase pl-2">
-                ACADEMIC FORMATION
+              {/* Manifest Item 2: Leaf Stamped Chip */}
+              <div className="biyahe-plate bg-[#0F9D58] text-black p-3.5 sm:p-4 space-y-1 relative shadow-[0_3px_0_#000000]">
+                <div className="flex items-center justify-between text-[11px] font-bungee text-black/80 tracking-wider uppercase">
+                  <span>ACADEMIC FORMATION</span>
+                  <span className="text-[10px] text-black/70 font-mono">[✓ ACCREDITED]</span>
+                </div>
+                <div className="font-lexend font-bold text-sm sm:text-base leading-tight">
+                  {education ? education.title : "BS in Information Technology (Senior)"}
+                </div>
+                <div className="font-lexend text-xs text-black/80">
+                  {education ? education.organization : "Cebu Institute of Technology – University"}
+                </div>
               </div>
-              <div className="font-lexend font-bold text-base sm:text-lg pl-2 leading-tight">
-                {education ? education.title : "BS in Information Technology (Senior)"}
-              </div>
-              <div className="font-lexend text-xs text-black/80 pl-2">
-                {education ? education.organization : "Cebu Institute of Technology – University"}
-              </div>
-            </div>
 
-            {/* Fact 3: Signal Stamped Plate */}
-            <div className="biyahe-plate bg-[#E4262A] text-white p-5 sm:p-6 space-y-2 relative shadow-[0_4px_0_#000000]">
-              {/* Corner Bolt Accents (§6.1.6) */}
-              <span className="w-2.5 h-2.5 rounded-full bg-black/30 border border-white/40 absolute top-2.5 left-2.5" aria-hidden="true" />
-              <span className="w-2.5 h-2.5 rounded-full bg-black/30 border border-white/40 absolute top-2.5 right-2.5" aria-hidden="true" />
-              <span className="w-2.5 h-2.5 rounded-full bg-black/30 border border-white/40 absolute bottom-2.5 left-2.5" aria-hidden="true" />
-              <span className="w-2.5 h-2.5 rounded-full bg-black/30 border border-white/40 absolute bottom-2.5 right-2.5" aria-hidden="true" />
-
-              <div className="font-bungee text-xs text-[#FFC72C] tracking-wider uppercase pl-2">
-                TRANSIT BASE // LOCATION
-              </div>
-              <div className="font-lexend font-bold text-base sm:text-lg pl-2 leading-tight">
-                {social.location}
-              </div>
-              <div className="font-lexend text-xs text-white/80 pl-2">
-                Philippines • UTC+8 Corridor
+              {/* Manifest Item 3: Signal Stamped Chip */}
+              <div className="biyahe-plate bg-[#E4262A] text-white p-3.5 sm:p-4 space-y-1 relative shadow-[0_3px_0_#000000]">
+                <div className="flex items-center justify-between text-[11px] font-bungee text-[#FFC72C] tracking-wider uppercase">
+                  <span>TRANSIT BASE // LOCATION</span>
+                  <span className="text-[10px] text-white/80 font-mono">[✓ STATION]</span>
+                </div>
+                <div className="font-lexend font-bold text-sm sm:text-base leading-tight">
+                  {social.location}
+                </div>
+                <div className="font-lexend text-xs text-white/80">
+                  Philippines • UTC+8 Corridor
+                </div>
               </div>
             </div>
           </div>
