@@ -1,73 +1,61 @@
-import { Suspense } from "react";
-import CosmicNav from "@/components/layout/CosmicNav";
-import CosmicHero from "@/components/sections/CosmicHero";
-import EpochZeroPrologue from "@/components/story/EpochZeroPrologue";
-import About from "@/components/sections/About";
-import Projects from "@/components/sections/Projects";
-import Skills from "@/components/sections/Skills";
-import Experience from "@/components/sections/Experience";
-import Contact from "@/components/sections/Contact";
-import Footer from "@/components/layout/Footer";
-import SpotlightGlow from "@/components/ui/SpotlightGlow";
-import FocusableSection from "@/components/ui/FocusableSection";
-import { SectionFocusProvider } from "@/context/SectionFocusContext";
-import { ConstellationProvider } from "@/context/ConstellationContext";
-import { StoryModeProvider } from "@/components/story/StoryModeContext";
+import React from 'react';
+import { RuntimeHero } from '@/components/runtime/RuntimeHero';
+import { RuntimeAbout } from '@/components/runtime/RuntimeAbout';
+import { RuntimeProjects } from '@/components/runtime/RuntimeProjects';
+import { RuntimeSkills } from '@/components/runtime/RuntimeSkills';
+import { RuntimeExperience } from '@/components/runtime/RuntimeExperience';
+import { RuntimeContact } from '@/components/runtime/RuntimeContact';
+import { ConnectorLine } from '@/components/runtime/ConnectorLine';
+import { WiringChannel } from '@/components/runtime/WiringChannel';
 
 export default function Home() {
   return (
-    <SectionFocusProvider>
-      <ConstellationProvider>
-        <StoryModeProvider>
-          {/* Floating Astrogation Telemetry Glass HUD */}
-          <CosmicNav />
+    <main
+      id="content"
+      className="w-full max-w-4xl mx-auto px-4 sm:px-6 py-8 flex flex-col items-center"
+    >
+      {/* 1. Hero Start Node */}
+      <RuntimeHero />
 
-        {/* Ambient Pointer Glow (will be accompanied by ConstellationCanvas in Milestone 2) */}
-        <SpotlightGlow />
+      {/* Downward Connector from Hero to About */}
+      <ConnectorLine height={64} />
 
-        {/* Cinematic Single-Column Cosmic Flow */}
-        <div className="mx-auto min-h-screen max-w-5xl px-4 sm:px-6 lg:px-8 relative z-10">
-          {/* Top Origin Singularity Hero */}
-          <CosmicHero />
+      {/* 2. About Input Node */}
+      <RuntimeAbout />
 
-          {/* Sequential Celestial Workstation & Constellation Stations */}
-          <main id="content" className="space-y-24 sm:space-y-32 pb-24">
-            {/* Epoch 0: The Little Cowboy Prologue Terminal */}
-            <FocusableSection id="prologue">
-              <EpochZeroPrologue />
-            </FocusableSection>
+      {/* Downward Connector from About to Projects */}
+      <ConnectorLine height={64} />
 
-            <FocusableSection id="about">
-              <About />
-            </FocusableSection>
+      {/* 3. Projects Modules */}
+      <RuntimeProjects />
 
-            <FocusableSection id="projects">
-              <Suspense
-                fallback={
-                  <div className="min-h-[300px] animate-pulse rounded-2xl bg-zinc-100/50 dark:bg-zinc-900/40" />
-                }
-              >
-                <Projects />
-              </Suspense>
-            </FocusableSection>
+      {/* Orthogonal Wiring Channel between Projects and Skills */}
+      <WiringChannel />
 
-            <FocusableSection id="skills">
-              <Skills />
-            </FocusableSection>
+      {/* 4. Skills Component Registry */}
+      <RuntimeSkills />
 
-            <FocusableSection id="experience">
-              <Experience />
-            </FocusableSection>
+      {/* Downward Connector from Skills to Experience */}
+      <ConnectorLine height={64} />
 
-            <FocusableSection id="contact">
-              <Contact />
-            </FocusableSection>
+      {/* 5. Experience Process Sequence */}
+      <RuntimeExperience />
 
-            <Footer />
-          </main>
-        </div>
-        </StoryModeProvider>
-      </ConstellationProvider>
-    </SectionFocusProvider>
+      {/* Downward Connector from Experience to Contact */}
+      <ConnectorLine height={64} />
+
+      {/* 6. Contact End Node */}
+      <RuntimeContact />
+
+      {/* Diagram Footer */}
+      <footer className="w-full max-w-[720px] text-center pt-8 pb-16 border-t border-[var(--ink)]/15">
+        <p className="font-mono text-xs text-[var(--ink-2)] tracking-wider">
+          RUNTIME // SYSTEMS_DIAGRAM_SPEC • ZENDRIX RIVA
+        </p>
+        <p className="font-sans text-[11px] text-[var(--ink-2)]/70 mt-1">
+          Designed with Space Mono & Manrope • Zero generic dashboard UI • WCAG 2.2 AA Compliant
+        </p>
+      </footer>
+    </main>
   );
 }

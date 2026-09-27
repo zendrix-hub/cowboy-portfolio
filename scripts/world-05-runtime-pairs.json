@@ -1,0 +1,10 @@
+[
+  { "fg": "#232323", "bg": "#F7F5F0", "min": 4.5, "label": "Whiteboard: ink text on board ground" },
+  { "fg": "#5B5B57", "bg": "#F7F5F0", "min": 4.5, "label": "Whiteboard: ink-2 secondary text on board ground" },
+  { "fg": "#FFFFFF", "bg": "#227A4C", "min": 4.5, "label": "Whiteboard: white text on marker accent" },
+  { "fg": "#227A4C", "bg": "#F7F5F0", "min": 3.0, "label": "Whiteboard: marker wiring UI against board ground" },
+  { "fg": "#F2F1E8", "bg": "#1E2B24", "min": 4.5, "label": "Chalkboard: ink text on board ground" },
+  { "fg": "#B9C2B9", "bg": "#1E2B24", "min": 4.5, "label": "Chalkboard: ink-2 secondary text on board ground" },
+  { "fg": "#1E2B24", "bg": "#8FD9A8", "min": 4.5, "label": "Chalkboard: dark text on marker accent" },
+  { "fg": "#8FD9A8", "bg": "#1E2B24", "min": 3.0, "label": "Chalkboard: marker wiring UI against board ground" }
+]

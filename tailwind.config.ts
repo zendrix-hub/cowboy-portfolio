@@ -10,12 +10,21 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
-        mono: ["var(--font-geist-mono)", "monospace"],
+        mono: ["var(--font-space-mono)", "monospace"],
+        sans: ["var(--font-manrope)", "sans-serif"],
       },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        board: "var(--board)",
+        ink: "var(--ink)",
+        "ink-2": "var(--ink-2)",
+        marker: "var(--marker)",
+      },
+      borderRadius: {
+        node: "8px",
+        stadium: "9999px",
+      },
+      maxWidth: {
+        node: "720px",
       },
     },
   },

@@ -1,21 +1,24 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Space_Mono, Manrope } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Providers } from "./providers";
-import Navbar from "@/components/layout/Navbar";
-import CommandMenu from "@/components/layout/CommandMenu";
+import { PipelineStepper } from "@/components/runtime/PipelineStepper";
 import { social } from "@/data/social";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const spaceMono = Space_Mono({
+  variable: "--font-space-mono",
   subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
 });
 
 const siteUrl =
@@ -23,9 +26,9 @@ const siteUrl =
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Zendrix Riva — Software / Full-Stack Developer",
+  title: "Zendrix Riva — Systems Diagram & Runtime Architecture",
   description:
-    "Portfolio of Zendrix Riva, Software & Full-Stack Developer building practical software systems across mobile and backend environments with clean architecture.",
+    "Runtime portfolio of Zendrix Riva, Software & Full-Stack Developer: an interactive systems diagram of offline-first mobile systems, backend architectures, and component skills.",
   authors: [{ name: "Zendrix Riva", url: "https://github.com/zendrix-hub" }],
   creator: "Zendrix Riva",
   alternates: { canonical: "/" },
@@ -33,16 +36,16 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: siteUrl,
-    title: "Zendrix Riva — Software / Full-Stack Developer",
+    title: "Zendrix Riva — Systems Diagram & Runtime Architecture",
     description:
-      "Software / Full-Stack Developer specializing in offline-first Android systems, clean architecture, and practical backend engineering.",
-    siteName: "Zendrix Riva Portfolio",
+      "Runtime portfolio of Zendrix Riva, Software & Full-Stack Developer: an interactive systems diagram of offline-first mobile systems, backend architectures, and component skills.",
+    siteName: "Zendrix Riva Runtime Portfolio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Zendrix Riva — Software / Full-Stack Developer",
+    title: "Zendrix Riva — Systems Diagram & Runtime Architecture",
     description:
-      "Software / Full-Stack Developer specializing in offline-first Android systems, clean architecture, and practical backend engineering.",
+      "Runtime portfolio of Zendrix Riva, Software & Full-Stack Developer: an interactive systems diagram of offline-first mobile systems, backend architectures, and component skills.",
   },
   icons: {
     icon: [
@@ -57,8 +60,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
+    { media: "(prefers-color-scheme: light)", color: "#F7F5F0" },
+    { media: "(prefers-color-scheme: dark)", color: "#1E2B24" },
   ],
 };
 
@@ -108,27 +111,29 @@ export default function RootLayout({
       </head>
       <body
         suppressHydrationWarning
-        className={`${geistSans.variable} ${geistMono.variable} font-sans min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased selection:bg-cyan-500 selection:text-white dark:selection:text-zinc-950 relative`}
+        className={`${spaceMono.variable} ${manrope.variable} font-sans min-h-screen bg-[var(--board)] text-[var(--ink)] antialiased transition-colors`}
       >
+        {/* SVG Definition for Hand-Drawn Marker Wobble Filter */}
+        <svg className="sr-only" aria-hidden="true" width="0" height="0">
+          <defs>
+            <filter id="marker-wobble" x="-10%" y="-10%" width="120%" height="120%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" result="noise" />
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+          </defs>
+        </svg>
+
         <Providers>
-          {/* Skip to content link for accessibility (WCAG 2.4.1) */}
+          {/* Skip link for keyboard accessibility (WCAG 2.4.1) */}
           <a
             href="#content"
-            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-cyan-600 focus:text-white focus:rounded-lg focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-zinc-950 focus:text-sm focus:font-medium"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-[var(--marker)] focus:text-[var(--marker-text)] focus:rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--ink)] focus:text-sm font-mono"
           >
             Skip to content
           </a>
 
-          {/* ReadHub-inspired Atmospheric Ambient Blobs */}
-          <div className="bg-blobs" aria-hidden="true">
-            <div className="blob blob-1" />
-            <div className="blob blob-2" />
-            <div className="blob blob-3" />
-          </div>
-
-          <Navbar />
+          <PipelineStepper />
           {children}
-          <CommandMenu />
           <Analytics />
           <SpeedInsights />
         </Providers>

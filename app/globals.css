@@ -4,158 +4,134 @@
 
 @layer base {
   :root {
-    --background: #ffffff;
-    --foreground: #09090b;
-    --bg-page-radial: radial-gradient(circle at 85% 15%, rgba(6, 182, 212, 0.05) 0%, transparent 45%),
-      radial-gradient(circle at 15% 85%, rgba(14, 165, 233, 0.04) 0%, transparent 50%);
-    --blob-opacity: 0.09;
-    --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    --spotlight-color: rgba(6, 182, 212, 0.08);
+    --board: #F7F5F0;
+    --ink: #232323;
+    --ink-2: #5B5B57;
+    --marker: #227A4C;
+    --marker-text: #FFFFFF;
+    --connector: #5B5B57;
   }
 
   .dark {
-    --background: #09090b;
-    --foreground: #f4f4f5;
-    --bg-page-radial: radial-gradient(circle at 85% 15%, rgba(6, 182, 212, 0.09) 0%, transparent 45%),
-      radial-gradient(circle at 15% 85%, rgba(14, 165, 233, 0.05) 0%, transparent 55%);
-    --blob-opacity: 0.13;
-    --glass-shadow: 0 10px 35px rgba(0, 0, 0, 0.4);
-    --spotlight-color: rgba(6, 182, 212, 0.14);
+    --board: #1E2B24;
+    --ink: #F2F1E8;
+    --ink-2: #B9C2B9;
+    --marker: #8FD9A8;
+    --marker-text: #1E2B24;
+    --connector: #B9C2B9;
   }
 
   body {
-    background-color: var(--background);
-    background-image: var(--bg-page-radial);
-    background-attachment: fixed;
-    color: var(--foreground);
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    background-color: var(--board);
+    color: var(--ink);
+    font-family: var(--font-manrope), system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    margin: 0;
   }
 
-  /* Accessible visible focus styles */
   :focus-visible {
-    outline: 2px solid #06b6d4;
-    outline-offset: 2px;
+    outline: 2px solid var(--marker);
+    outline-offset: 3px;
   }
 }
 
-/* --- ReadHub Login Atmospheric Background Blobs --- */
-.bg-blobs {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: -1;
-  pointer-events: none;
+/* Whiteboard outlined button interaction */
+.runtime-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.5rem 1.25rem;
+  border: 1px solid var(--ink);
+  border-radius: 8px;
+  font-family: var(--font-manrope), sans-serif;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  color: var(--ink);
+  background: transparent;
+  transition: border-width 150ms ease, background-color 150ms ease;
+  text-decoration: none;
+  cursor: pointer;
 }
 
-.blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(90px);
-  opacity: var(--blob-opacity);
-  animation: float 22s infinite alternate ease-in-out;
+.runtime-btn:hover,
+.runtime-btn:focus-visible {
+  border-width: 2px;
+  padding: calc(0.5rem - 1px) calc(1.25rem - 1px);
 }
 
-.blob-1 {
-  width: 380px;
-  height: 380px;
-  background: #06b6d4;
-  top: 8%;
-  left: 4%;
-  animation-duration: 24s;
+/* Subtle hand-drawn SVG filter on marker and connector paths */
+.marker-wobble {
+  filter: url(#marker-wobble);
 }
 
-.blob-2 {
-  width: 440px;
-  height: 440px;
-  background: #0ea5e9;
-  bottom: 8%;
-  right: 6%;
-  animation-delay: -5s;
-  animation-duration: 30s;
-}
-
-.blob-3 {
-  width: 300px;
-  height: 300px;
-  background: #0284c7;
-  top: 48%;
-  left: 45%;
-  animation-delay: -9s;
-  animation-duration: 20s;
-}
-
-@keyframes float {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-  33% {
-    transform: translate(30px, -45px) scale(1.12);
-  }
-  66% {
-    transform: translate(-25px, 25px) scale(0.92);
-  }
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-}
-
-/* --- ReadHub Login Floating Toast --- */
-@keyframes slideDownFade {
+/* Wire stroke dash draw animation */
+@keyframes wireDraw {
   from {
-    opacity: 0;
-    transform: translate(-50%, -20px) scale(0.96);
+    stroke-dashoffset: 600;
   }
   to {
-    opacity: 1;
-    transform: translate(-50%, 0) scale(1);
+    stroke-dashoffset: 0;
   }
 }
 
-.toast-slide-down {
-  animation: slideDownFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.animate-wire {
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+  animation: wireDraw 700ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Reduced motion support */
+/* Component tag animated border color transition */
+.tag-connected {
+  border-color: var(--marker) !important;
+  transition: border-color 150ms ease-out;
+}
+
+/* Prefers-reduced-motion: zero motion, immediate draw */
 @media (prefers-reduced-motion: reduce) {
   *,
   ::before,
-  ::after,
-  .blob {
+  ::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+
+  .marker-wobble {
+    filter: none !important;
+  }
+
+  .animate-wire {
+    stroke-dashoffset: 0 !important;
+    animation: none !important;
+  }
 }
 
-/* Custom utility: Hide scrollbar */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
+/* High contrast / forced colors */
+@media (forced-colors: active) {
+  :root,
+  .dark {
+    --board: Canvas;
+    --ink: CanvasText;
+    --ink-2: CanvasText;
+    --marker: Highlight;
+    --marker-text: HighlightText;
+    --connector: CanvasText;
+  }
 
-/* --- CRT Scanlines & Phosphor Bloom --- */
-.crt-scanlines {
-  background: linear-gradient(
-    rgba(18, 16, 16, 0) 50%,
-    rgba(0, 0, 0, 0.28) 50%
-  );
-  background-size: 100% 4px;
-}
+  .runtime-btn,
+  .runtime-node,
+  .component-tag,
+  .port-tab {
+    border: 1px solid CanvasText !important;
+  }
 
-@keyframes crt-flicker {
-  0% { opacity: 0.97; }
-  50% { opacity: 1; }
-  100% { opacity: 0.98; }
-}
+  .tag-connected {
+    border: 2px solid Highlight !important;
+  }
 
-.crt-flicker {
-  animation: crt-flicker 0.2s infinite;
+  .marker-wobble {
+    filter: none !important;
+  }
 }
-
