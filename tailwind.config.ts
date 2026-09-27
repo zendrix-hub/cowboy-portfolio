@@ -10,12 +10,24 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
-        mono: ["var(--font-geist-mono)", "monospace"],
+        lora: ["var(--font-lora)", "Georgia", "serif"],
+        serif: ["var(--font-source-serif)", "Georgia", "serif"],
+        courier: ["var(--font-courier-prime)", "Courier New", "monospace"],
+        caveat: ["var(--font-caveat)", "cursive"],
+        mono: ["var(--font-courier-prime)", "monospace"],
       },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        paper: "var(--paper)",
+        desk: "var(--desk)",
+        ink: "var(--ink)",
+        "ink-2": "var(--ink-2)",
+        tape: "var(--tape)",
+        "tape-light": "var(--tape-light)",
+        stamp: "var(--stamp)",
+      },
+      boxShadow: {
+        lift: "var(--lift)",
+        "lift-hover": "var(--lift-hover)",
       },
     },
   },

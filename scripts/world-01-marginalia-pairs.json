@@ -1,0 +1,15 @@
+[
+  { "label": "Desk: Ink on Paper (body/headings)", "fg": "#262220", "bg": "#F0F1ED", "min": 4.5 },
+  { "label": "Desk: Ink-2 on Paper (secondary/meta)", "fg": "#54504A", "bg": "#F0F1ED", "min": 4.5 },
+  { "label": "Desk: Stamp on Paper (featured status)", "fg": "#A63D2F", "bg": "#F0F1ED", "min": 4.5 },
+  { "label": "Desk: Tape UI contrast against Paper", "fg": "#38726B", "bg": "#F0F1ED", "min": 3.0 },
+  { "label": "Desk: Paper on Desk ground", "fg": "#F0F1ED", "bg": "#E2E4DE", "min": 1.1 },
+  { "label": "Desk: Text on Tape tab (White)", "fg": "#FFFFFF", "bg": "#38726B", "min": 4.5 },
+  { "label": "Desk: Paper text on Tape tab", "fg": "#F0F1ED", "bg": "#38726B", "min": 4.5 },
+  { "label": "Lamp: Ink on Paper (body/headings)", "fg": "#F1E9DA", "bg": "#2B241E", "min": 4.5 },
+  { "label": "Lamp: Ink-2 on Paper (secondary/meta)", "fg": "#C9BEAE", "bg": "#2B241E", "min": 4.5 },
+  { "label": "Lamp: Stamp on Paper (featured status)", "fg": "#E2725C", "bg": "#2B241E", "min": 4.5 },
+  { "label": "Lamp: Tape UI contrast against Paper", "fg": "#8FD4C7", "bg": "#2B241E", "min": 3.0 },
+  { "label": "Lamp: Paper on Desk ground", "fg": "#2B241E", "bg": "#1C1713", "min": 1.1 },
+  { "label": "Lamp: Ink on Tape tab", "fg": "#2B241E", "bg": "#8FD4C7", "min": 4.5 }
+]

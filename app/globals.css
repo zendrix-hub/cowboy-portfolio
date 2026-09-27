@@ -4,158 +4,118 @@
 
 @layer base {
   :root {
-    --background: #ffffff;
-    --foreground: #09090b;
-    --bg-page-radial: radial-gradient(circle at 85% 15%, rgba(6, 182, 212, 0.05) 0%, transparent 45%),
-      radial-gradient(circle at 15% 85%, rgba(14, 165, 233, 0.04) 0%, transparent 50%);
-    --blob-opacity: 0.09;
-    --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    --spotlight-color: rgba(6, 182, 212, 0.08);
+    --desk: #E2E4DE;
+    --paper: #F0F1ED;
+    --ink: #262220;
+    --ink-2: #54504A;
+    --tape: #38726B;
+    --tape-light: #4A8C84;
+    --stamp: #A63D2F;
+    --lift: 0 4px 20px rgba(0, 0, 0, 0.12);
+    --lift-hover: 0 8px 28px rgba(0, 0, 0, 0.18);
   }
 
   .dark {
-    --background: #09090b;
-    --foreground: #f4f4f5;
-    --bg-page-radial: radial-gradient(circle at 85% 15%, rgba(6, 182, 212, 0.09) 0%, transparent 45%),
-      radial-gradient(circle at 15% 85%, rgba(14, 165, 233, 0.05) 0%, transparent 55%);
-    --blob-opacity: 0.13;
-    --glass-shadow: 0 10px 35px rgba(0, 0, 0, 0.4);
-    --spotlight-color: rgba(6, 182, 212, 0.14);
+    --desk: #1C1713;
+    --paper: #2B241E;
+    --ink: #F1E9DA;
+    --ink-2: #C9BEAE;
+    --tape: #8FD4C7;
+    --tape-light: #A8E4D9;
+    --stamp: #E2725C;
+    --lift: 0 4px 24px rgba(0, 0, 0, 0.45);
+    --lift-hover: 0 8px 32px rgba(0, 0, 0, 0.55);
+  }
+
+  html {
+    scroll-padding-bottom: 5rem;
   }
 
   body {
-    background-color: var(--background);
-    background-image: var(--bg-page-radial);
-    background-attachment: fixed;
-    color: var(--foreground);
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    background-color: var(--desk);
+    color: var(--ink);
+    font-family: var(--font-source-serif), Georgia, serif;
+    min-height: 100vh;
+    overflow-x: hidden;
   }
 
-  /* Accessible visible focus styles */
   :focus-visible {
-    outline: 2px solid #06b6d4;
-    outline-offset: 2px;
+    outline: 2px solid var(--ink) !important;
+    outline-offset: 3px !important;
   }
 }
 
-/* --- ReadHub Login Atmospheric Background Blobs --- */
-.bg-blobs {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: -1;
-  pointer-events: none;
+/* Notebook Link Styles (§9.1.3, §9.1.11) */
+.notebook-link {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: text-decoration-thickness 150ms ease-out;
 }
 
-.blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(90px);
-  opacity: var(--blob-opacity);
-  animation: float 22s infinite alternate ease-in-out;
+.notebook-link:hover,
+.notebook-link:focus-visible {
+  text-decoration-thickness: 2px;
 }
 
-.blob-1 {
-  width: 380px;
-  height: 380px;
-  background: #06b6d4;
-  top: 8%;
-  left: 4%;
-  animation-duration: 24s;
-}
-
-.blob-2 {
-  width: 440px;
-  height: 440px;
-  background: #0ea5e9;
-  bottom: 8%;
-  right: 6%;
-  animation-delay: -5s;
-  animation-duration: 30s;
-}
-
-.blob-3 {
-  width: 300px;
-  height: 300px;
-  background: #0284c7;
-  top: 48%;
-  left: 45%;
-  animation-delay: -9s;
-  animation-duration: 20s;
-}
-
-@keyframes float {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-  33% {
-    transform: translate(30px, -45px) scale(1.12);
-  }
-  66% {
-    transform: translate(-25px, 25px) scale(0.92);
-  }
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-}
-
-/* --- ReadHub Login Floating Toast --- */
-@keyframes slideDownFade {
+/* Page Settle Orchestrated Moment (§9.1.4, §9.1.11) */
+@keyframes heroPageSettle {
   from {
-    opacity: 0;
-    transform: translate(-50%, -20px) scale(0.96);
+    transform: translate(24px, 24px) rotate(calc(var(--seeded-rotation, 0deg) + 3deg));
   }
   to {
-    opacity: 1;
-    transform: translate(-50%, 0) scale(1);
+    transform: translate(0, 0) rotate(var(--seeded-rotation, 0deg));
   }
 }
 
-.toast-slide-down {
-  animation: slideDownFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.animate-page-settle {
+  animation: heroPageSettle 650ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Reduced motion support */
+/* Card Hover Elevation (§9.1.11) */
+.index-card {
+  transition: transform 180ms ease-out, box-shadow 180ms ease-out;
+}
+
+.index-card:hover,
+.index-card:focus-within {
+  transform: translateY(-3px);
+  box-shadow: var(--lift-hover);
+}
+
+/* Reduced Motion (§9.1.11, §11.4) */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  ::before,
-  ::after,
-  .blob {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  html {
     scroll-behavior: auto !important;
   }
+  .animate-page-settle {
+    animation: none !important;
+    transform: rotate(var(--seeded-rotation, 0deg)) !important;
+  }
+  .index-card {
+    transition: none !important;
+  }
+  .index-card:hover,
+  .index-card:focus-within {
+    transform: none !important;
+  }
+  .notebook-link {
+    transition: none !important;
+  }
 }
 
-/* Custom utility: Hide scrollbar */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
+/* Forced Colors (§9.1.13, §11.5) */
+@media (forced-colors: active) {
+  * {
+    forced-color-adjust: auto;
+  }
+  .notebook-page,
+  .index-card,
+  .tag-chip,
+  .bookmark-tab {
+    border: 1px solid ButtonText !important;
+  }
+  :focus-visible {
+    outline: 3px solid Highlight !important;
+  }
 }
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-/* --- CRT Scanlines & Phosphor Bloom --- */
-.crt-scanlines {
-  background: linear-gradient(
-    rgba(18, 16, 16, 0) 50%,
-    rgba(0, 0, 0, 0.28) 50%
-  );
-  background-size: 100% 4px;
-}
-
-@keyframes crt-flicker {
-  0% { opacity: 0.97; }
-  50% { opacity: 1; }
-  100% { opacity: 0.98; }
-}
-
-.crt-flicker {
-  animation: crt-flicker 0.2s infinite;
-}
-

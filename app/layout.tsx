@@ -1,21 +1,38 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Lora, Source_Serif_4, Courier_Prime, Caveat } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Providers } from "./providers";
-import Navbar from "@/components/layout/Navbar";
-import CommandMenu from "@/components/layout/CommandMenu";
+import { MarginaliaNav } from "@/components/marginalia/MarginaliaNav";
 import { social } from "@/data/social";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const lora = Lora({
+  variable: "--font-lora",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const sourceSerif = Source_Serif_4({
+  variable: "--font-source-serif",
   subsets: ["latin"],
+  weight: ["400", "600"],
+  display: "swap",
+});
+
+const courierPrime = Courier_Prime({
+  variable: "--font-courier-prime",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
+});
+
+const caveat = Caveat({
+  variable: "--font-caveat",
+  subsets: ["latin"],
+  weight: ["500", "600"],
+  display: "swap",
 });
 
 const siteUrl =
@@ -36,7 +53,7 @@ export const metadata: Metadata = {
     title: "Zendrix Riva — Software / Full-Stack Developer",
     description:
       "Software / Full-Stack Developer specializing in offline-first Android systems, clean architecture, and practical backend engineering.",
-    siteName: "Zendrix Riva Portfolio",
+    siteName: "Zendrix Riva Portfolio — Marginalia",
   },
   twitter: {
     card: "summary_large_image",
@@ -57,8 +74,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
+    { media: "(prefers-color-scheme: light)", color: "#E2E4DE" },
+    { media: "(prefers-color-scheme: dark)", color: "#1C1713" },
   ],
 };
 
@@ -108,27 +125,22 @@ export default function RootLayout({
       </head>
       <body
         suppressHydrationWarning
-        className={`${geistSans.variable} ${geistMono.variable} font-sans min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased selection:bg-cyan-500 selection:text-white dark:selection:text-zinc-950 relative`}
+        className={`${lora.variable} ${sourceSerif.variable} ${courierPrime.variable} ${caveat.variable} font-serif min-h-screen bg-desk text-ink antialiased selection:bg-tape selection:text-white relative`}
       >
         <Providers>
           {/* Skip to content link for accessibility (WCAG 2.4.1) */}
           <a
-            href="#content"
-            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-cyan-600 focus:text-white focus:rounded-lg focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-zinc-950 focus:text-sm focus:font-medium"
+            href="#home"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-tape focus:text-white focus:rounded-[2px] focus:shadow-lift focus:outline-none focus:ring-2 focus:ring-ink focus:text-sm focus:font-courier font-bold"
           >
             Skip to content
           </a>
 
-          {/* ReadHub-inspired Atmospheric Ambient Blobs */}
-          <div className="bg-blobs" aria-hidden="true">
-            <div className="blob blob-1" />
-            <div className="blob blob-2" />
-            <div className="blob blob-3" />
-          </div>
+          {/* Notebook Navigation (Bookmark Tabs & Mobile Flags) */}
+          <MarginaliaNav />
 
-          <Navbar />
           {children}
-          <CommandMenu />
+
           <Analytics />
           <SpeedInsights />
         </Providers>
