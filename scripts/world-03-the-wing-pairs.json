@@ -1,0 +1,8 @@
+[
+  { "fg": "#1C1A17", "bg": "#E7E4DE", "min": 4.5, "label": "Daylight: Ink on Concrete (body, plaques, titles)" },
+  { "fg": "#4C4740", "bg": "#E7E4DE", "min": 4.5, "label": "Daylight: Ink-2 on Concrete (captions, wall-label body)" },
+  { "fg": "#8A5F1F", "bg": "#E7E4DE", "min": 3.0, "label": "Daylight: Brass UI on Concrete (threshold, current room)" },
+  { "fg": "#EDE8E0", "bg": "#171512", "min": 4.5, "label": "Gallery: Ink on Concrete (body, plaques, titles)" },
+  { "fg": "#B8B0A3", "bg": "#171512", "min": 4.5, "label": "Gallery: Ink-2 on Concrete (captions, wall-label body)" },
+  { "fg": "#E4A54B", "bg": "#171512", "min": 3.0, "label": "Gallery: Brass UI on Concrete (threshold, current room)" }
+]

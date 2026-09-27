@@ -1,21 +1,24 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Archivo, Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Providers } from "./providers";
-import Navbar from "@/components/layout/Navbar";
-import CommandMenu from "@/components/layout/CommandMenu";
+import { FloorPlanNav } from "@/components/wing/FloorPlanNav";
 import { social } from "@/data/social";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const archivo = Archivo({
+  variable: "--font-archivo",
   subsets: ["latin"],
+  weight: ["600", "700"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
 });
 
 const siteUrl =
@@ -36,7 +39,7 @@ export const metadata: Metadata = {
     title: "Zendrix Riva — Software / Full-Stack Developer",
     description:
       "Software / Full-Stack Developer specializing in offline-first Android systems, clean architecture, and practical backend engineering.",
-    siteName: "Zendrix Riva Portfolio",
+    siteName: "Zendrix Riva Portfolio — The Wing",
   },
   twitter: {
     card: "summary_large_image",
@@ -57,8 +60,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
+    { media: "(prefers-color-scheme: light)", color: "#E7E4DE" },
+    { media: "(prefers-color-scheme: dark)", color: "#171512" },
   ],
 };
 
@@ -108,27 +111,22 @@ export default function RootLayout({
       </head>
       <body
         suppressHydrationWarning
-        className={`${geistSans.variable} ${geistMono.variable} font-sans min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased selection:bg-cyan-500 selection:text-white dark:selection:text-zinc-950 relative`}
+        className={`${archivo.variable} ${inter.variable} font-sans min-h-screen bg-concrete text-ink antialiased selection:bg-brass selection:text-white relative`}
       >
         <Providers>
           {/* Skip to content link for accessibility (WCAG 2.4.1) */}
           <a
-            href="#content"
-            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-cyan-600 focus:text-white focus:rounded-lg focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-zinc-950 focus:text-sm focus:font-medium"
+            href="#room-01"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-ink focus:text-concrete focus:outline-none focus:ring-2 focus:ring-brass text-sm font-archivo font-bold"
           >
             Skip to content
           </a>
 
-          {/* ReadHub-inspired Atmospheric Ambient Blobs */}
-          <div className="bg-blobs" aria-hidden="true">
-            <div className="blob blob-1" />
-            <div className="blob blob-2" />
-            <div className="blob blob-3" />
-          </div>
-
-          <Navbar />
           {children}
-          <CommandMenu />
+
+          {/* Fixed Architectural Floor Plan & Directory Navigator */}
+          <FloorPlanNav />
+
           <Analytics />
           <SpeedInsights />
         </Providers>
