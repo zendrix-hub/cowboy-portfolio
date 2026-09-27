@@ -1,0 +1,8 @@
+[
+  { "fg": "#F2EFE9", "bg": "#16130F", "min": 4.5, "label": "Theatrical: ink text on frame ground" },
+  { "fg": "#A8A296", "bg": "#16130F", "min": 4.5, "label": "Theatrical: ink-2 captions on frame ground" },
+  { "fg": "#C23A32", "bg": "#16130F", "min": 3.0, "label": "Theatrical: tally accent UI on frame ground" },
+  { "fg": "#16130F", "bg": "#F2EFE9", "min": 4.5, "label": "Storyboard: ink text on frame ground" },
+  { "fg": "#57524A", "bg": "#F2EFE9", "min": 4.5, "label": "Storyboard: ink-2 captions on frame ground" },
+  { "fg": "#9E2B25", "bg": "#F2EFE9", "min": 3.0, "label": "Storyboard: tally accent UI on frame ground" }
+]

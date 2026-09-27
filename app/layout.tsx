@@ -1,21 +1,25 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Bebas_Neue, Archivo_Narrow } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Providers } from "./providers";
-import Navbar from "@/components/layout/Navbar";
-import CommandMenu from "@/components/layout/CommandMenu";
+import { LetterboxFrame } from "@/components/slate/LetterboxFrame";
+import { FadeUpOverlay } from "@/components/slate/FadeUpOverlay";
 import { social } from "@/data/social";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const bebasNeue = Bebas_Neue({
+  variable: "--font-bebas-neue",
+  weight: "400",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const archivoNarrow = Archivo_Narrow({
+  variable: "--font-archivo-narrow",
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
+  display: "swap",
 });
 
 const siteUrl =
@@ -23,9 +27,9 @@ const siteUrl =
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Zendrix Riva — Software / Full-Stack Developer",
+  title: "Zendrix Riva — Slate Film Reel Portfolio",
   description:
-    "Portfolio of Zendrix Riva, Software & Full-Stack Developer building practical software systems across mobile and backend environments with clean architecture.",
+    "A cinematic reel portfolio of Zendrix Riva, Software & Full-Stack Developer: composed discrete scroll-snapped takes framing engineering systems and production discipline.",
   authors: [{ name: "Zendrix Riva", url: "https://github.com/zendrix-hub" }],
   creator: "Zendrix Riva",
   alternates: { canonical: "/" },
@@ -33,16 +37,16 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: siteUrl,
-    title: "Zendrix Riva — Software / Full-Stack Developer",
+    title: "Zendrix Riva — Slate Film Reel Portfolio",
     description:
-      "Software / Full-Stack Developer specializing in offline-first Android systems, clean architecture, and practical backend engineering.",
-    siteName: "Zendrix Riva Portfolio",
+      "A cinematic reel portfolio of Zendrix Riva, Software & Full-Stack Developer: composed discrete scroll-snapped takes framing engineering systems and production discipline.",
+    siteName: "Zendrix Riva Slate Portfolio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Zendrix Riva — Software / Full-Stack Developer",
+    title: "Zendrix Riva — Slate Film Reel Portfolio",
     description:
-      "Software / Full-Stack Developer specializing in offline-first Android systems, clean architecture, and practical backend engineering.",
+      "A cinematic reel portfolio of Zendrix Riva, Software & Full-Stack Developer: composed discrete scroll-snapped takes framing engineering systems and production discipline.",
   },
   icons: {
     icon: [
@@ -57,8 +61,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
+    { media: "(prefers-color-scheme: dark)", color: "#16130F" },
+    { media: "(prefers-color-scheme: light)", color: "#F2EFE9" },
   ],
 };
 
@@ -102,33 +106,30 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <JsonLd />
       </head>
       <body
         suppressHydrationWarning
-        className={`${geistSans.variable} ${geistMono.variable} font-sans min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased selection:bg-cyan-500 selection:text-white dark:selection:text-zinc-950 relative`}
+        className={`${bebasNeue.variable} ${archivoNarrow.variable} font-sans bg-[var(--frame)] text-[var(--ink)] antialiased transition-colors`}
       >
         <Providers>
-          {/* Skip to content link for accessibility (WCAG 2.4.1) */}
+          {/* Skip link for keyboard accessibility (WCAG 2.4.1) */}
           <a
-            href="#content"
-            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-cyan-600 focus:text-white focus:rounded-lg focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-zinc-950 focus:text-sm focus:font-medium"
+            href="#hero"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[70] focus:px-4 focus:py-2 focus:bg-[var(--tally)] focus:text-[var(--ink)] focus:outline-none focus:ring-2 focus:ring-[var(--ink)] focus:text-sm font-sans uppercase tracking-wider"
           >
-            Skip to content
+            Skip to first shot
           </a>
 
-          {/* ReadHub-inspired Atmospheric Ambient Blobs */}
-          <div className="bg-blobs" aria-hidden="true">
-            <div className="blob blob-1" />
-            <div className="blob blob-2" />
-            <div className="blob blob-3" />
-          </div>
+          {/* Fade-Up from Black Overlay on Session Init */}
+          <FadeUpOverlay />
 
-          <Navbar />
+          {/* Fixed Letterbox Bars & Reel Navigation */}
+          <LetterboxFrame />
+
           {children}
-          <CommandMenu />
           <Analytics />
           <SpeedInsights />
         </Providers>

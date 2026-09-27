@@ -10,12 +10,14 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
-        mono: ["var(--font-geist-mono)", "monospace"],
+        display: ["var(--font-bebas-neue)", "sans-serif"],
+        sans: ["var(--font-archivo-narrow)", "sans-serif"],
       },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        frame: "var(--frame)",
+        ink: "var(--ink)",
+        "ink-2": "var(--ink-2)",
+        tally: "var(--tally)",
       },
     },
   },
