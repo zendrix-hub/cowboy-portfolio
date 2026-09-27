@@ -1,0 +1,8 @@
+[
+  { "fg": "#1C1B18", "bg": "#EFEEEA", "min": 4.5, "label": "Paper: ink text on ground" },
+  { "fg": "#6B675E", "bg": "#EFEEEA", "min": 4.5, "label": "Paper: ink-2 meta on ground" },
+  { "fg": "#7C8567", "bg": "#EFEEEA", "min": 3.0, "label": "Paper: mark UI accent on ground" },
+  { "fg": "#EDEAE3", "bg": "#1A1917", "min": 4.5, "label": "Ink: ink text on ground" },
+  { "fg": "#9C978C", "bg": "#1A1917", "min": 4.5, "label": "Ink: ink-2 meta on ground" },
+  { "fg": "#9BA588", "bg": "#1A1917", "min": 3.0, "label": "Ink: mark UI accent on ground" }
+]

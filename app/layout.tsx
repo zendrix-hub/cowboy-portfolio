@@ -1,21 +1,24 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Shippori_Mincho, Zen_Kaku_Gothic_New } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Providers } from "./providers";
-import Navbar from "@/components/layout/Navbar";
-import CommandMenu from "@/components/layout/CommandMenu";
+import { QuietMarkNav } from "@/components/clearing/QuietMarkNav";
 import { social } from "@/data/social";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const shipporiMincho = Shippori_Mincho({
+  variable: "--font-shippori-mincho",
+  weight: ["400", "500"],
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const zenKaku = Zen_Kaku_Gothic_New({
+  variable: "--font-zen-kaku",
+  weight: ["400", "500"],
   subsets: ["latin"],
+  display: "swap",
 });
 
 const siteUrl =
@@ -23,9 +26,9 @@ const siteUrl =
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Zendrix Riva — Software / Full-Stack Developer",
+  title: "Zendrix Riva — The Clearing",
   description:
-    "Portfolio of Zendrix Riva, Software & Full-Stack Developer building practical software systems across mobile and backend environments with clean architecture.",
+    "A portfolio of deliberate restraint: unhurried spatial breathing room framing engineering systems across mobile and backend architectures.",
   authors: [{ name: "Zendrix Riva", url: "https://github.com/zendrix-hub" }],
   creator: "Zendrix Riva",
   alternates: { canonical: "/" },
@@ -33,16 +36,16 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: siteUrl,
-    title: "Zendrix Riva — Software / Full-Stack Developer",
+    title: "Zendrix Riva — The Clearing",
     description:
-      "Software / Full-Stack Developer specializing in offline-first Android systems, clean architecture, and practical backend engineering.",
-    siteName: "Zendrix Riva Portfolio",
+      "A portfolio of deliberate restraint: unhurried spatial breathing room framing engineering systems across mobile and backend architectures.",
+    siteName: "Zendrix Riva The Clearing Portfolio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Zendrix Riva — Software / Full-Stack Developer",
+    title: "Zendrix Riva — The Clearing",
     description:
-      "Software / Full-Stack Developer specializing in offline-first Android systems, clean architecture, and practical backend engineering.",
+      "A portfolio of deliberate restraint: unhurried spatial breathing room framing engineering systems across mobile and backend architectures.",
   },
   icons: {
     icon: [
@@ -57,8 +60,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
+    { media: "(prefers-color-scheme: light)", color: "#EFEEEA" },
+    { media: "(prefers-color-scheme: dark)", color: "#1A1917" },
   ],
 };
 
@@ -108,27 +111,21 @@ export default function RootLayout({
       </head>
       <body
         suppressHydrationWarning
-        className={`${geistSans.variable} ${geistMono.variable} font-sans min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased selection:bg-cyan-500 selection:text-white dark:selection:text-zinc-950 relative`}
+        className={`${shipporiMincho.variable} ${zenKaku.variable} font-sans bg-[var(--ground)] text-[var(--ink)] antialiased transition-colors`}
       >
         <Providers>
-          {/* Skip to content link for accessibility (WCAG 2.4.1) */}
+          {/* Skip link for keyboard accessibility (WCAG 2.4.1) */}
           <a
-            href="#content"
-            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-cyan-600 focus:text-white focus:rounded-lg focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-zinc-950 focus:text-sm focus:font-medium"
+            href="#hero"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-6 focus:left-6 focus:z-[70] focus:px-4 focus:py-2 focus:bg-[var(--ground)] focus:text-[var(--ink)] focus:border focus:border-[var(--mark)] focus:text-sm font-serif"
           >
             Skip to content
           </a>
 
-          {/* ReadHub-inspired Atmospheric Ambient Blobs */}
-          <div className="bg-blobs" aria-hidden="true">
-            <div className="blob blob-1" />
-            <div className="blob blob-2" />
-            <div className="blob blob-3" />
-          </div>
+          {/* Quiet Mark Navigation Control */}
+          <QuietMarkNav />
 
-          <Navbar />
           {children}
-          <CommandMenu />
           <Analytics />
           <SpeedInsights />
         </Providers>
