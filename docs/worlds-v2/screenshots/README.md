@@ -1,7 +1,7 @@
 # Worlds V2: Screenshot Archive & Capture Specification
 
-**Execution Phase:** Phase 3 (Session J)  
-**Specification:** `PORTFOLIO_DESIGN_EXPLORATION_V2.md` §14.2  
+**Execution Phase:** Phase 3 + Addendum (Sessions J & K)  
+**Specification:** `PORTFOLIO_DESIGN_EXPLORATION_V2.md` §14.2 & `PORTFOLIO_DESIGN_EXPLORATION_V2_ADDENDUM.md` §A.6  
 
 ---
 
@@ -17,14 +17,17 @@ docs/worlds-v2/screenshots/
 ├── masthead/            # New World 02
 ├── the-wing/            # New World 03
 ├── star-chart/          # New World 04
-└── runtime/             # New World 05
+├── runtime/             # New World 05
+├── slate/               # New World 06
+├── the-clearing/        # New World 07
+└── datum/               # New World 08
 ```
 
 ---
 
 ## 2. Capture Protocol & Viewport Specifications
 
-For each of the eight worlds (3 refined + 5 new), 6 standardized captures are specified:
+For each of the eleven worlds (3 refined + 8 new), 6 standardized captures are specified:
 
 | Shot ID | Target / Viewport | Width × Height | Scope / Type | File Convention |
 | :--- | :--- | :--- | :--- | :--- |
@@ -35,13 +38,13 @@ For each of the eight worlds (3 refined + 5 new), 6 standardized captures are sp
 | **05** | Desktop Projects Crop | `1280px` × `900px` | Featured project & signature motion moment | `projects-crop.png` |
 | **06** | Desktop Contact Crop | `1280px` × `600px` | Terminal contact waypoint, mailto, & copy button | `contact-crop.png` |
 
-**Total Family Inventory:** 8 worlds × 6 captures = 48 standardized images.
+**Total Family Inventory:** 11 worlds × 6 captures = 66 standardized images.
 
 ---
 
 ## 3. Capture Verification Checklist
 
-- [x] All 8 world branches independently buildable with Turbopack.
+- [x] All 11 world branches independently buildable with Turbopack.
 - [x] Viewport scales calibrated to V1 baselines (`360px`, `768px`, `1280px`).
 - [x] Both color modes (light/dark or primary/alt) functional across all branches.
 - [x] All signature elements visible without distortion or clipping.
