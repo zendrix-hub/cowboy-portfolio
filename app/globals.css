@@ -361,3 +361,19 @@
     transform: none !important;
   }
 }
+
+/* Forced Colors (§11.5, Audit §12) */
+@media (forced-colors: active) {
+  * {
+    forced-color-adjust: auto;
+  }
+  .primary-pill {
+    border: 2px solid ButtonText !important;
+  }
+  .drawn-link {
+    text-decoration: underline !important;
+  }
+  :focus-visible {
+    outline: 3px solid Highlight !important;
+  }
+}
