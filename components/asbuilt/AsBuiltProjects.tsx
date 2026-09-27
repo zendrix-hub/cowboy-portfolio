@@ -242,28 +242,35 @@ export function AsBuiltProjects() {
                   <th
                     role="columnheader"
                     scope="col"
-                    className="py-2 px-3 w-[40%] border-r border-rule"
+                    className="py-2 px-3 w-[28%] border-r border-rule"
                   >
                     Project
                   </th>
                   <th
                     role="columnheader"
                     scope="col"
-                    className="py-2 px-3 w-[18%] border-r border-rule"
+                    className="py-2 px-3 w-[24%] border-r border-rule"
+                  >
+                    Notes
+                  </th>
+                  <th
+                    role="columnheader"
+                    scope="col"
+                    className="py-2 px-3 w-[14%] border-r border-rule"
                   >
                     Status
                   </th>
                   <th
                     role="columnheader"
                     scope="col"
-                    className="py-2 px-3 w-[26%] border-r border-rule"
+                    className="py-2 px-3 w-[22%] border-r border-rule"
                   >
                     Stack
                   </th>
                   <th
                     role="columnheader"
                     scope="col"
-                    className="py-2 px-3 w-[16%]"
+                    className="py-2 px-3 w-[12%]"
                   >
                     Links
                   </th>
@@ -275,13 +282,14 @@ export function AsBuiltProjects() {
               >
                 {supportingProjects.map((p) => {
                   const targetLink = p.liveUrl || p.githubUrl;
+                  const projectNote = p.subtitle || (p.description ? p.description.split(".")[0] + "." : "—");
                   return (
                     <tr
                       key={p.title}
                       role="row"
                       className="hover:bg-desk transition-none"
                     >
-                      {/* Project Column: >= 40% width per §6.2.7 */}
+                      {/* Project Column */}
                       <th
                         role="rowheader"
                         scope="row"
@@ -302,10 +310,15 @@ export function AsBuiltProjects() {
                             p.title
                           )}
                         </div>
-                        <div className="text-ink-2 text-xs sm:text-[0.8125rem] font-normal mt-1 line-clamp-1">
-                          {p.description}
-                        </div>
                       </th>
+
+                      {/* Notes Column per §5.3 */}
+                      <td
+                        role="cell"
+                        className="py-3 px-3 align-top text-ink-2 font-sans text-xs sm:text-[0.8125rem] leading-relaxed border-r border-rule"
+                      >
+                        {projectNote}
+                      </td>
 
                       {/* Status Column */}
                       <td
