@@ -1,0 +1,8 @@
+[
+  { "fg": "#DCE6F5", "bg": "#12102A", "min": 4.5, "label": "Observation: Ink on Field (headings, body)" },
+  { "fg": "#9AA6C4", "bg": "#12102A", "min": 4.5, "label": "Observation: Ink-2 on Field (secondary, captions, meta)" },
+  { "fg": "#F3D48B", "bg": "#12102A", "min": 3.0, "label": "Observation: Gold on Field (stars, lines, overview)" },
+  { "fg": "#181530", "bg": "#E9EEF5", "min": 4.5, "label": "Draft: Ink on Field (headings, body)" },
+  { "fg": "#4B4870", "bg": "#E9EEF5", "min": 4.5, "label": "Draft: Ink-2 on Field (secondary, captions, meta)" },
+  { "fg": "#8A6A1E", "bg": "#E9EEF5", "min": 3.0, "label": "Draft: Gold on Field (stars, lines, overview)" }
+]

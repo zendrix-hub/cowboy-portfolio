@@ -10,12 +10,17 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
-        mono: ["var(--font-geist-mono)", "monospace"],
+        space: ["var(--font-space-grotesk)", "system-ui", "sans-serif"],
+        sans: ["var(--font-public-sans)", "system-ui", "sans-serif"],
+        public: ["var(--font-public-sans)", "system-ui", "sans-serif"],
+        mono: ["var(--font-jetbrains-mono)", "monospace"],
+        jetbrains: ["var(--font-jetbrains-mono)", "monospace"],
       },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        field: "var(--field)",
+        ink: "var(--ink)",
+        "ink-2": "var(--ink-2)",
+        gold: "var(--gold)",
       },
     },
   },

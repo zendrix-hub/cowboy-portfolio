@@ -1,21 +1,32 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Space_Grotesk, Public_Sans, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Providers } from "./providers";
-import Navbar from "@/components/layout/Navbar";
-import CommandMenu from "@/components/layout/CommandMenu";
+import { StarfieldBackground } from "@/components/starchart/StarfieldBackground";
+import { OverviewWidget } from "@/components/starchart/OverviewWidget";
 import { social } from "@/data/social";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
+  weight: ["500", "700"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const publicSans = Public_Sans({
+  variable: "--font-public-sans",
   subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
+  weight: ["400"],
+  display: "swap",
 });
 
 const siteUrl =
@@ -36,7 +47,7 @@ export const metadata: Metadata = {
     title: "Zendrix Riva — Software / Full-Stack Developer",
     description:
       "Software / Full-Stack Developer specializing in offline-first Android systems, clean architecture, and practical backend engineering.",
-    siteName: "Zendrix Riva Portfolio",
+    siteName: "Zendrix Riva Portfolio — Star Chart",
   },
   twitter: {
     card: "summary_large_image",
@@ -57,8 +68,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
+    { media: "(prefers-color-scheme: dark)", color: "#12102A" },
+    { media: "(prefers-color-scheme: light)", color: "#E9EEF5" },
   ],
 };
 
@@ -108,27 +119,25 @@ export default function RootLayout({
       </head>
       <body
         suppressHydrationWarning
-        className={`${geistSans.variable} ${geistMono.variable} font-sans min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased selection:bg-cyan-500 selection:text-white dark:selection:text-zinc-950 relative`}
+        className={`${spaceGrotesk.variable} ${publicSans.variable} ${jetbrainsMono.variable} font-sans min-h-screen bg-field text-ink antialiased selection:bg-gold selection:text-field relative`}
       >
         <Providers>
           {/* Skip to content link for accessibility (WCAG 2.4.1) */}
           <a
-            href="#content"
-            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-cyan-600 focus:text-white focus:rounded-lg focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-zinc-950 focus:text-sm focus:font-medium"
+            href="#hero"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-gold focus:text-field focus:outline-none focus:ring-2 focus:ring-ink text-sm font-mono font-bold"
           >
             Skip to content
           </a>
 
-          {/* ReadHub-inspired Atmospheric Ambient Blobs */}
-          <div className="bg-blobs" aria-hidden="true">
-            <div className="blob blob-1" />
-            <div className="blob blob-2" />
-            <div className="blob blob-3" />
-          </div>
+          {/* Seeded Starfield Background Dots (§9.4.2) */}
+          <StarfieldBackground />
 
-          <Navbar />
           {children}
-          <CommandMenu />
+
+          {/* Fixed Hexagonal Overview Navigator (§9.4.5) */}
+          <OverviewWidget />
+
           <Analytics />
           <SpeedInsights />
         </Providers>
