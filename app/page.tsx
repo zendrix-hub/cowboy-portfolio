@@ -1,73 +1,54 @@
-import { Suspense } from "react";
-import CosmicNav from "@/components/layout/CosmicNav";
-import CosmicHero from "@/components/sections/CosmicHero";
-import EpochZeroPrologue from "@/components/story/EpochZeroPrologue";
-import About from "@/components/sections/About";
-import Projects from "@/components/sections/Projects";
-import Skills from "@/components/sections/Skills";
-import Experience from "@/components/sections/Experience";
-import Contact from "@/components/sections/Contact";
-import Footer from "@/components/layout/Footer";
-import SpotlightGlow from "@/components/ui/SpotlightGlow";
-import FocusableSection from "@/components/ui/FocusableSection";
-import { SectionFocusProvider } from "@/context/SectionFocusContext";
-import { ConstellationProvider } from "@/context/ConstellationContext";
-import { StoryModeProvider } from "@/components/story/StoryModeContext";
+import React from 'react';
+import { DatumHero } from '@/components/datum/DatumHero';
+import { DatumAbout } from '@/components/datum/DatumAbout';
+import { DatumProjects } from '@/components/datum/DatumProjects';
+import { DatumSkills } from '@/components/datum/DatumSkills';
+import { DatumExperience } from '@/components/datum/DatumExperience';
+import { DatumContact } from '@/components/datum/DatumContact';
+import { ContourEdge } from '@/components/datum/ContourEdge';
 
 export default function Home() {
   return (
-    <SectionFocusProvider>
-      <ConstellationProvider>
-        <StoryModeProvider>
-          {/* Floating Astrogation Telemetry Glass HUD */}
-          <CosmicNav />
+    <main id="content" className="w-full overflow-hidden">
+      {/* 1. Base Camp: Hero (Low Band) */}
+      <DatumHero />
 
-        {/* Ambient Pointer Glow (will be accompanied by ConstellationCanvas in Milestone 2) */}
-        <SpotlightGlow />
+      {/* Orchestrated Moment: First contour draws on load */}
+      <ContourEdge
+        topColor="var(--low)"
+        bottomColor="var(--mid)"
+        seed={1}
+        isFirstEdge={true}
+      />
 
-        {/* Cinematic Single-Column Cosmic Flow */}
-        <div className="mx-auto min-h-screen max-w-5xl px-4 sm:px-6 lg:px-8 relative z-10">
-          {/* Top Origin Singularity Hero */}
-          <CosmicHero />
+      {/* 2. Mid Elevation: About (Mid Band) */}
+      <DatumAbout />
 
-          {/* Sequential Celestial Workstation & Constellation Stations */}
-          <main id="content" className="space-y-24 sm:space-y-32 pb-24">
-            {/* Epoch 0: The Little Cowboy Prologue Terminal */}
-            <FocusableSection id="prologue">
-              <EpochZeroPrologue />
-            </FocusableSection>
+      {/* Contour boundary into High Elevation */}
+      <ContourEdge
+        topColor="var(--mid)"
+        bottomColor="var(--high)"
+        seed={2}
+      />
 
-            <FocusableSection id="about">
-              <About />
-            </FocusableSection>
+      {/* 3. The Summit Approach: Projects (High Band) */}
+      <DatumProjects />
 
-            <FocusableSection id="projects">
-              <Suspense
-                fallback={
-                  <div className="min-h-[300px] animate-pulse rounded-2xl bg-zinc-100/50 dark:bg-zinc-900/40" />
-                }
-              >
-                <Projects />
-              </Suspense>
-            </FocusableSection>
+      {/* 4. Equipment & Methods: Skills (High Band) */}
+      <DatumSkills />
 
-            <FocusableSection id="skills">
-              <Skills />
-            </FocusableSection>
+      {/* Contour boundary into Peak Elevation */}
+      <ContourEdge
+        topColor="var(--high)"
+        bottomColor="var(--peak)"
+        seed={3}
+      />
 
-            <FocusableSection id="experience">
-              <Experience />
-            </FocusableSection>
+      {/* 5. The Route Taken: Experience (Peak Band) */}
+      <DatumExperience />
 
-            <FocusableSection id="contact">
-              <Contact />
-            </FocusableSection>
-
-            <Footer />
-          </main>
-        </div>
-        </StoryModeProvider>
-      </ConstellationProvider>
-    </SectionFocusProvider>
+      {/* 6. The Lookout: Contact (Peak Band Summit) */}
+      <DatumContact />
+    </main>
   );
 }
