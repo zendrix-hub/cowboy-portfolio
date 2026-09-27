@@ -10,12 +10,15 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
-        mono: ["var(--font-geist-mono)", "monospace"],
+        playfair: ["var(--font-playfair)", "Georgia", "serif"],
+        sans: ["var(--font-work-sans)", "system-ui", "sans-serif"],
+        work: ["var(--font-work-sans)", "system-ui", "sans-serif"],
       },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        ground: "var(--ground)",
+        ink: "var(--ink)",
+        "ink-2": "var(--ink-2)",
+        spot: "var(--spot)",
       },
     },
   },

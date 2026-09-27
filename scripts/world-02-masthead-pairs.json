@@ -1,0 +1,8 @@
+[
+  { "fg": "#111111", "bg": "#FFFFFF", "min": 4.5, "label": "Day: Ink on Ground (headlines, body)" },
+  { "fg": "#4A4A4A", "bg": "#FFFFFF", "min": 4.5, "label": "Day: Ink-2 on Ground (meta, captions, rules)" },
+  { "fg": "#C81B5C", "bg": "#FFFFFF", "min": 4.5, "label": "Day: Spot on Ground (reserved accent)" },
+  { "fg": "#F5F5F5", "bg": "#121212", "min": 4.5, "label": "Night: Ink on Ground (headlines, body)" },
+  { "fg": "#B8B8B8", "bg": "#121212", "min": 4.5, "label": "Night: Ink-2 on Ground (meta, captions, rules)" },
+  { "fg": "#FF5C93", "bg": "#121212", "min": 4.5, "label": "Night: Spot on Ground (reserved accent)" }
+]
