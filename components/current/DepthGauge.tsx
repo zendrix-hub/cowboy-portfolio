@@ -2,14 +2,19 @@
 
 import React, { useEffect, useState, useSyncExternalStore } from "react";
 import { useTheme } from "next-themes";
+import {
+  useCurrentContext,
+  TRIBUTARIES,
+  TRIBUTARY_LIST,
+} from "./CurrentContext";
 
 const SECTIONS = [
-  { id: "home", label: "Home" },
-  { id: "about", label: "About" },
-  { id: "projects", label: "Projects" },
-  { id: "skills", label: "Skills" },
-  { id: "experience", label: "Experience" },
-  { id: "contact", label: "Contact" },
+  { id: "home", label: "Home", depth: 0 },
+  { id: "about", label: "About", depth: 120 },
+  { id: "projects", label: "Projects", depth: 320 },
+  { id: "skills", label: "Skills", depth: 650 },
+  { id: "experience", label: "Experience", depth: 750 },
+  { id: "contact", label: "Contact", depth: 850 },
 ] as const;
 
 function subscribeMedia(callback: () => void) {
@@ -25,12 +30,23 @@ function getReducedMotionSnapshot() {
 const emptySubscribe = () => () => {};
 
 export default function DepthGauge() {
-  const [activeSection, setActiveSection] = useState<string>("home");
+  const {
+    activeSection,
+    setActiveSection,
+    activeTributary,
+    scrollDepthMeters,
+    setScrollDepthMeters,
+  } = useCurrentContext();
+
   const [markerY, setMarkerY] = useState<number>(0);
   const [isGaugeHovered, setIsGaugeHovered] = useState<boolean>(false);
   const { theme, setTheme, resolvedTheme } = useTheme();
 
-  const isMounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
+  const isMounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
 
   const isReducedMotion = useSyncExternalStore(
     subscribeMedia,
@@ -60,9 +76,9 @@ export default function DepthGauge() {
     });
 
     return () => observer.disconnect();
-  }, []);
+  }, [setActiveSection]);
 
-  // Piecewise linear marker tracking along rail
+  // Piecewise linear marker tracking & continuous depth meters calculation
   useEffect(() => {
     let rafId: number | null = null;
 
@@ -76,6 +92,14 @@ export default function DepthGauge() {
         const railHeight = isDesktop ? 240 : 200;
         const step = railHeight / (SECTIONS.length - 1);
 
+        // Calculate overall scroll depth in meters (0m to 850m)
+        const docHeight = Math.max(
+          1,
+          document.documentElement.scrollHeight - window.innerHeight
+        );
+        const totalRatio = Math.max(0, Math.min(1, window.scrollY / docHeight));
+        setScrollDepthMeters(Math.round(totalRatio * 850));
+
         const currentIndex = SECTIONS.findIndex((s) => s.id === activeSection);
         if (currentIndex === -1) return;
 
@@ -86,12 +110,13 @@ export default function DepthGauge() {
         }
 
         const rect = currentEl.getBoundingClientRect();
-        const elHeight = rect.height;
+        const elHeight = Math.max(1, rect.height);
         const scrolledIntoEl = -rect.top + window.innerHeight * 0.45;
         const progress = Math.max(0, Math.min(1, scrolledIntoEl / elHeight));
 
         const nextIndex = Math.min(currentIndex + 1, SECTIONS.length - 1);
-        const y = currentIndex * step + progress * ((nextIndex - currentIndex) * step);
+        const y =
+          currentIndex * step + progress * ((nextIndex - currentIndex) * step);
 
         setMarkerY(Math.max(0, Math.min(railHeight, y)));
       });
@@ -104,10 +129,20 @@ export default function DepthGauge() {
       window.removeEventListener("scroll", handleScroll);
       if (rafId) cancelAnimationFrame(rafId);
     };
-  }, [activeSection]);
+  }, [activeSection, setScrollDepthMeters]);
 
-  const activeIndex = Math.max(0, SECTIONS.findIndex((s) => s.id === activeSection));
-  const activeLabel = SECTIONS[activeIndex]?.label || "Home";
+  const activeIndex = Math.max(
+    0,
+    SECTIONS.findIndex((s) => s.id === activeSection)
+  );
+  const activeSectionObj = SECTIONS[activeIndex] || SECTIONS[0];
+
+  const activeTributaryMeta =
+    activeTributary !== "none" ? TRIBUTARIES[activeTributary] : null;
+
+  const badgeText = activeTributaryMeta
+    ? `${activeTributaryMeta.depthMeters}m • ${activeTributaryMeta.tributaryName}`
+    : `${scrollDepthMeters}m • ${activeSectionObj.label}`;
 
   const isDeep = isMounted && (resolvedTheme === "dark" || theme === "dark");
   const alternateModeName = isDeep ? "Surface" : "Deep";
@@ -120,7 +155,7 @@ export default function DepthGauge() {
     <>
       {/* Desktop / Tablet Depth Gauge Rail (§6.3.5) */}
       <nav
-        aria-label="Sections"
+        aria-label="Hydrological Depth & Section Navigation"
         className="hidden sm:flex fixed right-3 lg:right-6 top-1/2 -translate-y-1/2 z-40 flex-col items-center select-none"
         onMouseEnter={() => setIsGaugeHovered(true)}
         onMouseLeave={() => setIsGaugeHovered(false)}
@@ -129,7 +164,7 @@ export default function DepthGauge() {
       >
         {/* Rail & Ticks Container */}
         <div className="relative h-[200px] lg:h-[240px] w-12 flex justify-center items-stretch">
-          {/* Dual-tone Rail: 3px #0B2A30 casing with 1px #F2FBFA center */}
+          {/* Dual-tone Rail: 3px casing with 1px center */}
           <div
             className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-[3px] bg-[#0B2A30] pointer-events-none"
             aria-hidden="true"
@@ -147,18 +182,17 @@ export default function DepthGauge() {
             }}
             aria-hidden="true"
           >
-            {/* Dual-tone Marker: #0B2A30 outer ring, #F2FBFA core ring */}
             <div className="w-full h-full rounded-full border-[1.5px] border-[#0B2A30] bg-[#F2FBFA] flex items-center justify-center shadow-sm">
               <div className="w-[4px] h-[4px] rounded-full bg-[#0B2A30]" />
             </div>
 
-            {/* Active Section Chip (left of marker) */}
+            {/* Active Depth & Tributary Chip (left of marker) */}
             <div
-              className={`absolute right-6 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-full bg-[#0B2A30] border border-[#F2FBFA] text-[#F2FBFA] text-[0.875rem] font-medium whitespace-nowrap shadow-md pointer-events-none transition-opacity duration-300 ${
+              className={`absolute right-6 top-1/2 -translate-y-1/2 px-3 py-1 rounded-full bg-[#0B2A30] border border-[#F2FBFA] text-[#F2FBFA] text-[0.8125rem] font-mono font-medium whitespace-nowrap shadow-md pointer-events-none transition-all duration-300 ${
                 isGaugeHovered ? "opacity-0 pointer-events-none" : "opacity-100"
               }`}
             >
-              {activeLabel}
+              {badgeText}
             </div>
           </div>
 
@@ -171,7 +205,7 @@ export default function DepthGauge() {
                 <a
                   key={section.id}
                   href={`#${section.id}`}
-                  aria-label={section.label}
+                  aria-label={`${section.label} (${section.depth}m)`}
                   aria-current={isCurrent ? "location" : undefined}
                   className="relative w-11 h-11 flex items-center justify-center group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B2A30] dark:focus-visible:ring-[#F2FBFA] rounded-full"
                 >
@@ -185,11 +219,11 @@ export default function DepthGauge() {
 
                   {/* Hover/Focus Label Chip */}
                   <span
-                    className={`absolute right-12 px-2.5 py-1 rounded-full bg-[#0B2A30] border border-[#F2FBFA] text-[#F2FBFA] text-[0.875rem] font-medium whitespace-nowrap shadow-md pointer-events-none transition-opacity duration-300 ${
+                    className={`absolute right-12 px-2.5 py-1 rounded-full bg-[#0B2A30] border border-[#F2FBFA] text-[#F2FBFA] text-[0.8125rem] font-mono font-medium whitespace-nowrap shadow-md pointer-events-none transition-opacity duration-300 ${
                       isGaugeHovered ? "opacity-100" : "opacity-0"
                     }`}
                   >
-                    {section.label}
+                    {section.depth}m • {section.label}
                   </span>
                 </a>
               );
@@ -197,15 +231,45 @@ export default function DepthGauge() {
           </div>
         </div>
 
+        {/* Tributary Sub-Waypoints (4 Clickable Station Dots) */}
+        <div
+          className="mt-4 flex flex-col items-center gap-1.5 py-2 px-1.5 rounded-full bg-[#0B2A30]/90 border border-[#F2FBFA]/40 shadow-md"
+          role="group"
+          aria-label="Project Tributary Stations"
+        >
+          {TRIBUTARY_LIST.map((trib) => {
+            const isTribActive = activeTributary === trib.id;
+            return (
+              <a
+                key={trib.id}
+                href={`#${trib.anchorId}`}
+                aria-label={`Jump to ${trib.tributaryName} (${trib.depthMeters}m)`}
+                aria-current={isTribActive ? "location" : undefined}
+                className="group relative w-6 h-6 flex items-center justify-center rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2FBFA]"
+              >
+                <span
+                  className={`rounded-full transition-all duration-300 ${
+                    isTribActive
+                      ? "w-3 h-3 bg-[#BFF0EA] ring-2 ring-[#F2FBFA]"
+                      : "w-2 h-2 bg-[#F2FBFA]/50 group-hover:bg-[#F2FBFA] group-hover:scale-125"
+                  }`}
+                />
+                <span className="absolute right-8 px-2.5 py-1 rounded-full bg-[#0B2A30] border border-[#F2FBFA] text-[#F2FBFA] text-[0.75rem] font-mono whitespace-nowrap opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity pointer-events-none shadow-md">
+                  {trib.depthMeters}m • {trib.tributaryName}
+                </span>
+              </a>
+            );
+          })}
+        </div>
+
         {/* Theme Toggle Ring (§6.3.5: 44px ring under rail) */}
         <button
           type="button"
           onClick={toggleTheme}
           aria-label={`Switch to ${alternateModeName}`}
-          className="mt-6 w-11 h-11 rounded-full border border-[#F2FBFA] bg-[#0B2A30] text-[#F2FBFA] flex items-center justify-center shadow-md hover:scale-105 active:scale-95 transition-transform duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B2A30] dark:focus-visible:ring-[#F2FBFA]"
+          className="mt-4 w-11 h-11 rounded-full border border-[#F2FBFA] bg-[#0B2A30] text-[#F2FBFA] flex items-center justify-center shadow-md hover:scale-105 active:scale-95 transition-transform duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B2A30] dark:focus-visible:ring-[#F2FBFA]"
           title={`Switch to ${alternateModeName}`}
         >
-          {/* 1.5px round-cap theme ring icon (§6.3.3) */}
           <svg
             width="20"
             height="20"
@@ -219,7 +283,11 @@ export default function DepthGauge() {
           >
             <circle cx="12" cy="12" r="9" />
             <path d="M12 3v18" />
-            <path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" opacity={isDeep ? "0" : "0.75"} />
+            <path
+              d="M12 3a9 9 0 0 1 0 18z"
+              fill="currentColor"
+              opacity={isDeep ? "0" : "0.75"}
+            />
           </svg>
         </button>
       </nav>
@@ -229,12 +297,15 @@ export default function DepthGauge() {
         <button
           type="button"
           popoverTarget="mobile-depth-popover"
-          className="h-12 min-w-[160px] px-5 rounded-full bg-[#0B2A30] border border-[#F2FBFA] text-[#F2FBFA] text-[0.9375rem] font-medium shadow-lg flex items-center justify-between gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2FBFA] active:scale-98"
-          aria-label={`Section index: currently in ${activeLabel}`}
+          className="h-12 min-w-[190px] max-w-[90vw] px-5 rounded-full bg-[#0B2A30] border border-[#F2FBFA] text-[#F2FBFA] text-[0.875rem] font-mono font-medium shadow-lg flex items-center justify-between gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2FBFA] active:scale-98"
+          aria-label={`Depth gauge: currently at ${badgeText}`}
         >
-          <span className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#BFF0EA]" aria-hidden="true" />
-            <span>{activeLabel}</span>
+          <span className="flex items-center gap-2 truncate">
+            <span
+              className="w-2 h-2 rounded-full bg-[#BFF0EA] shrink-0"
+              aria-hidden="true"
+            />
+            <span className="truncate">{badgeText}</span>
           </span>
           <svg
             width="16"
@@ -245,6 +316,7 @@ export default function DepthGauge() {
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
+            className="shrink-0"
             aria-hidden="true"
           >
             <polyline points="18 15 12 9 6 15" />
@@ -255,35 +327,71 @@ export default function DepthGauge() {
         <div
           id="mobile-depth-popover"
           popover="auto"
-          className="m-0 p-3 rounded-2xl bg-[#0B2A30] border border-[#F2FBFA] text-[#F2FBFA] shadow-2xl backdrop-blur-md fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 min-w-[220px] flex flex-col gap-1"
+          className="m-0 p-3 rounded-2xl bg-[#0B2A30] border border-[#F2FBFA] text-[#F2FBFA] shadow-2xl backdrop-blur-md fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 min-w-[260px] flex flex-col gap-1 max-h-[75vh] overflow-y-auto"
         >
           {SECTIONS.map((section) => {
             const isCurrent = section.id === activeSection;
 
             return (
-              <a
-                key={section.id}
-                href={`#${section.id}`}
-                aria-current={isCurrent ? "location" : undefined}
-                className={`min-h-[48px] px-4 rounded-xl flex items-center justify-between text-[1rem] font-medium transition-colors ${
-                  isCurrent
-                    ? "bg-[#1E6B75] text-[#F2FBFA]"
-                    : "hover:bg-[#134E5A] text-[#CDE7E4]"
-                }`}
-                onClick={() => {
-                  const pop = document.getElementById("mobile-depth-popover") as HTMLElement & {
-                    hidePopover?: () => void;
-                  };
-                  if (pop && typeof pop.hidePopover === "function") {
-                    pop.hidePopover();
-                  }
-                }}
-              >
-                <span>{section.label}</span>
-                {isCurrent && (
-                  <span className="w-2 h-2 rounded-full bg-[#BFF0EA]" aria-hidden="true" />
+              <React.Fragment key={section.id}>
+                <a
+                  href={`#${section.id}`}
+                  aria-current={isCurrent ? "location" : undefined}
+                  className={`min-h-[44px] px-4 rounded-xl flex items-center justify-between text-[0.9375rem] font-medium transition-colors ${
+                    isCurrent
+                      ? "bg-[#1E6B75] text-[#F2FBFA]"
+                      : "hover:bg-[#134E5A] text-[#CDE7E4]"
+                  }`}
+                  onClick={() => {
+                    const pop = document.getElementById(
+                      "mobile-depth-popover"
+                    ) as HTMLElement & {
+                      hidePopover?: () => void;
+                    };
+                    if (pop && typeof pop.hidePopover === "function") {
+                      pop.hidePopover();
+                    }
+                  }}
+                >
+                  <span>{section.label}</span>
+                  <span className="font-mono text-[0.75rem] opacity-80">
+                    {section.depth}m
+                  </span>
+                </a>
+
+                {/* Render 4 Tributary Jump Links underneath Projects */}
+                {section.id === "projects" && (
+                  <div className="pl-4 flex flex-col gap-1 my-1 border-l border-[#1E6B75] ml-4">
+                    {TRIBUTARY_LIST.map((trib) => {
+                      const isTribCurr = activeTributary === trib.id;
+                      return (
+                        <a
+                          key={trib.id}
+                          href={`#${trib.anchorId}`}
+                          className={`min-h-[38px] px-3 rounded-lg flex items-center justify-between text-[0.8125rem] font-mono transition-colors ${
+                            isTribCurr
+                              ? "bg-[#BFF0EA] text-[#0B2A30] font-semibold"
+                              : "text-[#CDE7E4] hover:bg-[#134E5A]"
+                          }`}
+                          onClick={() => {
+                            const pop = document.getElementById(
+                              "mobile-depth-popover"
+                            ) as HTMLElement & {
+                              hidePopover?: () => void;
+                            };
+                            if (pop && typeof pop.hidePopover === "function") {
+                              pop.hidePopover();
+                            }
+                          }}
+                        >
+                          <span>↳ {trib.projectTitle}</span>
+                          <span>{trib.depthMeters}m</span>
+                        </a>
+                      );
+                    })}
+                  </div>
                 )}
-              </a>
+              </React.Fragment>
             );
           })}
 
@@ -294,14 +402,16 @@ export default function DepthGauge() {
             type="button"
             onClick={() => {
               toggleTheme();
-              const pop = document.getElementById("mobile-depth-popover") as HTMLElement & {
+              const pop = document.getElementById(
+                "mobile-depth-popover"
+              ) as HTMLElement & {
                 hidePopover?: () => void;
               };
               if (pop && typeof pop.hidePopover === "function") {
                 pop.hidePopover();
               }
             }}
-            className="min-h-[48px] px-4 rounded-xl flex items-center justify-between text-[0.9375rem] font-medium text-[#CDE7E4] hover:bg-[#134E5A]"
+            className="min-h-[44px] px-4 rounded-xl flex items-center justify-between text-[0.9375rem] font-medium text-[#CDE7E4] hover:bg-[#134E5A] transition-colors w-full text-left"
           >
             <span>Switch to {alternateModeName}</span>
             <svg
@@ -317,7 +427,11 @@ export default function DepthGauge() {
             >
               <circle cx="12" cy="12" r="9" />
               <path d="M12 3v18" />
-              <path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" opacity={isDeep ? "0" : "0.75"} />
+              <path
+                d="M12 3a9 9 0 0 1 0 18z"
+                fill="currentColor"
+                opacity={isDeep ? "0" : "0.75"}
+              />
             </svg>
           </button>
         </div>

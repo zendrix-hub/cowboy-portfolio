@@ -5,41 +5,47 @@
 @layer base {
   :root {
     --zone-1-bg: #EDF7F6;
-    --zone-2-bg: #C9E6E4;
-    --zone-3-bg: #1E6B75;
-    --zone-4-bg: #134E5A;
-    --zone-4-alt-bg: #1A5B68;
-    --zone-5-bg: #0C3742;
-    --zone-6-bg: #072830;
+    --zone-2-bg: #DCEEEB;
+    --zone-3-bg: #E0F4F2;
+    --zone-4-bg: #D2EAE7;
+    --zone-4-alt-bg: #C4E2DF;
+    --zone-5-bg: #B8DDD9;
+    --zone-6-bg: #ACD6D2;
 
     --fg: #0B2A30;
-    --fg-2: #2F5158;
-    --line: #0F5560;
+    --fg-2: #254B52;
+    --line: #0D5C68;
     --focus: #0B2A30;
 
-    --current-line-upper: #0F5560;
-    --current-line-lower: #BFF0EA;
+    --current-line-upper: #0D5C68;
+    --current-line-lower: #0A6C74;
+
+    --tributary-surface: #F2FBFA;
+    --tributary-glow: rgba(13, 148, 136, 0.16);
 
     --gauge-core: #F2FBFA;
     --gauge-casing: #0B2A30;
   }
 
   .dark {
-    --zone-1-bg: #1A4A55;
-    --zone-2-bg: #123B4A;
-    --zone-3-bg: #0E2F44;
-    --zone-4-bg: #0B2438;
-    --zone-4-alt-bg: #0F3347;
-    --zone-5-bg: #081B2E;
-    --zone-6-bg: #051222;
+    --zone-1-bg: #133A43;
+    --zone-2-bg: #0F303A;
+    --zone-3-bg: #0A2630;
+    --zone-4-bg: #09202C;
+    --zone-4-alt-bg: #0D2A38;
+    --zone-5-bg: #071924;
+    --zone-6-bg: #05121B;
 
     --fg: #F2FBFA;
-    --fg-2: #CDE7E4;
-    --line: #BFF0EA;
+    --fg-2: #C2E3E0;
+    --line: #7CE8DD;
     --focus: #F2FBFA;
 
-    --current-line-upper: #BFF0EA;
-    --current-line-lower: #BFF0EA;
+    --current-line-upper: #7CE8DD;
+    --current-line-lower: #5EEAD4;
+
+    --tributary-surface: #0D333E;
+    --tributary-glow: rgba(45, 212, 191, 0.18);
 
     --gauge-core: #F2FBFA;
     --gauge-casing: #0B2A30;
@@ -63,7 +69,7 @@
     padding: 0;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
-    transition: background-color 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background-color 700ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* Accessible visible focus styles (§6.3.11, §11.5) */
@@ -73,90 +79,207 @@
   }
 }
 
-/* Zone Tokens with Smooth 600ms Theme Transitions (§6.3.2) */
+/* =========================================================================
+   Adaptive Tributary Shifts (Light Mode / Surface Mode)
+   All pairs mathematically verified for WCAG 2.2 AA (>= 4.5:1 text, >= 3:1 UI)
+   ========================================================================= */
+
+:root:not(.dark) #current-page-wrapper[data-tributary="daloyaqua"] {
+  --zone-3-bg: #E3F6F3;
+  --current-line-lower: #0A6C74;
+  --tributary-surface: #F2FCFA;
+  --tributary-glow: rgba(13, 148, 136, 0.2);
+}
+:root:not(.dark) #current-page-wrapper[data-tributary="daloyaqua"] .zone-3 {
+  --fg: #062B30;
+  --fg-2: #1E4E54;
+  --line: #0A6C74;
+  --focus: #062B30;
+}
+
+:root:not(.dark) #current-page-wrapper[data-tributary="playit"] {
+  --zone-3-bg: #EEF0FF;
+  --current-line-lower: #4338CA;
+  --tributary-surface: #F7F8FF;
+  --tributary-glow: rgba(79, 70, 229, 0.18);
+}
+:root:not(.dark) #current-page-wrapper[data-tributary="playit"] .zone-3 {
+  --fg: #17163B;
+  --fg-2: #383666;
+  --line: #4338CA;
+  --focus: #17163B;
+}
+
+:root:not(.dark) #current-page-wrapper[data-tributary="readhub"] {
+  --zone-3-bg: #EBF5FF;
+  --current-line-lower: #0369A1;
+  --tributary-surface: #F5FAFF;
+  --tributary-glow: rgba(2, 132, 199, 0.18);
+}
+:root:not(.dark) #current-page-wrapper[data-tributary="readhub"] .zone-3 {
+  --fg: #0C233B;
+  --fg-2: #284766;
+  --line: #0369A1;
+  --focus: #0C233B;
+}
+
+:root:not(.dark) #current-page-wrapper[data-tributary="gordon-ramsai"] {
+  --zone-3-bg: #FFF4EC;
+  --current-line-lower: #B44118;
+  --tributary-surface: #FFFAF6;
+  --tributary-glow: rgba(217, 78, 31, 0.18);
+}
+:root:not(.dark) #current-page-wrapper[data-tributary="gordon-ramsai"] .zone-3 {
+  --fg: #36170B;
+  --fg-2: #63321E;
+  --line: #B44118;
+  --focus: #36170B;
+}
+
+/* =========================================================================
+   Adaptive Tributary Shifts (Dark Mode / Deep Mode)
+   All pairs mathematically verified for WCAG 2.2 AA (>= 4.5:1 text, >= 3:1 UI)
+   ========================================================================= */
+
+.dark #current-page-wrapper[data-tributary="daloyaqua"] {
+  --zone-3-bg: #072C33;
+  --current-line-lower: #2DD4BF;
+  --tributary-surface: #0C3B44;
+  --tributary-glow: rgba(45, 212, 191, 0.22);
+}
+.dark #current-page-wrapper[data-tributary="daloyaqua"] .zone-3 {
+  --fg: #F0FDFA;
+  --fg-2: #B8E8E2;
+  --line: #2DD4BF;
+  --focus: #F0FDFA;
+}
+
+.dark #current-page-wrapper[data-tributary="playit"] {
+  --zone-3-bg: #17153B;
+  --current-line-lower: #A5B4FC;
+  --tributary-surface: #221F54;
+  --tributary-glow: rgba(129, 140, 248, 0.24);
+}
+.dark #current-page-wrapper[data-tributary="playit"] .zone-3 {
+  --fg: #F5F3FF;
+  --fg-2: #D4D0F5;
+  --line: #A5B4FC;
+  --focus: #F5F3FF;
+}
+
+.dark #current-page-wrapper[data-tributary="readhub"] {
+  --zone-3-bg: #0C2238;
+  --current-line-lower: #7DD3FC;
+  --tributary-surface: #12314F;
+  --tributary-glow: rgba(56, 189, 248, 0.22);
+}
+.dark #current-page-wrapper[data-tributary="readhub"] .zone-3 {
+  --fg: #F0F9FF;
+  --fg-2: #C2DFF5;
+  --line: #7DD3FC;
+  --focus: #F0F9FF;
+}
+
+.dark #current-page-wrapper[data-tributary="gordon-ramsai"] {
+  --zone-3-bg: #2B1610;
+  --current-line-lower: #FDBA74;
+  --tributary-surface: #3D2017;
+  --tributary-glow: rgba(251, 146, 60, 0.22);
+}
+.dark #current-page-wrapper[data-tributary="gordon-ramsai"] .zone-3 {
+  --fg: #FFF7ED;
+  --fg-2: #F5D0B8;
+  --line: #FDBA74;
+  --focus: #FFF7ED;
+}
+
+/* =========================================================================
+   Zone Base Tokens with Smooth 700ms Theme & Tributary Transitions (§6.3.2)
+   ========================================================================= */
+
 .zone-1 {
   background-color: var(--zone-1-bg);
   --zone-bg: var(--zone-1-bg);
-  transition: background-color 600ms cubic-bezier(0.4, 0, 0.2, 1),
-              color 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background-color 700ms cubic-bezier(0.4, 0, 0.2, 1),
+              color 700ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 :root:not(.dark) .zone-1 {
   --fg: #0B2A30;
-  --fg-2: #2F5158;
-  --line: #0F5560;
+  --fg-2: #254B52;
+  --line: #0D5C68;
   --focus: #0B2A30;
 }
 
 .zone-2 {
   background-color: var(--zone-2-bg);
   --zone-bg: var(--zone-2-bg);
-  transition: background-color 600ms cubic-bezier(0.4, 0, 0.2, 1),
-              color 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background-color 700ms cubic-bezier(0.4, 0, 0.2, 1),
+              color 700ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 :root:not(.dark) .zone-2 {
   --fg: #0B2A30;
-  --fg-2: #2F5158;
-  --line: #0F5560;
+  --fg-2: #254B52;
+  --line: #0D5C68;
   --focus: #0B2A30;
 }
 
 .zone-3 {
   background-color: var(--zone-3-bg);
   --zone-bg: var(--zone-3-bg);
-  transition: background-color 600ms cubic-bezier(0.4, 0, 0.2, 1),
-              color 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background-color 700ms cubic-bezier(0.4, 0, 0.2, 1),
+              color 700ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 :root:not(.dark) .zone-3 {
-  --fg: #F2FBFA;
-  --fg-2: #CDE7E4;
-  --line: #BFF0EA;
-  --focus: #F2FBFA;
+  --fg: #082930;
+  --fg-2: #224B52;
+  --line: #0B6470;
+  --focus: #082930;
 }
 
 .zone-4 {
   background-color: var(--zone-4-bg);
   --zone-bg: var(--zone-4-bg);
-  transition: background-color 600ms cubic-bezier(0.4, 0, 0.2, 1),
-              color 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background-color 700ms cubic-bezier(0.4, 0, 0.2, 1),
+              color 700ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 :root:not(.dark) .zone-4 {
-  --fg: #F2FBFA;
-  --fg-2: #CDE7E4;
-  --line: #BFF0EA;
-  --focus: #F2FBFA;
+  --fg: #0B2A30;
+  --fg-2: #22484F;
+  --line: #0D5C68;
+  --focus: #0B2A30;
 }
 
 .zone-4-alt {
   background-color: var(--zone-4-alt-bg) !important;
   --zone-bg: var(--zone-4-alt-bg) !important;
-  transition: background-color 600ms cubic-bezier(0.4, 0, 0.2, 1),
-              color 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background-color 700ms cubic-bezier(0.4, 0, 0.2, 1),
+              color 700ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .zone-5 {
   background-color: var(--zone-5-bg);
   --zone-bg: var(--zone-5-bg);
-  transition: background-color 600ms cubic-bezier(0.4, 0, 0.2, 1),
-              color 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background-color 700ms cubic-bezier(0.4, 0, 0.2, 1),
+              color 700ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 :root:not(.dark) .zone-5 {
-  --fg: #F2FBFA;
-  --fg-2: #CDE7E4;
-  --line: #BFF0EA;
-  --focus: #F2FBFA;
+  --fg: #09262C;
+  --fg-2: #21464D;
+  --line: #0B5661;
+  --focus: #09262C;
 }
 
 .zone-6 {
   background-color: var(--zone-6-bg);
   --zone-bg: var(--zone-6-bg);
-  transition: background-color 600ms cubic-bezier(0.4, 0, 0.2, 1),
-              color 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background-color 700ms cubic-bezier(0.4, 0, 0.2, 1),
+              color 700ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 :root:not(.dark) .zone-6 {
-  --fg: #F2FBFA;
-  --fg-2: #CDE7E4;
-  --line: #BFF0EA;
-  --focus: #F2FBFA;
+  --fg: #072227;
+  --fg-2: #1D4249;
+  --line: #094F59;
+  --focus: #072227;
 }
 
 .dark .zone-1,
@@ -166,8 +289,8 @@
 .dark .zone-5,
 .dark .zone-6 {
   --fg: #F2FBFA;
-  --fg-2: #CDE7E4;
-  --line: #BFF0EA;
+  --fg-2: #C2E3E0;
+  --line: #7CE8DD;
   --focus: #F2FBFA;
 }
 
@@ -229,8 +352,8 @@
   border: none;
   cursor: pointer;
   transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
-              background-color 600ms cubic-bezier(0.4, 0, 0.2, 1),
-              color 600ms cubic-bezier(0.4, 0, 0.2, 1);
+              background-color 700ms cubic-bezier(0.4, 0, 0.2, 1),
+              color 700ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -247,15 +370,15 @@
 /* SVG Line Gradient Hard Stops with CSS-Driven Transitions */
 .current-stop-upper {
   stop-color: var(--current-line-upper);
-  transition: stop-color 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: stop-color 700ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .current-stop-lower {
   stop-color: var(--current-line-lower);
-  transition: stop-color 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: stop-color 700ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* World 03 Editorial Portrait Mask: eased multi-stop cubic dissolve from mid-chest (zero hard cutoff) */
+/* World 03 Editorial Portrait Mask */
 .current-portrait-mask,
 .current-portrait-mask img {
   -webkit-mask-image: linear-gradient(
@@ -282,7 +405,7 @@
   mask-repeat: no-repeat;
 }
 
-/* World 03 Hero Portrait Animations */
+/* World 03 Hero Portrait & Tributary Hydrodynamic Animations */
 @keyframes portraitEnter {
   0% {
     opacity: 0;
@@ -314,6 +437,46 @@
   }
 }
 
+@keyframes tributaryRipple {
+  0%, 100% {
+    transform: scale(0.94);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.4;
+  }
+}
+
+@keyframes tributaryStreamDash {
+  0% {
+    stroke-dashoffset: 48;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes tributaryBarPulse {
+  0%, 100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.65);
+  }
+}
+
+@keyframes tributarySplinePulse {
+  0% {
+    stroke-dashoffset: 1800;
+    opacity: 0.95;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
 .animate-portrait-enter {
   animation: portraitEnter 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
@@ -324,6 +487,49 @@
 
 .animate-ambient-pulse {
   animation: ambientPulse 6.5s ease-in-out infinite;
+}
+
+.tributary-ripple-1 {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: tributaryRipple 3.2s ease-in-out infinite;
+}
+
+.tributary-ripple-2 {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: tributaryRipple 3.2s ease-in-out 0.6s infinite;
+}
+
+.tributary-ripple-3 {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: tributaryRipple 3.2s ease-in-out 1.2s infinite;
+}
+
+.tributary-wave-flow {
+  stroke-dasharray: 12 6;
+  animation: tributaryStreamDash 2.6s linear infinite;
+}
+
+.tributary-stream-dash {
+  animation: tributaryStreamDash 1.8s linear infinite;
+}
+
+.tributary-bar-pulse-a {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: tributaryBarPulse 1.4s ease-in-out infinite;
+}
+
+.tributary-bar-pulse-b {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: tributaryBarPulse 1.4s ease-in-out 0.45s infinite;
+}
+
+.tributary-spline-pulse {
+  animation: tributarySplinePulse 1.1s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
 }
 
 /* Reduced Motion (§6.3.11, §11.4) */
@@ -340,6 +546,7 @@
   .zone-4-alt,
   .current-stop-upper,
   .current-stop-lower,
+  #current-page-wrapper,
   body {
     transition: none !important;
   }
@@ -356,7 +563,15 @@
   }
   .animate-portrait-enter,
   .animate-current-float,
-  .animate-ambient-pulse {
+  .animate-ambient-pulse,
+  .tributary-ripple-1,
+  .tributary-ripple-2,
+  .tributary-ripple-3,
+  .tributary-wave-flow,
+  .tributary-stream-dash,
+  .tributary-bar-pulse-a,
+  .tributary-bar-pulse-b,
+  .tributary-spline-pulse {
     animation: none !important;
     transform: none !important;
   }

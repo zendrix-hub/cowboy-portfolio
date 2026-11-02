@@ -54,6 +54,9 @@ export default function CurrentAbout() {
 
         {/* Right Area (Reading Column): 7 columns (desktop), text on right */}
         <div className="lg:col-span-7 flex flex-col items-start max-w-[36rem] order-1 lg:order-2">
+          <span className="font-mono text-[0.8125rem] uppercase tracking-widest text-[var(--fg-2)] block mb-3">
+            ZONE 02 // UPPER RAPIDS • 120m CHANNEL DEPTH
+          </span>
           <h2
             id="about-title"
             className="font-fraunces text-[clamp(2.75rem,7vw,6rem)] leading-[1.0] text-[var(--fg)] tracking-normal m-0"

@@ -1,6 +1,17 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useCallback, useSyncExternalStore } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+  useSyncExternalStore,
+} from "react";
+import {
+  useCurrentContext,
+  TRIBUTARIES,
+  type TributaryId,
+} from "./CurrentContext";
 
 interface SamplePoint {
   x: number;
@@ -15,6 +26,7 @@ interface NodeData {
   isFilled: boolean;
   lengthOnPath: number;
   isEddy?: boolean;
+  tributaryId?: TributaryId;
 }
 
 interface TickData {
@@ -63,6 +75,7 @@ function catmullRomToBezier(points: [number, number][], tension = 0.5): string {
 }
 
 export default function CurrentLine() {
+  const { activeTributary } = useCurrentContext();
   const containerRef = useRef<SVGSVGElement | null>(null);
   const pathRef = useRef<SVGPathElement | null>(null);
 
@@ -95,7 +108,7 @@ export default function CurrentLine() {
     () => false
   );
 
-  // Build waypoints and Catmull-Rom path (independent of theme to avoid theme-switch recalculations)
+  // Build waypoints and Catmull-Rom path
   const rebuildPath = useCallback(() => {
     const pageWrapper = document.getElementById("current-page-wrapper");
     if (!pageWrapper) return;
@@ -104,7 +117,6 @@ export default function CurrentLine() {
     const layoutWidth = wrapperRect.width;
     const layoutHeight = wrapperRect.height;
 
-    // Prevent redundant rebuilds if dimensions haven't changed significantly
     if (
       Math.abs(lastDimensionsRef.current.w - layoutWidth) < 2 &&
       Math.abs(lastDimensionsRef.current.h - layoutHeight) < 2
@@ -118,12 +130,18 @@ export default function CurrentLine() {
 
     setTotalHeight(layoutHeight);
 
-    // Channel positions (§6.3.12)
     const leftX = isDesktop ? layoutWidth * 0.08 : 12;
     const rightX = isDesktop ? layoutWidth * 0.92 : 12;
     const centerX = layoutWidth * 0.5;
 
-    const zones = ["home", "about", "projects", "skills", "experience", "contact"];
+    const zones = [
+      "home",
+      "about",
+      "projects",
+      "skills",
+      "experience",
+      "contact",
+    ];
     const zoneElements = zones.map((id) => document.getElementById(id));
     const zoneRects = zoneElements.map((el) => {
       if (!el) return null;
@@ -135,7 +153,6 @@ export default function CurrentLine() {
       };
     });
 
-    // Compute Zone 3 boundary percentage for CSS-based gradient stops
     if (zoneRects[2] && layoutHeight > 0) {
       const z3Boundary = Math.max(0, Math.min(layoutHeight, zoneRects[2].top));
       setZ3BoundaryPercent((z3Boundary / layoutHeight) * 100);
@@ -145,7 +162,6 @@ export default function CurrentLine() {
     const detectedNodes: NodeData[] = [];
     const detectedTicks: TickData[] = [];
 
-    // Origin: end-of-name marker in Zone 1 (§6.3.4)
     const originMarker = document.getElementById("hero-line-origin");
     let originX = leftX;
     let originY = 200;
@@ -156,7 +172,6 @@ export default function CurrentLine() {
       originY = markerRect.top + markerRect.height / 2 - wrapperRect.top;
     }
 
-    // Node 0: Origin Node
     waypoints.push([originX, originY]);
     detectedNodes.push({
       id: "node-origin",
@@ -167,42 +182,35 @@ export default function CurrentLine() {
     });
 
     if (isDesktop) {
-      // Zone 1: Home (Text left, channel right)
       const z1 = zoneRects[0];
       const z2 = zoneRects[1];
 
-      // Smooth descent from origin name end to right channel
       waypoints.push([originX + (rightX - originX) * 0.4, originY + 60]);
       waypoints.push([rightX, originY + 160]);
 
       if (z1) {
         waypoints.push([rightX, z1.bottom - z1.height * 0.12]);
 
-        // Crossover between Zone 1 and 2 (§6.3.12)
         const boundary12 = z1.bottom;
         waypoints.push([rightX, boundary12 - 96]);
         waypoints.push([centerX, boundary12]);
         waypoints.push([leftX, boundary12 + 96]);
       }
 
-      // Zone 2: About (Text right, channel left)
       if (z2) {
         waypoints.push([leftX, z2.top + z2.height * 0.12]);
         waypoints.push([leftX, z2.bottom - z2.height * 0.12]);
 
-        // Crossover between Zone 2 and 3
         const boundary23 = z2.bottom;
         waypoints.push([leftX, boundary23 - 96]);
         waypoints.push([centerX, boundary23]);
         waypoints.push([rightX, boundary23 + 96]);
       }
 
-      // Zone 3: Projects (Text left, channel right)
       const z3 = zoneRects[2];
       if (z3) {
         waypoints.push([rightX, z3.top + z3.height * 0.08]);
 
-        // Eddy Chamber around DaloyAqua (§6.3.7, §6.3.12)
         const eddyEl = document.getElementById("node-daloyaqua");
         let eddyY = z3.top + z3.height * 0.25;
         if (eddyEl) {
@@ -218,9 +226,9 @@ export default function CurrentLine() {
           isFilled: false,
           lengthOnPath: 0,
           isEddy: true,
+          tributaryId: "daloyaqua",
         });
 
-        // Loop of 8 points clockwise from top
         for (let angle = 0; angle <= 360; angle += 45) {
           const rad = (angle * Math.PI) / 180;
           const px = rightX + eddyRadius * Math.sin(rad);
@@ -228,7 +236,6 @@ export default function CurrentLine() {
           waypoints.push([px, py]);
         }
 
-        // Supporting project stations
         const stationEls = Array.from(
           document.querySelectorAll('#projects [data-node="station"]')
         );
@@ -236,6 +243,9 @@ export default function CurrentLine() {
           const sr = stEl.getBoundingClientRect();
           const sy = sr.top + sr.height / 2 - wrapperRect.top;
           const sx = rightX - layoutWidth * 0.02;
+          const tribAttr = stEl.getAttribute(
+            "data-tributary-node"
+          ) as TributaryId | null;
 
           waypoints.push([rightX, sy - 40]);
           waypoints.push([sx, sy]);
@@ -247,9 +257,9 @@ export default function CurrentLine() {
             y: sy,
             isFilled: false,
             lengthOnPath: 0,
+            tributaryId: tribAttr || undefined,
           });
 
-          // 24px tick extending toward text (leftwards)
           detectedTicks.push({
             x1: sx,
             y1: sy,
@@ -261,27 +271,23 @@ export default function CurrentLine() {
 
         waypoints.push([rightX, z3.bottom - z3.height * 0.1]);
 
-        // Crossover between Zone 3 and 4
         const boundary34 = z3.bottom;
         waypoints.push([rightX, boundary34 - 96]);
         waypoints.push([centerX, boundary34]);
         waypoints.push([leftX, boundary34 + 96]);
       }
 
-      // Zone 4: Skills (Text right, channel left)
       const z4 = zoneRects[3];
       if (z4) {
         waypoints.push([leftX, z4.top + z4.height * 0.1]);
         waypoints.push([leftX, z4.bottom - z4.height * 0.1]);
 
-        // Crossover between Zone 4 and 5
         const boundary45 = z4.bottom;
         waypoints.push([leftX, boundary45 - 96]);
         waypoints.push([centerX, boundary45]);
         waypoints.push([rightX, boundary45 + 96]);
       }
 
-      // Zone 5: Experience (Text left, channel right)
       const z5 = zoneRects[4];
       if (z5) {
         waypoints.push([rightX, z5.top + z5.height * 0.08]);
@@ -307,7 +313,6 @@ export default function CurrentLine() {
             lengthOnPath: 0,
           });
 
-          // 24px tick toward text
           detectedTicks.push({
             x1: ex,
             y1: ey,
@@ -319,26 +324,24 @@ export default function CurrentLine() {
 
         waypoints.push([rightX, z5.bottom - z5.height * 0.1]);
 
-        // Crossover between Zone 5 and 6
         const boundary56 = z5.bottom;
         waypoints.push([rightX, boundary56 - 96]);
         waypoints.push([centerX, boundary56]);
         waypoints.push([leftX, boundary56 + 96]);
       }
 
-      // Zone 6: Contact (Text right, channel left)
       const z6 = zoneRects[5];
       if (z6) {
         waypoints.push([leftX, z6.top + z6.height * 0.1]);
 
-        // Terminal Underline Segment under Contact Email Address (§6.3.10, §6.3.12)
         const emailEl = document.getElementById("contact-email-link");
         if (emailEl) {
           const emailRect = emailEl.getBoundingClientRect();
           const range = document.createRange();
           range.selectNodeContents(emailEl);
           const rects = range.getClientRects();
-          const lastLineRect = rects.length > 0 ? rects[rects.length - 1] : emailRect;
+          const lastLineRect =
+            rects.length > 0 ? rects[rects.length - 1] : emailRect;
 
           const underlineY = lastLineRect.bottom - wrapperRect.top + 10;
           const underlineStart = lastLineRect.left - wrapperRect.left;
@@ -351,7 +354,6 @@ export default function CurrentLine() {
         }
       }
     } else {
-      // Mobile / Tablet (<1024px): Single Left Channel (x = 12px) (§6.3.12 step 5)
       waypoints.push([leftX, originY + 80]);
 
       zoneRects.forEach((z, zIdx) => {
@@ -359,11 +361,31 @@ export default function CurrentLine() {
         waypoints.push([leftX, z.top + z.height * 0.2]);
 
         if (zIdx === 2) {
-          // Projects on mobile: stations with 12px ticks
-          const stationEls = Array.from(document.querySelectorAll('[data-node="station"]'));
+          const eddyEl = document.getElementById("node-daloyaqua");
+          if (eddyEl) {
+            const er = eddyEl.getBoundingClientRect();
+            const ey = er.top + er.height / 2 - wrapperRect.top;
+            waypoints.push([leftX, ey]);
+            detectedNodes.push({
+              id: "node-daloyaqua",
+              x: leftX,
+              y: ey,
+              isFilled: false,
+              lengthOnPath: 0,
+              isEddy: true,
+              tributaryId: "daloyaqua",
+            });
+          }
+
+          const stationEls = Array.from(
+            document.querySelectorAll('[data-node="station"]')
+          );
           stationEls.forEach((stEl, sIdx) => {
             const sr = stEl.getBoundingClientRect();
             const sy = sr.top + sr.height / 2 - wrapperRect.top;
+            const tribAttr = stEl.getAttribute(
+              "data-tributary-node"
+            ) as TributaryId | null;
             waypoints.push([leftX, sy]);
             detectedNodes.push({
               id: stEl.id || `node-project-${sIdx}`,
@@ -371,6 +393,7 @@ export default function CurrentLine() {
               y: sy,
               isFilled: false,
               lengthOnPath: 0,
+              tributaryId: tribAttr || undefined,
             });
             detectedTicks.push({
               x1: leftX,
@@ -381,8 +404,9 @@ export default function CurrentLine() {
             });
           });
         } else if (zIdx === 4) {
-          // Experience on mobile
-          const expEls = Array.from(document.querySelectorAll('[data-node="waypoint"]'));
+          const expEls = Array.from(
+            document.querySelectorAll('[data-node="waypoint"]')
+          );
           expEls.forEach((expEl, eIdx) => {
             const er = expEl.getBoundingClientRect();
             const ey = er.top + er.height / 2 - wrapperRect.top;
@@ -408,7 +432,6 @@ export default function CurrentLine() {
         waypoints.push([leftX, z.bottom - z.height * 0.1]);
       });
 
-      // Contact underline on mobile
       const emailEl = document.getElementById("contact-email-link");
       if (emailEl) {
         const emailRect = emailEl.getBoundingClientRect();
@@ -428,8 +451,7 @@ export default function CurrentLine() {
     setTicks(detectedTicks);
   }, []);
 
-  // Pre-sample path geometry once rendered (§6.3.12 step 4)
-  // OPTIMIZED: Samples in memory once to avoid thousands of getPointAtLength calls
+  // Pre-sample path geometry once rendered
   useEffect(() => {
     const pathEl = pathRef.current;
     if (!pathEl || !pathData) return;
@@ -446,15 +468,16 @@ export default function CurrentLine() {
       }
       samplesRef.current = samples;
 
-      // In-memory distance check against samples (0 DOM calls!)
-      // Asynchronously schedule setState to satisfy react-hooks/set-state-in-effect
       requestAnimationFrame(() => {
         setNodes((prevNodes) =>
           prevNodes.map((node) => {
             let closestDist = Infinity;
             let matchedLen = 0;
             for (let i = 0; i < samples.length; i++) {
-              const dist = Math.hypot(samples[i].x - node.x, samples[i].y - node.y);
+              const dist = Math.hypot(
+                samples[i].x - node.x,
+                samples[i].y - node.y
+              );
               if (dist < closestDist) {
                 closestDist = dist;
                 matchedLen = samples[i].len;
@@ -469,7 +492,10 @@ export default function CurrentLine() {
             let closestDist = Infinity;
             let matchedLen = 0;
             for (let i = 0; i < samples.length; i++) {
-              const dist = Math.hypot(samples[i].x - tick.x1, samples[i].y - tick.y1);
+              const dist = Math.hypot(
+                samples[i].x - tick.x1,
+                samples[i].y - tick.y1
+              );
               if (dist < closestDist) {
                 closestDist = dist;
                 matchedLen = samples[i].len;
@@ -484,22 +510,22 @@ export default function CurrentLine() {
     }
   }, [pathData]);
 
-  // Orchestrated Moment: First Stroke over 1.4s on load (§6.3.4, §6.3.11)
+  // Orchestrated Moment: First Stroke over 1.4s on load
   useEffect(() => {
     if (isReducedMotion) {
       return;
     }
 
     let startTime: number | null = null;
-    const duration = 1400; // 1.4s
+    const duration = 1400;
     let animId: number;
 
     const animateFirstStroke = (time: number) => {
       if (!startTime) startTime = time;
       const elapsed = time - startTime;
       const t = Math.min(1, elapsed / duration);
-      // cubic-bezier(.4, 0, .2, 1) approx
-      const ease = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      const ease =
+        t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
       const firstViewportDist = Math.min(
         window.innerHeight * 1.1,
@@ -516,7 +542,7 @@ export default function CurrentLine() {
     return () => cancelAnimationFrame(animId);
   }, [isReducedMotion]);
 
-  // Passive Scroll Handler (§6.3.12 step 4 & step 8)
+  // Passive Scroll Handler
   useEffect(() => {
     if (isReducedMotion) {
       if (pathRef.current) {
@@ -538,10 +564,8 @@ export default function CurrentLine() {
         const samples = samplesRef.current;
         if (!pathEl || total === 0 || samples.length === 0) return;
 
-        // targetY = scrollY + 0.85 * innerHeight (§6.3.12 step 4)
         const targetY = window.scrollY + 0.85 * window.innerHeight;
 
-        // Binary search samples array for precomputed length (O(log n))
         let low = 0;
         let high = samples.length - 1;
         while (low <= high) {
@@ -560,11 +584,9 @@ export default function CurrentLine() {
           Math.max(introProgressRef.current, scrollLen)
         );
 
-        // Update stroke-dashoffset via style without React rerender
         pathEl.style.strokeDasharray = `${total}`;
         pathEl.style.strokeDashoffset = `${Math.max(0, total - currentDrawn)}`;
 
-        // Nodes & ticks fade-in once passed
         setVisibleNodeIds((prev) => {
           let changed = false;
           const next = new Set(prev);
@@ -598,7 +620,7 @@ export default function CurrentLine() {
     };
   }, [isReducedMotion, pathData]);
 
-  // Debounced ResizeObserver & document.fonts.ready (§6.3.12 step 2)
+  // Debounced ResizeObserver & document.fonts.ready
   useEffect(() => {
     let timer: NodeJS.Timeout;
     const debouncedRebuild = () => {
@@ -616,7 +638,6 @@ export default function CurrentLine() {
       document.fonts.ready.then(debouncedRebuild);
     }
 
-    // Initial build
     const initialHandle = setTimeout(rebuildPath, 50);
 
     return () => {
@@ -625,6 +646,9 @@ export default function CurrentLine() {
       ro.disconnect();
     };
   }, [rebuildPath]);
+
+  const activeTargetNodeId =
+    activeTributary !== "none" ? TRIBUTARIES[activeTributary].nodeId : null;
 
   return (
     <svg
@@ -635,7 +659,6 @@ export default function CurrentLine() {
       focusable="false"
     >
       <defs>
-        {/* CSS-driven hard-stop gradient: smooth 600ms color transition on theme switch */}
         <linearGradient
           id="current-ink"
           gradientUnits="userSpaceOnUse"
@@ -645,8 +668,14 @@ export default function CurrentLine() {
           y2={totalHeight}
         >
           <stop offset="0%" className="current-stop-upper" />
-          <stop offset={`${z3BoundaryPercent.toFixed(2)}%`} className="current-stop-upper" />
-          <stop offset={`${z3BoundaryPercent.toFixed(2)}%`} className="current-stop-lower" />
+          <stop
+            offset={`${z3BoundaryPercent.toFixed(2)}%`}
+            className="current-stop-upper"
+          />
+          <stop
+            offset={`${z3BoundaryPercent.toFixed(2)}%`}
+            className="current-stop-lower"
+          />
           <stop offset="100%" className="current-stop-lower" />
         </linearGradient>
       </defs>
@@ -664,6 +693,24 @@ export default function CurrentLine() {
           style={{
             vectorEffect: "non-scaling-stroke",
             transition: isReducedMotion ? "none" : undefined,
+          }}
+        />
+      )}
+
+      {/* Active Tributary Hydrodynamic Wave Pulse along the Path */}
+      {pathData && activeTributary !== "none" && !isReducedMotion && (
+        <path
+          key={`pulse-${activeTributary}`}
+          d={pathData}
+          fill="none"
+          stroke="var(--current-line-lower)"
+          strokeWidth="4.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeDasharray="120 2400"
+          className="tributary-spline-pulse"
+          style={{
+            vectorEffect: "non-scaling-stroke",
           }}
         />
       )}
@@ -689,9 +736,12 @@ export default function CurrentLine() {
         );
       })}
 
-      {/* Node Rings: 14px circles (r = 7) (§6.3.3, §6.3.12) */}
+      {/* Node Rings: 14px circles (r = 7) + Active Tributary Sonar Ring */}
       {nodes.map((node) => {
         const isVisible = isReducedMotion || visibleNodeIds.has(node.id);
+        const isActiveStation =
+          activeTargetNodeId === node.id ||
+          (node.tributaryId && node.tributaryId === activeTributary);
 
         return (
           <g
@@ -699,18 +749,36 @@ export default function CurrentLine() {
             className="transition-opacity duration-300"
             style={{ opacity: isVisible ? 1 : 0 }}
           >
+            {/* Active Tributary Outer Hydrodynamic Ripple Ring */}
+            {isActiveStation && (
+              <circle
+                cx={node.x}
+                cy={node.y}
+                r={node.isEddy ? 20 : 16}
+                fill="none"
+                stroke="var(--current-line-lower)"
+                strokeWidth="1.5"
+                opacity="0.55"
+                className={isReducedMotion ? "" : "tributary-ripple-1"}
+              />
+            )}
+
             {/* Outer Ring */}
             <circle
               cx={node.x}
               cy={node.y}
-              r={node.isEddy ? 8 : 7}
-              fill={node.isFilled ? "url(#current-ink)" : "var(--zone-bg, #0C3742)"}
+              r={isActiveStation ? 10 : node.isEddy ? 8 : 7}
+              fill={
+                node.isFilled || isActiveStation
+                  ? "url(#current-ink)"
+                  : "var(--zone-bg, #0C3742)"
+              }
               stroke="url(#current-ink)"
               strokeWidth="2"
-              className="transition-colors duration-500"
+              className="transition-all duration-500"
             />
             {/* Inner Core if hollow */}
-            {!node.isFilled && (
+            {!node.isFilled && !isActiveStation && (
               <circle
                 cx={node.x}
                 cy={node.y}

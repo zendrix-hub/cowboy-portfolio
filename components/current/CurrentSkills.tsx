@@ -13,6 +13,9 @@ export default function CurrentSkills() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           <div className="lg:col-span-5 hidden lg:block" aria-hidden="true" />
           <div className="lg:col-span-7 max-w-[36rem]">
+            <span className="font-mono text-[0.8125rem] uppercase tracking-widest text-[var(--fg-2)] block mb-3">
+              ZONE 04 // RIVERBED STRATA • 650m SEDIMENT LAYERS
+            </span>
             <h2
               id="skills-title"
               className="font-fraunces text-[clamp(2.75rem,7vw,6rem)] leading-[1.0] text-[var(--fg)] tracking-normal m-0"

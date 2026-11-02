@@ -11,6 +11,9 @@ export default function CurrentExperience() {
       <div className="w-full max-w-[1440px] mx-auto flex flex-col gap-24 sm:gap-32 relative z-10">
         {/* Section Heading */}
         <div className="max-w-[36rem]">
+          <span className="font-mono text-[0.8125rem] uppercase tracking-widest text-[var(--fg-2)] block mb-3">
+            ZONE 05 // HISTORICAL MEANDER • 750m COURSE WAYPOINTS
+          </span>
           <h2
             id="experience-title"
             className="font-fraunces text-[clamp(2.75rem,7vw,6rem)] leading-[1.0] text-[var(--fg)] tracking-normal m-0"

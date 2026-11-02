@@ -29,6 +29,9 @@ export default function CurrentContact() {
 
         {/* Right Reading Column: 8 cols (desktop), text on right (§6.3.10) */}
         <div className="lg:col-span-8 flex flex-col items-start max-w-[42rem]">
+          <span className="font-mono text-[0.8125rem] uppercase tracking-widest text-[var(--fg-2)] block mb-3">
+            ZONE 06 // OCEAN OUTFALL • 850m TERMINAL DELTA
+          </span>
           <h2
             id="contact-title"
             className="font-fraunces text-[clamp(2.75rem,7vw,6rem)] leading-[1.0] text-[var(--fg)] tracking-normal m-0"

@@ -92,6 +92,9 @@ export default function CurrentHero() {
       <div className="w-full max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
         {/* Reading Column: 7 columns (desktop), text on left */}
         <div className="lg:col-span-7 flex flex-col items-start max-w-[38rem]">
+          <span className="font-mono text-[0.8125rem] uppercase tracking-widest text-[var(--fg-2)] block mb-3">
+            ZONE 01 // HEADWATERS • 0m SURFACE ORIGIN
+          </span>
           {/* Name in Fraunces 300 with origin marker */}
           <h1
             id="hero-title"
