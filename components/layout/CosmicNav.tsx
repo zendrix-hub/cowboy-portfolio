@@ -20,13 +20,43 @@ import {
 import { cn } from "@/lib/utils";
 
 const SECTORS = [
-  { id: "prologue", label: "Cowboy", icon: "🤠" },
-  { id: "about", label: "Origin", icon: "✦" },
-  { id: "projects", label: "Projects", icon: "⬡" },
-  { id: "skills", label: "Skills", icon: "◈" },
-  { id: "experience", label: "Experience", icon: "❖" },
-  { id: "contact", label: "Contact", icon: "✉" },
+  { id: "prologue", label: "Cowboy", icon: "diamond" },
+  { id: "about", label: "Origin", icon: "diamond-outline" },
+  { id: "projects", label: "Projects", icon: "hexagon" },
+  { id: "skills", label: "Skills", icon: "diamond-dot" },
+  { id: "experience", label: "Experience", icon: "diamond" },
+  { id: "contact", label: "Contact", icon: "diamond-outline" },
 ];
+
+function SectorIcon({ type }: { type: string }) {
+  if (type === "hexagon") {
+    return (
+      <svg className="w-3 h-3 inline-block" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <polygon points="6,1 10.5,3.5 10.5,8.5 6,11 1.5,8.5 1.5,3.5" />
+      </svg>
+    );
+  }
+  if (type === "diamond-dot") {
+    return (
+      <svg className="w-3 h-3 inline-block" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <polygon points="6,1 11,6 6,11 1,6" />
+        <circle cx="6" cy="6" r="1.5" fill="currentColor" />
+      </svg>
+    );
+  }
+  if (type === "diamond-outline") {
+    return (
+      <svg className="w-3 h-3 inline-block" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <polygon points="6,1 11,6 6,11 1,6" />
+      </svg>
+    );
+  }
+  return (
+    <svg className="w-3 h-3 inline-block" viewBox="0 0 12 12" fill="currentColor">
+      <polygon points="6,1 11,6 6,11 1,6" />
+    </svg>
+  );
+}
 
 export default function CosmicNav() {
   const { activeSection, setActiveSection } = useSectionFocus();
@@ -112,7 +142,7 @@ export default function CosmicNav() {
                   )}
                 >
                   <span className={cn("text-[10px]", isActive ? "text-cyan-500" : "opacity-60")}>
-                    {sector.icon}
+                    <SectorIcon type={sector.icon} />
                   </span>
                   <span>{sector.label}</span>
                 </a>
@@ -226,7 +256,7 @@ export default function CosmicNav() {
                       : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 border border-transparent"
                   )}
                 >
-                  <span className="text-cyan-500">{sector.icon}</span>
+                  <span className="text-cyan-500"><SectorIcon type={sector.icon} /></span>
                   <span>{sector.label}</span>
                 </a>
               );

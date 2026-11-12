@@ -12,30 +12,30 @@ import CurrentContact from "@/components/current/CurrentContact";
 export default function Home() {
   return (
     <CurrentShell>
-      {/* Fixed Depth Gauge Navigation with Tributary Waypoints (§6.3.5) */}
+      {/* Fixed Section Navigation & Milestones */}
       <DepthGauge />
 
-      {/* The Scroll-Drawn Continuous Line & Hydrodynamic Pulse (§6.3.12) */}
+      {/* The Scroll-Drawn Continuous Line */}
       <CurrentLine />
 
-      {/* Main Content Landmarks & 6 Hydrological Zones (§4.1, §6.3.2, §11.2) */}
+      {/* Main Content Sections */}
       <main id="content" className="relative z-10 w-full flex flex-col">
-        {/* Zone 1: Surface / Headwaters (Hero • 0m) */}
+        {/* Section 1: Hero Profile */}
         <CurrentHero />
 
-        {/* Zone 2: Sunlit / Upper Rapids (About • 120m) */}
+        {/* Section 2: Professional Background */}
         <CurrentAbout />
 
-        {/* Zone 3: River Basin & Adaptive Project Tributaries (Projects • 250m–550m) */}
+        {/* Section 3: Featured Projects */}
         <CurrentProjects />
 
-        {/* Zone 4: Riverbed Strata (Skills • 650m) */}
+        {/* Section 4: Technical Skills */}
         <CurrentSkills />
 
-        {/* Zone 5: Historical Meander (Experience • 750m) */}
+        {/* Section 5: Experience & Education */}
         <CurrentExperience />
 
-        {/* Zone 6: Ocean Outfall & Abyss (Contact • 850m) */}
+        {/* Section 6: Contact & Inquiries */}
         <CurrentContact />
       </main>
     </CurrentShell>

@@ -34,7 +34,6 @@ export default function DepthGauge() {
     activeSection,
     setActiveSection,
     activeTributary,
-    scrollDepthMeters,
     setScrollDepthMeters,
   } = useCurrentContext();
 
@@ -141,8 +140,8 @@ export default function DepthGauge() {
     activeTributary !== "none" ? TRIBUTARIES[activeTributary] : null;
 
   const badgeText = activeTributaryMeta
-    ? `${activeTributaryMeta.depthMeters}m • ${activeTributaryMeta.tributaryName}`
-    : `${scrollDepthMeters}m • ${activeSectionObj.label}`;
+    ? activeTributaryMeta.projectTitle
+    : activeSectionObj.label;
 
   const isDeep = isMounted && (resolvedTheme === "dark" || theme === "dark");
   const alternateModeName = isDeep ? "Surface" : "Deep";
@@ -153,9 +152,9 @@ export default function DepthGauge() {
 
   return (
     <>
-      {/* Desktop / Tablet Depth Gauge Rail (§6.3.5) */}
+      {/* Desktop / Tablet Section Navigation Rail (§6.3.5) */}
       <nav
-        aria-label="Hydrological Depth & Section Navigation"
+        aria-label="Section Navigation"
         className="hidden sm:flex fixed right-3 lg:right-6 top-1/2 -translate-y-1/2 z-40 flex-col items-center select-none"
         onMouseEnter={() => setIsGaugeHovered(true)}
         onMouseLeave={() => setIsGaugeHovered(false)}
@@ -223,7 +222,7 @@ export default function DepthGauge() {
                       isGaugeHovered ? "opacity-100" : "opacity-0"
                     }`}
                   >
-                    {section.depth}m • {section.label}
+                    {section.label}
                   </span>
                 </a>
               );
@@ -231,11 +230,11 @@ export default function DepthGauge() {
           </div>
         </div>
 
-        {/* Tributary Sub-Waypoints (4 Clickable Station Dots) */}
+        {/* Project Sub-Links (4 Clickable Project Dots) */}
         <div
           className="mt-4 flex flex-col items-center gap-1.5 py-2 px-1.5 rounded-full bg-[#0B2A30]/90 border border-[#F2FBFA]/40 shadow-md"
           role="group"
-          aria-label="Project Tributary Stations"
+          aria-label="Project Navigation Links"
         >
           {TRIBUTARY_LIST.map((trib) => {
             const isTribActive = activeTributary === trib.id;
@@ -243,7 +242,7 @@ export default function DepthGauge() {
               <a
                 key={trib.id}
                 href={`#${trib.anchorId}`}
-                aria-label={`Jump to ${trib.tributaryName} (${trib.depthMeters}m)`}
+                aria-label={`Jump to ${trib.projectTitle}`}
                 aria-current={isTribActive ? "location" : undefined}
                 className="group relative w-6 h-6 flex items-center justify-center rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2FBFA]"
               >
@@ -255,19 +254,46 @@ export default function DepthGauge() {
                   }`}
                 />
                 <span className="absolute right-8 px-2.5 py-1 rounded-full bg-[#0B2A30] border border-[#F2FBFA] text-[#F2FBFA] text-[0.75rem] font-mono whitespace-nowrap opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity pointer-events-none shadow-md">
-                  {trib.depthMeters}m • {trib.tributaryName}
+                  {trib.projectTitle}
                 </span>
               </a>
             );
           })}
         </div>
 
+        {/* Quick Resume Download Button */}
+        <a
+          href="/resume.pdf"
+          download="RIVA_ZendrixB_BSIT_Resume.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Download Resume (PDF)"
+          title="Download Resume (PDF)"
+          className="mt-3 w-11 h-11 rounded-full border border-[#F2FBFA] bg-[#0B2A30] text-[#F2FBFA] flex items-center justify-center shadow-md hover:scale-105 active:scale-95 transition-transform duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2FBFA]"
+        >
+          <svg
+            width="17"
+            height="17"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+        </a>
+
         {/* Theme Toggle Ring (§6.3.5: 44px ring under rail) */}
         <button
           type="button"
           onClick={toggleTheme}
           aria-label={`Switch to ${alternateModeName}`}
-          className="mt-4 w-11 h-11 rounded-full border border-[#F2FBFA] bg-[#0B2A30] text-[#F2FBFA] flex items-center justify-center shadow-md hover:scale-105 active:scale-95 transition-transform duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B2A30] dark:focus-visible:ring-[#F2FBFA]"
+          className="mt-2.5 w-11 h-11 rounded-full border border-[#F2FBFA] bg-[#0B2A30] text-[#F2FBFA] flex items-center justify-center shadow-md hover:scale-105 active:scale-95 transition-transform duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B2A30] dark:focus-visible:ring-[#F2FBFA]"
           title={`Switch to ${alternateModeName}`}
         >
           <svg
@@ -396,6 +422,45 @@ export default function DepthGauge() {
           })}
 
           <div className="h-[1px] bg-[#1E6B75] my-1" aria-hidden="true" />
+
+          {/* Direct Resume Download Link */}
+          <a
+            href="/resume.pdf"
+            download="RIVA_ZendrixB_BSIT_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="min-h-[44px] px-4 rounded-xl flex items-center justify-between text-[0.9375rem] font-semibold text-[#5EEAD4] bg-[#072429] border border-[#14B8A6]/40 hover:bg-[#134E5A] transition-colors w-full"
+            onClick={() => {
+              const pop = document.getElementById(
+                "mobile-depth-popover"
+              ) as HTMLElement & {
+                hidePopover?: () => void;
+              };
+              if (pop && typeof pop.hidePopover === "function") {
+                pop.hidePopover();
+              }
+            }}
+          >
+            <span className="flex items-center gap-2">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              <span>Download Resume (PDF)</span>
+            </span>
+            <span className="font-mono text-[0.6875rem] opacity-75">54 KB</span>
+          </a>
 
           {/* Theme Toggle within Mobile Popover */}
           <button

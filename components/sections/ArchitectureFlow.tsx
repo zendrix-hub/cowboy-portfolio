@@ -19,15 +19,38 @@ interface ArchitectureFlowProps {
   steps: ArchitectureStep[];
   projectTitle: string;
   defaultOpen?: boolean;
+  selectedStepIndex?: number | null;
+  onSelectStepIndex?: (idx: number | null) => void;
+  forceOpen?: boolean;
+  highlightTradeoff?: boolean;
 }
 
 export default function ArchitectureFlow({
   steps,
   projectTitle,
   defaultOpen = false,
+  selectedStepIndex: controlledStepIndex,
+  onSelectStepIndex,
+  forceOpen = false,
+  highlightTradeoff = false,
 }: ArchitectureFlowProps) {
-  const [isOpen, setIsOpen] = useState(defaultOpen);
-  const [selectedStepIndex, setSelectedStepIndex] = useState<number | null>(0);
+  const [internalOpen, setInternalOpen] = useState(defaultOpen);
+  const [internalStepIndex, setInternalStepIndex] = useState<number | null>(0);
+
+  const isOpen = forceOpen || internalOpen;
+  const setIsOpen = (val: boolean) => setInternalOpen(val);
+
+  const selectedStepIndex =
+    controlledStepIndex !== undefined ? controlledStepIndex : internalStepIndex;
+
+  const setSelectedStepIndex = (idx: number | null) => {
+    setInternalStepIndex(idx);
+    if (onSelectStepIndex) {
+      onSelectStepIndex(idx);
+    }
+  };
+
+
 
   if (!steps || steps.length === 0) return null;
 
@@ -220,7 +243,13 @@ export default function ArchitectureFlow({
 
                   {/* Architectural Trade-off Rationale */}
                   {currentStep.tradeoff && (
-                    <div className="p-3 rounded-lg bg-white/80 dark:bg-zinc-900/80 border border-cyan-500/30 text-xs">
+                    <div
+                      className={`p-3 rounded-lg bg-white/80 dark:bg-zinc-900/80 border transition-all text-xs ${
+                        highlightTradeoff
+                          ? "border-amber-500 ring-1 ring-amber-500/40 shadow-sm"
+                          : "border-cyan-500/30"
+                      }`}
+                    >
                       <div className="flex items-center gap-1.5 font-mono text-[10px] font-bold text-cyan-700 dark:text-cyan-400 uppercase tracking-wider mb-1">
                         <Scale className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
                         Engineering Trade-off Rationale
@@ -230,6 +259,7 @@ export default function ArchitectureFlow({
                       </p>
                     </div>
                   )}
+
                 </m.div>
               )}
             </AnimatePresence>

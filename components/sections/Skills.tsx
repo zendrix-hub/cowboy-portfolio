@@ -7,6 +7,8 @@ import FadeIn from "@/components/ui/FadeIn";
 import StaggerChildren, { AnimatedItem } from "@/components/ui/StaggerChildren";
 import { ConstellationNode } from "@/components/interactive/ConstellationNode";
 import { useStoryMode } from "@/components/story/StoryModeContext";
+import { TechLogo } from "@/components/current/BrandLogos";
+
 
 function renderCategoryIcon(categoryName: string) {
   const name = categoryName.toLowerCase();
@@ -135,10 +137,15 @@ export default function Skills() {
                             className="inline-block rounded-md"
                           >
                             <span
-                              className="inline-block px-2.5 py-1 text-xs font-mono font-medium rounded-md bg-zinc-100 dark:bg-zinc-800/80 text-zinc-800 dark:text-zinc-200 border border-zinc-200/70 dark:border-zinc-700/60 hover:border-cyan-500/30 transition-colors"
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono font-medium rounded-md bg-zinc-100 dark:bg-zinc-800/80 text-zinc-800 dark:text-zinc-200 border border-zinc-200/70 dark:border-zinc-700/60 hover:border-cyan-500/30 transition-colors"
                             >
-                              {skill}
+                              <TechLogo
+                                name={skill}
+                                className="w-3.5 h-3.5 shrink-0"
+                              />
+                              <span>{skill}</span>
                             </span>
+
                           </ConstellationNode>
                         );
                       })}

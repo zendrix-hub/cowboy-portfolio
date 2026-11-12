@@ -2,20 +2,34 @@
 
 import { experiences } from "@/data/experience";
 import SectionHeading from "@/components/shared/SectionHeading";
-import { Briefcase, GraduationCap, Award, BookCheck, Calendar, Building, Sparkles } from "lucide-react";
+import { Calendar, Building, Sparkles, ExternalLink } from "lucide-react";
 import FadeIn from "@/components/ui/FadeIn";
 import { useStoryMode } from "@/components/story/StoryModeContext";
+import {
+  NecLogo,
+  CitUniversityLogo,
+  AwsLogo,
+  IbmLogo,
+  OpenLearningLogo,
+  PhilNitsLogo,
+} from "@/components/current/BrandLogos";
 
-function renderCategoryIcon(category: string) {
+function renderCategoryEmblem(category: string) {
   switch (category) {
     case "Internship":
-      return <Briefcase className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />;
+      return <NecLogo />;
     case "Education":
-      return <GraduationCap className="w-4 h-4 text-sky-600 dark:text-sky-400" />;
+      return <CitUniversityLogo />;
     case "Certification":
-      return <Award className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />;
+      return (
+        <div className="flex flex-wrap items-center gap-1.5">
+          <AwsLogo />
+          <IbmLogo />
+          <OpenLearningLogo />
+        </div>
+      );
     default:
-      return <BookCheck className="w-4 h-4 text-zinc-500 dark:text-zinc-400" />;
+      return <PhilNitsLogo />;
   }
 }
 
@@ -60,7 +74,9 @@ export default function Experience() {
                 {/* Timeline dot */}
                 <div
                   className={`absolute -left-[31px] sm:-left-[39px] top-1.5 w-3.5 h-3.5 rounded-full bg-white dark:bg-zinc-950 border-2 transition-transform duration-150 group-hover:scale-125 ${
-                    isInternship ? "border-cyan-400 ring-2 ring-cyan-500/20" : "border-cyan-500"
+                    isInternship
+                      ? "border-cyan-400 ring-2 ring-cyan-500/20"
+                      : "border-cyan-500"
                   }`}
                 />
 
@@ -71,10 +87,10 @@ export default function Experience() {
                       : "border-zinc-200/80 dark:border-zinc-800 hover:border-cyan-500/40"
                   }`}
                 >
-                  <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-                    <div className="flex items-center gap-2">
-                      <div className="p-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-800/80 border border-zinc-200/60 dark:border-zinc-700/60">
-                        {renderCategoryIcon(item.category)}
+                  <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                    <div className="flex flex-wrap items-center gap-2.5">
+                      <div className="px-2 py-1 rounded-lg bg-zinc-100 dark:bg-zinc-800/80 border border-zinc-200/60 dark:border-zinc-700/60 flex items-center">
+                        {renderCategoryEmblem(item.category)}
                       </div>
                       <span className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-cyan-700 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-950/50 px-2.5 py-0.5 rounded-full border border-cyan-200/60 dark:border-cyan-900/60">
                         <Calendar className="w-3 h-3" />
@@ -110,11 +126,39 @@ export default function Experience() {
                           key={hIdx}
                           className="flex items-start gap-2 text-xs text-zinc-600 dark:text-zinc-400 font-mono leading-relaxed"
                         >
-                          <span className="text-cyan-500 font-bold mt-0.5">›</span>
+                          <span className="text-cyan-500 font-bold mt-0.5">
+                            ›
+                          </span>
                           <span>{highlight}</span>
                         </li>
                       ))}
                     </ul>
+                  )}
+
+                  {item.credentials && item.credentials.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-4 pt-3 border-t border-zinc-200/60 dark:border-zinc-800/60">
+                      {item.credentials.map((cred) =>
+                        cred.url ? (
+                          <a
+                            key={cred.label}
+                            href={cred.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-mono font-medium text-cyan-700 dark:text-cyan-300 bg-cyan-50/80 dark:bg-cyan-950/60 border border-cyan-300/70 dark:border-cyan-700/60 hover:border-cyan-500 transition-colors"
+                          >
+                            <span>{cred.label}</span>
+                            <ExternalLink className="w-3 h-3" />
+                          </a>
+                        ) : (
+                          <span
+                            key={cred.label}
+                            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-mono text-zinc-600 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-800/70 border border-zinc-200 dark:border-zinc-700/60"
+                          >
+                            {cred.label}
+                          </span>
+                        )
+                      )}
+                    </div>
                   )}
                 </div>
               </div>

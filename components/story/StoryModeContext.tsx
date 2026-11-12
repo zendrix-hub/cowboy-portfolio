@@ -11,13 +11,14 @@ interface StoryModeContextType {
 }
 
 const StoryModeContext = createContext<StoryModeContextType>({
-  mode: "story",
+  mode: "spec",
   setMode: () => {},
   toggleMode: () => {},
 });
 
 export function StoryModeProvider({ children }: { children: React.ReactNode }) {
-  const [mode, setMode] = useState<StoryMode>("story");
+  const [mode, setMode] = useState<StoryMode>("spec");
+
 
   const toggleMode = () => {
     setMode((prev) => (prev === "story" ? "spec" : "story"));

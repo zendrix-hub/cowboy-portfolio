@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Hanken_Grotesk } from "next/font/google";
+import { Fraunces, Hanken_Grotesk, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Providers } from "./providers";
@@ -15,6 +15,12 @@ const fraunces = Fraunces({
 
 const hanken = Hanken_Grotesk({
   variable: "--font-hanken",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
   display: "swap",
 });
@@ -109,7 +115,7 @@ export default function RootLayout({
       </head>
       <body
         suppressHydrationWarning
-        className={`${fraunces.variable} ${hanken.variable} font-sans min-h-screen antialiased selection:bg-[#0F5560] selection:text-[#EDF7F6] dark:selection:bg-[#BFF0EA] dark:selection:text-[#051222] relative`}
+        className={`${fraunces.variable} ${hanken.variable} ${geistMono.variable} font-sans min-h-screen antialiased selection:bg-[#0F5560] selection:text-[#EDF7F6] dark:selection:bg-[#BFF0EA] dark:selection:text-[#051222] relative`}
       >
         <Providers>
           {/* Skip to content link for accessibility (WCAG 2.4.1, §11.2) */}

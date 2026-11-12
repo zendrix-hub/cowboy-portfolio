@@ -1,3 +1,9 @@
+export interface CredentialLink {
+  label: string;
+  url?: string;
+  issuer: "nec" | "cit" | "aws" | "ibm" | "openlearning" | "philnits";
+}
+
 export interface ExperienceItem {
   period: string;
   title: string;
@@ -5,6 +11,7 @@ export interface ExperienceItem {
   category: "Internship" | "Education" | "Certification" | "Continuous Study";
   description: string;
   highlights: string[];
+  credentials?: CredentialLink[];
 }
 
 export const experiences: ExperienceItem[] = [
@@ -44,6 +51,22 @@ export const experiences: ExperienceItem[] = [
       "AWS Academy Graduate — Cloud Foundations (20 hrs) & Cloud Architecting (Trained)",
       "IBM SkillsBuild — Artificial Intelligence Fundamentals",
       "CIT-U / OpenLearning — OJT Etiquette & Professional Standards Training",
+    ],
+    credentials: [
+      {
+        label: "Verify AWS Cloud Badge (Credly)",
+        url: "https://www.credly.com/go/e84CaxMW",
+        issuer: "aws",
+      },
+      {
+        label: "Verify IBM AI Fundamentals Badge (Credly)",
+        url: "https://www.credly.com/badges/a0c1b4ab-45eb-4e8c-9736-b7e00b66659e",
+        issuer: "ibm",
+      },
+      {
+        label: "CIT-U / OpenLearning Completed",
+        issuer: "openlearning",
+      },
     ],
   },
   {

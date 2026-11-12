@@ -7,10 +7,8 @@ import {
   TRIBUTARIES,
   type TributaryId,
 } from "./CurrentContext";
-import {
-  TributaryStationVisualizer,
-  TributaryArchitectureFlow,
-} from "./TributaryTelemetry";
+import { TributaryStationVisualizer } from "./TributaryTelemetry";
+import { TechLogo } from "./BrandLogos";
 
 function mapProjectTitleToTributaryId(
   title: string
@@ -25,11 +23,14 @@ function mapProjectTitleToTributaryId(
 export default function CurrentProjects() {
   const { activeTributary, setActiveTributary } = useCurrentContext();
 
-  const daloyAqua =
-    projects.find((p) => p.title === "DaloyAqua") || projects[2];
-  const supportingProjects = projects.filter(
-    (p) => p.title !== daloyAqua.title
-  );
+  const flagshipProject =
+    projects.find((p) => p.slug === "playit") || projects[0];
+  const supportingProjects = [
+    projects.find((p) => p.slug === "readhub") || projects[1],
+    projects.find((p) => p.slug === "gordon-ramsai") || projects[3],
+    projects.find((p) => p.slug === "daloyaqua") || projects[2],
+  ];
+
 
   // Observe individual project tributaries in the center of the viewport
   useEffect(() => {
@@ -103,11 +104,11 @@ export default function CurrentProjects() {
       </div>
 
       <div className="w-full max-w-[1440px] mx-auto flex flex-col gap-24 sm:gap-32 relative z-10">
-        {/* Section Heading & Hydrological Basin Telemetry Header */}
+        {/* Section Heading & Project Telemetry Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-[var(--line)]/25 pb-8">
           <div className="max-w-[38rem]">
             <span className="font-mono text-[0.8125rem] uppercase tracking-widest text-[var(--fg-2)] block mb-3">
-              ZONE 03 // THE RIVER BASIN • 250m–550m DEPTH
+              SECTION 03 // FEATURED ENGINEERING PROJECTS
             </span>
             <h2
               id="projects-title"
@@ -117,24 +118,24 @@ export default function CurrentProjects() {
             </h2>
           </div>
 
-          {/* Active Tributary Quick Switcher Bar */}
+          {/* Active Project Quick Switcher Bar */}
           <div className="flex flex-col items-start lg:items-end gap-2">
             <span className="font-mono text-[0.75rem] uppercase tracking-wider text-[var(--fg-2)]">
               {activeMeta
-                ? `ACTIVE STREAM // ${activeMeta.tributaryName.toUpperCase()} (${activeMeta.depthMeters}m)`
-                : "BASIN OVERVIEW // 4 HYDROLOGICAL TRIBUTARIES"}
+                ? `ACTIVE PROJECT // ${activeMeta.projectTitle.toUpperCase()}`
+                : "PROJECT OVERVIEW // 4 BUILT SYSTEMS"}
             </span>
             <div
               className="flex flex-wrap items-center gap-2"
               role="navigation"
-              aria-label="Project Tributary Jump Links"
+              aria-label="Project Jump Links"
             >
               {(
                 [
-                  "daloyaqua",
                   "playit",
                   "readhub",
                   "gordon-ramsai",
+                  "daloyaqua",
                 ] as Exclude<TributaryId, "none">[]
               ).map((tId) => {
                 const tMeta = TRIBUTARIES[tId];
@@ -157,74 +158,99 @@ export default function CurrentProjects() {
           </div>
         </div>
 
-        {/* Featured Project: The Eddy Chamber (DaloyAqua) (§6.3.7) */}
+        {/* Featured Project: Flagship Engineering Thesis (PlayIT) */}
         <article
-          id={TRIBUTARIES.daloyaqua.anchorId}
-          data-tributary-section="daloyaqua"
+          id={TRIBUTARIES.playit.anchorId}
+          data-tributary-section="playit"
           aria-labelledby="featured-project-title"
-          className="scroll-mt-24 relative min-h-[85svh] grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center"
+          className="scroll-mt-24 relative min-h-[85svh] grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-12 items-start"
         >
           {/* Reading Column: 7 columns (desktop), text on left */}
-          <div className="lg:col-span-7 flex flex-col items-start max-w-[40rem]">
-            {/* Tributary Coordinate & Status */}
-            <div className="flex flex-wrap items-center gap-3">
+          <div className="lg:col-span-7 flex flex-col items-start max-w-[42rem]">
+            {/* Coordinate, Role & Status */}
+            <div className="flex flex-wrap items-center gap-2.5">
               <span
                 className="w-3.5 h-3.5 rounded-full border-2 border-[var(--line)] bg-[var(--line)]/25"
                 aria-hidden="true"
               />
               <span className="font-mono text-[0.8125rem] uppercase tracking-wider text-[var(--fg-2)]">
-                {TRIBUTARIES.daloyaqua.depthLabel}
+                {TRIBUTARIES.playit.depthLabel}
               </span>
               <span className="text-[var(--fg-2)] opacity-50" aria-hidden="true">
                 •
               </span>
-              <span className="text-[0.9375rem] font-medium text-[var(--fg)]">
-                {daloyAqua.status || "Primary Eddy Chamber"}
+              <span className="px-2.5 py-0.5 rounded-full text-[0.8125rem] font-mono font-medium bg-[var(--tributary-surface)] border border-[var(--line)]/30 text-[var(--fg)]">
+                {flagshipProject.status || "Flagship Engineering Thesis"}
               </span>
+              {flagshipProject.roleContext && (
+                <span className="text-[0.875rem] font-medium text-[var(--fg-2)]">
+                  • {flagshipProject.roleContext}
+                </span>
+              )}
             </div>
 
             {/* Featured Title */}
             <h3
               id="featured-project-title"
-              className="mt-5 font-fraunces text-[clamp(2.5rem,6vw,5.25rem)] leading-[1.0] text-[var(--fg)] font-normal m-0"
+              className="mt-4 font-fraunces text-[clamp(2.5rem,6vw,5.25rem)] leading-[1.0] text-[var(--fg)] font-normal m-0"
             >
-              {daloyAqua.title}
+              {flagshipProject.title}
             </h3>
 
-            {daloyAqua.subtitle && (
+            {flagshipProject.subtitle && (
               <p className="mt-2 text-[1.25rem] font-medium text-[var(--fg-2)]">
-                {daloyAqua.subtitle}
+                {flagshipProject.subtitle}
               </p>
             )}
 
             {/* Description */}
-            <p className="mt-6 text-[1.125rem] leading-[1.7] text-[var(--fg)]">
-              {daloyAqua.description}
+            <p className="mt-5 text-[1.125rem] leading-[1.7] text-[var(--fg)]">
+              {flagshipProject.description}
             </p>
 
             {/* Problem & Architectural Approach */}
-            <p className="mt-4 text-[1.0625rem] leading-[1.65] text-[var(--fg-2)]">
-              {daloyAqua.problem}
+            <p className="mt-3 text-[1.0625rem] leading-[1.65] text-[var(--fg-2)]">
+              {flagshipProject.problem}
             </p>
 
-            {/* Interactive Tributary Architecture Pipeline */}
-            <TributaryArchitectureFlow
-              steps={daloyAqua.architectureSteps}
-              projectTitle={daloyAqua.title}
-            />
+            {/* Key Engineering Highlights from Resume */}
+            {flagshipProject.highlights && flagshipProject.highlights.length > 0 && (
+              <ul className="mt-5 space-y-2 text-[0.96875rem] leading-[1.6] text-[var(--fg)]">
+                {flagshipProject.highlights.map((hl, hIdx) => (
+                  <li key={hIdx} className="flex items-start gap-2.5">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="var(--line)"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="mt-1 shrink-0"
+                      aria-hidden="true"
+                    >
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    <span>{hl}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
 
-            {/* Stack line */}
-            <div className="mt-8 flex flex-col gap-1.5">
-              <span className="text-[0.875rem] font-mono uppercase tracking-wider text-[var(--fg-2)]">
-                Hydrological Stack & Tooling
+            {/* Stack line with Technology Logos */}
+            <div className="mt-8 flex flex-col gap-2">
+              <span className="text-[0.8125rem] font-mono uppercase tracking-wider text-[var(--fg-2)]">
+                Tech Stack & Engineering Tools
               </span>
-              <div className="flex flex-wrap gap-2 mt-1">
-                {daloyAqua.tags.map((tag) => (
+              <div className="flex flex-wrap gap-2">
+                {flagshipProject.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-3 py-1 rounded-full text-[0.875rem] bg-[var(--tributary-surface)] border border-[var(--line)]/25 text-[var(--fg)]"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[0.875rem] font-medium bg-[var(--tributary-surface)] border border-[var(--line)]/30 text-[var(--fg)] shadow-sm"
                   >
-                    {tag}
+                    <TechLogo name={tag} className="w-4 h-4 shrink-0" />
+                    <span>{tag}</span>
                   </span>
                 ))}
               </div>
@@ -232,14 +258,15 @@ export default function CurrentProjects() {
 
             {/* Links */}
             <div className="mt-8 flex flex-wrap items-center gap-6">
-              {daloyAqua.githubUrl && (
+              {flagshipProject.githubUrl && (
                 <a
-                  href={daloyAqua.githubUrl}
+                  href={flagshipProject.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="drawn-link text-[1.0625rem] font-medium"
-                  aria-label={`Source code for ${daloyAqua.title}`}
+                  aria-label={`Source code for ${flagshipProject.title}`}
                 >
+                  <TechLogo name="GitHub" className="w-4 h-4" />
                   <span>Source code</span>
                   <svg
                     width="14"
@@ -257,13 +284,13 @@ export default function CurrentProjects() {
                   </svg>
                 </a>
               )}
-              {daloyAqua.liveUrl && (
+              {flagshipProject.liveUrl && (
                 <a
-                  href={daloyAqua.liveUrl}
+                  href={flagshipProject.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="drawn-link text-[1.0625rem] font-medium"
-                  aria-label={`Open ${daloyAqua.title}`}
+                  aria-label={`Open ${flagshipProject.title}`}
                 >
                   <span>Open project</span>
                   <svg
@@ -285,16 +312,21 @@ export default function CurrentProjects() {
             </div>
           </div>
 
-          {/* Right Channel Eddy Node & Live Telemetry Visualizer */}
-          <div className="lg:col-span-5 flex justify-center lg:justify-end items-center h-full relative">
+          {/* Right Channel Showcase for Flagship Project */}
+          <div className="lg:col-span-5 flex justify-center lg:justify-end items-start lg:sticky lg:top-24 h-full relative">
             <TributaryStationVisualizer
-              tributaryId="daloyaqua"
-              isActive={activeTributary === "daloyaqua"}
-              nodeId="node-daloyaqua"
+              tributaryId="playit"
+              isActive={activeTributary === "playit"}
+              nodeId="node-playit"
               isEddy={true}
+              videoUrl={flagshipProject.videoUrl}
+              posterUrl={flagshipProject.posterUrl}
+              projectSlug={flagshipProject.slug}
+              projectTitle={flagshipProject.title}
             />
           </div>
         </article>
+
 
         {/* Supporting Projects: Tributary Stations (§6.3.7) */}
         <div className="flex flex-col gap-28 sm:gap-36 mt-8">
@@ -310,12 +342,12 @@ export default function CurrentProjects() {
                 id={tMeta.anchorId}
                 data-tributary-section={tribId}
                 aria-labelledby={`project-${idx}-title`}
-                className="scroll-mt-24 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center relative"
+                className="scroll-mt-24 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-12 items-start relative"
               >
                 {/* Station Reading Block */}
-                <div className="lg:col-span-7 flex flex-col items-start max-w-[40rem]">
-                  {/* Tributary Coordinate & Status */}
-                  <div className="flex flex-wrap items-center gap-3">
+                <div className="lg:col-span-7 flex flex-col items-start max-w-[42rem]">
+                  {/* Tributary Coordinate, Role & Status */}
+                  <div className="flex flex-wrap items-center gap-2.5">
                     <span
                       className={`w-3 h-3 rounded-full border-2 border-[var(--line)] transition-colors duration-500 ${
                         isStationActive ? "bg-[var(--line)]" : "bg-transparent"
@@ -333,10 +365,15 @@ export default function CurrentProjects() {
                         >
                           •
                         </span>
-                        <span className="text-[0.9375rem] font-medium text-[var(--fg-2)] tracking-wide">
+                        <span className="px-2.5 py-0.5 rounded-full text-[0.8125rem] font-mono font-medium bg-[var(--tributary-surface)] border border-[var(--line)]/30 text-[var(--fg)]">
                           {project.status}
                         </span>
                       </>
+                    )}
+                    {project.roleContext && (
+                      <span className="text-[0.875rem] font-medium text-[var(--fg-2)]">
+                        • {project.roleContext}
+                      </span>
                     )}
                   </div>
 
@@ -378,24 +415,47 @@ export default function CurrentProjects() {
                     </p>
                   )}
 
-                  {/* Interactive Tributary Architecture Pipeline */}
-                  <TributaryArchitectureFlow
-                    steps={project.architectureSteps}
-                    projectTitle={project.title}
-                  />
+                  {/* Key Engineering Highlights from Resume */}
+                  {project.highlights && project.highlights.length > 0 && (
+                    <ul className="mt-5 space-y-2 text-[0.96875rem] leading-[1.6] text-[var(--fg)]">
+                      {project.highlights.map((hl, hIdx) => (
+                        <li key={hIdx} className="flex items-start gap-2.5">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="var(--line)"
+                            strokeWidth="2.2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="mt-1 shrink-0"
+                            aria-hidden="true"
+                          >
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                          <span>{hl}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
 
-                  {/* Stack */}
-                  <div className="mt-7 flex flex-col gap-1.5">
+                  {/* Stack with Tech Logos */}
+                  <div className="mt-7 flex flex-col gap-2">
                     <span className="text-[0.8125rem] font-mono uppercase tracking-wider text-[var(--fg-2)]">
-                      Tributary Stack
+                      Tributary Stack & Environment
                     </span>
-                    <div className="flex flex-wrap gap-2 mt-1">
+                    <div className="flex flex-wrap gap-2">
                       {project.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="px-3 py-1 rounded-full text-[0.875rem] bg-[var(--tributary-surface)] border border-[var(--line)]/25 text-[var(--fg)]"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[0.875rem] font-medium bg-[var(--tributary-surface)] border border-[var(--line)]/30 text-[var(--fg)] shadow-sm"
                         >
-                          {tag}
+                          <TechLogo
+                            name={tag}
+                            className="w-4 h-4 shrink-0"
+                          />
+                          <span>{tag}</span>
                         </span>
                       ))}
                     </div>
@@ -411,7 +471,7 @@ export default function CurrentProjects() {
                         className="drawn-link text-[1rem] font-medium"
                         aria-label={`Open project ${project.title}`}
                       >
-                        <span>Open project</span>
+                        <span>Live deployment</span>
                         <svg
                           width="14"
                           height="14"
@@ -436,6 +496,7 @@ export default function CurrentProjects() {
                         className="drawn-link text-[1rem] font-medium"
                         aria-label={`Source code for ${project.title}`}
                       >
+                        <TechLogo name="GitHub" className="w-4 h-4" />
                         <span>Source code</span>
                         <svg
                           width="14"
@@ -456,13 +517,17 @@ export default function CurrentProjects() {
                   </div>
                 </div>
 
-                {/* Station Node Target & Telemetry Visualizer in Channel */}
-                <div className="lg:col-span-5 flex justify-center lg:justify-end items-center h-full relative">
+                {/* Station Node Target & Animated Short Video Showcase in Channel */}
+                <div className="lg:col-span-5 flex justify-center lg:justify-end items-start lg:sticky lg:top-24 h-full relative">
                   <TributaryStationVisualizer
                     tributaryId={tribId}
                     isActive={isStationActive}
                     nodeId={nodeId}
                     isEddy={false}
+                    videoUrl={project.videoUrl}
+                    posterUrl={project.posterUrl}
+                    projectSlug={project.slug}
+                    projectTitle={project.title}
                   />
                 </div>
               </article>

@@ -1,18 +1,22 @@
-'use client';
+"use client";
 
-import { ThemeProvider } from 'next-themes';
-import { NuqsAdapter } from 'nuqs/adapters/next/app';
+import { ThemeProvider } from "next-themes";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { ConstellationProvider } from "@/context/ConstellationContext";
+import { StoryModeProvider } from "@/components/story/StoryModeContext";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider
       attribute="class"
-      defaultTheme="light"
-      enableSystem={false}
-      disableTransitionOnChange={false}
+      defaultTheme="dark"
+      enableSystem
+      disableTransitionOnChange
     >
       <NuqsAdapter>
-        {children}
+        <ConstellationProvider>
+          <StoryModeProvider>{children}</StoryModeProvider>
+        </ConstellationProvider>
       </NuqsAdapter>
     </ThemeProvider>
   );

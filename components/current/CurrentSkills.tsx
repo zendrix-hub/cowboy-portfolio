@@ -1,5 +1,6 @@
 import React from "react";
 import { skillCategories } from "@/data/skills";
+import { TechLogo } from "./BrandLogos";
 
 export default function CurrentSkills() {
   return (
@@ -9,12 +10,12 @@ export default function CurrentSkills() {
       className="zone-4 relative min-h-screen py-[clamp(100px,14vh,160px)] select-text"
     >
       {/* Section Header */}
-      <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 mb-16 relative z-10">
+      <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 mb-14 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           <div className="lg:col-span-5 hidden lg:block" aria-hidden="true" />
-          <div className="lg:col-span-7 max-w-[36rem]">
+          <div className="lg:col-span-7 max-w-[40rem]">
             <span className="font-mono text-[0.8125rem] uppercase tracking-widest text-[var(--fg-2)] block mb-3">
-              ZONE 04 // RIVERBED STRATA • 650m SEDIMENT LAYERS
+              SECTION 04 // TECHNICAL SKILLS & EXPERTISE
             </span>
             <h2
               id="skills-title"
@@ -34,43 +35,49 @@ export default function CurrentSkills() {
           return (
             <div
               key={category.name}
-              className={`w-full py-[clamp(48px,8vh,96px)] px-6 sm:px-12 lg:px-20 transition-colors ${
+              className={`w-full py-[clamp(44px,7vh,84px)] px-6 sm:px-12 lg:px-20 transition-colors ${
                 isAlt ? "zone-4-alt" : "zone-4"
               }`}
             >
-              <div className="w-full max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-baseline">
-                {/* Left Channel Area (desktop): 5 cols */}
-                <div className="lg:col-span-5 hidden lg:block" aria-hidden="true" />
+              <div className="w-full max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+                {/* Left Channel Area (desktop): 5 cols with Stratum Telemetry Badge */}
+                <div className="lg:col-span-5 flex flex-col items-start lg:items-end justify-center pt-1">
+                  <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[var(--tributary-surface)]/70 border border-[var(--line)]/25 font-mono text-[0.75rem] text-[var(--fg-2)]">
+                    <span
+                      className="w-2 h-2 rounded-full bg-[var(--line)]"
+                      aria-hidden="true"
+                    />
+                    <span>
+                      CATEGORY 0{idx + 1} {"//"} {category.skills.length} SKILLS
+                    </span>
+                  </div>
+                </div>
 
                 {/* Right Reading Column: 7 cols */}
-                <div className="lg:col-span-7 flex flex-col items-start max-w-[36rem]">
-                  {/* Category Title in Hanken 500 0.9375rem */}
-                  <h3 className="text-[0.9375rem] font-medium text-[var(--fg-2)] tracking-wide uppercase m-0">
+                <div className="lg:col-span-7 flex flex-col items-start max-w-[42rem]">
+                  {/* Category Title */}
+                  <h3 className="font-fraunces text-[clamp(1.5rem,2.8vw,2rem)] text-[var(--fg)] leading-tight m-0">
                     {category.name}
                   </h3>
 
                   {category.focus && (
-                    <p className="mt-2 text-[1rem] text-[var(--fg-2)] font-normal italic">
+                    <p className="mt-1.5 text-[1rem] text-[var(--fg-2)] font-normal">
                       {category.focus}
                     </p>
                   )}
 
-                  {/* Skills Flow: Line of Words in Fraunces 300, wrapping (§6.3.8) */}
-                  <div className="mt-6 flex flex-wrap items-baseline gap-x-5 gap-y-2">
-                    {category.skills.map((skill, sIdx) => (
+                  {/* Skills Grid with Vector Tech Logos */}
+                  <div className="mt-5 flex flex-wrap items-center gap-2.5">
+                    {category.skills.map((skill) => (
                       <span
                         key={skill}
-                        className="font-fraunces text-[clamp(1.5rem,3vw,2.25rem)] text-[var(--fg)] leading-normal font-normal whitespace-nowrap"
+                        className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[var(--tributary-surface)]/85 border border-[var(--line)]/30 text-[var(--fg)] text-[0.9375rem] font-medium shadow-sm hover:border-[var(--line)] hover:-translate-y-0.5 transition-all duration-200"
                       >
-                        {skill}
-                        {sIdx < category.skills.length - 1 && (
-                          <span
-                            className="ml-5 text-[var(--fg-2)] opacity-40 font-sans text-[1rem] select-none pointer-events-none"
-                            aria-hidden="true"
-                          >
-                            •
-                          </span>
-                        )}
+                        <TechLogo
+                          name={skill}
+                          className="w-4 h-4 shrink-0"
+                        />
+                        <span>{skill}</span>
                       </span>
                     ))}
                   </div>
