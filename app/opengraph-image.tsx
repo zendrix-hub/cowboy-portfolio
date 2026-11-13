@@ -19,13 +19,13 @@ export default async function Image() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          backgroundColor: "#09090b",
+          backgroundColor: "#0A2630",
           backgroundImage:
-            "radial-gradient(circle at 85% 15%, rgba(6, 182, 212, 0.18) 0%, transparent 50%), radial-gradient(circle at 15% 85%, rgba(14, 165, 233, 0.14) 0%, transparent 55%)",
+            "radial-gradient(circle at 85% 15%, rgba(124, 232, 221, 0.16) 0%, transparent 50%), radial-gradient(circle at 15% 85%, rgba(94, 234, 212, 0.10) 0%, transparent 55%)",
           padding: "70px 80px",
           border: "1px solid rgba(255, 255, 255, 0.1)",
           fontFamily: "system-ui, -apple-system, sans-serif",
-          color: "#f4f4f5",
+          color: "#F2FBFA",
           position: "relative",
         }}
       >
@@ -51,7 +51,7 @@ export default async function Image() {
                 width: "56px",
                 height: "56px",
                 borderRadius: "50%",
-                background: "linear-gradient(135deg, #0891b2, #06b6d4)",
+                background: "linear-gradient(135deg, #0D5C68, #1E6B75)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -59,7 +59,7 @@ export default async function Image() {
                 fontSize: "22px",
                 fontWeight: "900",
                 fontFamily: "monospace",
-                boxShadow: "0 4px 20px rgba(6, 182, 212, 0.4)",
+                boxShadow: "0 4px 20px rgba(124, 232, 221, 0.35)",
                 border: "2px solid rgba(255, 255, 255, 0.2)",
               }}
             >
@@ -69,7 +69,7 @@ export default async function Image() {
               style={{
                 fontSize: "22px",
                 fontWeight: "700",
-                color: "#f4f4f5",
+                color: "#F2FBFA",
                 letterSpacing: "-0.02em",
               }}
             >
@@ -85,9 +85,9 @@ export default async function Image() {
               gap: "8px",
               padding: "8px 18px",
               borderRadius: "9999px",
-              backgroundColor: "rgba(6, 182, 212, 0.12)",
-              border: "1px solid rgba(6, 182, 212, 0.4)",
-              color: "#22d3ee",
+              backgroundColor: "rgba(124, 232, 221, 0.12)",
+              border: "1px solid rgba(124, 232, 221, 0.35)",
+              color: "#7CE8DD",
               fontSize: "15px",
               fontFamily: "monospace",
               fontWeight: "600",
@@ -98,7 +98,7 @@ export default async function Image() {
                 width: "8px",
                 height: "8px",
                 borderRadius: "50%",
-                backgroundColor: "#06b6d4",
+                backgroundColor: "#7CE8DD",
               }}
             />
             <span>Available for Opportunities</span>
@@ -117,7 +117,7 @@ export default async function Image() {
           <div
             style={{
               fontSize: "24px",
-              color: "#38bdf8",
+              color: "#5EEAD4",
               fontFamily: "monospace",
               fontWeight: "600",
               letterSpacing: "0.05em",
@@ -142,7 +142,7 @@ export default async function Image() {
           <div
             style={{
               fontSize: "20px",
-              color: "#a1a1aa",
+              color: "#C2E3E0",
               lineHeight: 1.5,
               marginTop: "6px",
             }}
@@ -183,9 +183,9 @@ export default async function Image() {
                 style={{
                   padding: "6px 14px",
                   borderRadius: "8px",
-                  backgroundColor: "rgba(39, 39, 42, 0.8)",
-                  border: "1px solid rgba(63, 63, 70, 0.8)",
-                  color: "#e4e4e7",
+                  backgroundColor: "rgba(13, 51, 62, 0.9)",
+                  border: "1px solid rgba(124, 232, 221, 0.3)",
+                  color: "#F2FBFA",
                   fontSize: "14px",
                   fontFamily: "monospace",
                   fontWeight: "500",
@@ -201,7 +201,7 @@ export default async function Image() {
             style={{
               fontSize: "16px",
               fontFamily: "monospace",
-              color: "#06b6d4",
+              color: "#7CE8DD",
               fontWeight: "600",
             }}
           >

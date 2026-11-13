@@ -15,14 +15,14 @@ export default function ErrorBoundary({
   }, [error]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[400px] w-full p-6 text-center text-zinc-900 dark:text-zinc-100">
-      <h2 className="text-2xl font-semibold mb-2">Something went wrong!</h2>
-      <p className="text-zinc-600 dark:text-zinc-400 mb-6 max-w-md">
+    <div className="zone-1 flex flex-col items-center justify-center min-h-[400px] w-full p-6 text-center text-[var(--fg)]">
+      <h2 className="font-fraunces text-[2rem] mb-2">Something went wrong!</h2>
+      <p className="text-[var(--fg-2)] mb-6 max-w-md">
         An unexpected error occurred while loading this section.
       </p>
       <button
         onClick={() => retry()}
-        className="flex items-center gap-2 px-4 py-2 bg-zinc-900 dark:bg-zinc-100 text-zinc-50 dark:text-zinc-900 rounded-md hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors"
+        className="primary-pill gap-2"
       >
         <RefreshCcw className="w-4 h-4" />
         Try Again

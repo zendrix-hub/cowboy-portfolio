@@ -127,6 +127,15 @@ export function TributaryStationVisualizer({
     v.currentTime = pct * v.duration;
   };
 
+  const handleSeekBy = (deltaSeconds: number) => {
+    const v = videoRef.current;
+    if (!v || !v.duration) return;
+    v.currentTime = Math.max(
+      0,
+      Math.min(v.duration, v.currentTime + deltaSeconds)
+    );
+  };
+
   const formattedTitle = projectTitle || meta.projectTitle;
 
   return (
@@ -330,6 +339,7 @@ export function TributaryStationVisualizer({
                       onToggleMute={toggleMute}
                       onOpenCinema={() => setIsCinemaOpen(true)}
                       onSeek={handleSeek}
+                      onSeekBy={handleSeekBy}
                     />
                   </>
                 )}
@@ -433,6 +443,7 @@ export function TributaryStationVisualizer({
                       onToggleMute={toggleMute}
                       onOpenCinema={() => setIsCinemaOpen(true)}
                       onSeek={handleSeek}
+                      onSeekBy={handleSeekBy}
                     />
                   </>
                 )}
@@ -523,6 +534,7 @@ export function TributaryStationVisualizer({
                       onToggleMute={toggleMute}
                       onOpenCinema={() => setIsCinemaOpen(true)}
                       onSeek={handleSeek}
+                      onSeekBy={handleSeekBy}
                     />
                   </>
                 )}
@@ -616,6 +628,7 @@ export function TributaryStationVisualizer({
                       onToggleMute={toggleMute}
                       onOpenCinema={() => setIsCinemaOpen(true)}
                       onSeek={handleSeek}
+                      onSeekBy={handleSeekBy}
                     />
                   </>
                 )}
@@ -623,6 +636,18 @@ export function TributaryStationVisualizer({
             </div>
           )}
         </div>
+
+        {/* Honesty note: the simulator is a front-end illustration, not live data */}
+        {viewMode === "simulator" && (
+          <p className="mb-3 -mt-1 font-mono text-[0.6875rem] leading-snug text-[var(--fg-2)]">
+            <span className="font-semibold text-[var(--fg)]">
+              Illustrative demo.
+            </span>{" "}
+            {tributaryId === "daloyaqua"
+              ? "A front-end mock-up of the specified behaviour. No sensors or SMS gateway are deployed yet; all readings are sample values."
+              : "A simplified front-end mock-up of the real app. Readings and scores shown here are sample values, not live data."}
+          </p>
+        )}
 
         {/* Technical Architecture Specifications */}
         <div className="grid grid-cols-2 gap-2 text-[0.75rem] font-mono mt-3">
@@ -633,7 +658,7 @@ export function TributaryStationVisualizer({
                   INGESTION
                 </span>
                 <span className="text-[var(--fg)] font-semibold truncate block">
-                  LoRa Sensor Payloads
+                  LoRa Payloads (planned)
                 </span>
               </div>
               <div className="p-2 rounded-lg bg-[var(--zone-bg)]/40 border border-[var(--line)]/15">
@@ -657,7 +682,7 @@ export function TributaryStationVisualizer({
                   SMS DISPATCH
                 </span>
                 <span className="text-[var(--fg)] font-semibold truncate block">
-                  Low-Latency Farmer Alerts
+                  Farmer Alerts (planned)
                 </span>
               </div>
             </>
@@ -777,7 +802,11 @@ export function TributaryStationVisualizer({
 
         {/* Footer System Status */}
         <div className="mt-3 pt-2.5 border-t border-[var(--line)]/20 flex items-center justify-between text-[0.7rem] font-mono text-[var(--fg-2)]">
-          <span>SPECIFICATION // PRODUCTION ARCHITECTURE</span>
+          <span>
+            {tributaryId === "daloyaqua"
+              ? "SPECIFICATION // PHASE 0 DESIGN, NOT YET BUILT"
+              : "SPECIFICATION // AS-BUILT ARCHITECTURE"}
+          </span>
           <span className="font-semibold text-[var(--line)]">
             {isActive ? "ACTIVE SYSTEM" : "STANDBY"}
           </span>
@@ -786,49 +815,134 @@ export function TributaryStationVisualizer({
 
       {/* Full-Scale Cinema Lightbox Modal */}
       {isCinemaOpen && videoUrl && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label={`${formattedTitle} Video Walkthrough`}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 sm:p-8"
-          onClick={() => setIsCinemaOpen(false)}
-        >
-          <div
-            className="relative w-full max-w-5xl rounded-2xl border border-[#F2FBFA]/30 bg-[#071E24] p-4 sm:p-6 shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between gap-4 pb-3 mb-3 border-b border-[#F2FBFA]/20">
-              <div>
-                <span className="font-mono text-[0.75rem] uppercase tracking-widest text-[#7CE8DD] block">
-                  SYSTEM WALKTHROUGH // {formattedTitle.toUpperCase()}
-                </span>
-                <h4 className="font-fraunces text-[1.375rem] sm:text-[1.5rem] text-[#F2FBFA] m-0">
-                  {formattedTitle} — Software UI Walkthrough
-                </h4>
-              </div>
-              <button
-                type="button"
-                onClick={() => setIsCinemaOpen(false)}
-                className="px-3.5 py-1.5 rounded-lg border border-[#F2FBFA]/40 bg-[#0B2A30] text-[#F2FBFA] font-mono text-[0.75rem] hover:bg-[#134E5A] cursor-pointer"
-              >
-                CLOSE [ESC]
-              </button>
-            </div>
-            <div className="w-full aspect-video rounded-xl overflow-hidden bg-black border border-[#F2FBFA]/20">
-              <video
-                src={videoUrl}
-                poster={posterUrl}
-                autoPlay
-                loop
-                muted={isMuted}
-                controls
-                playsInline
-                className="w-full h-full object-contain"
-              />
-            </div>
-          </div>
-        </div>
+        <CinemaLightbox
+          title={formattedTitle}
+          videoUrl={videoUrl}
+          posterUrl={posterUrl}
+          isMuted={isMuted}
+          autoPlay={!prefersReducedMotion}
+          onClose={() => setIsCinemaOpen(false)}
+        />
       )}
+    </div>
+  );
+}
+
+/**
+ * Cinema lightbox: Escape closes, focus moves in on open, stays inside while
+ * open, and returns to the control that opened it.
+ */
+function CinemaLightbox({
+  title,
+  videoUrl,
+  posterUrl,
+  isMuted,
+  autoPlay,
+  onClose,
+}: {
+  title: string;
+  videoUrl: string;
+  posterUrl?: string;
+  isMuted: boolean;
+  autoPlay: boolean;
+  onClose: () => void;
+}) {
+  const panelRef = useRef<HTMLDivElement | null>(null);
+  const closeRef = useRef<HTMLButtonElement | null>(null);
+  const onCloseRef = useRef(onClose);
+
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
+
+  useEffect(() => {
+    const opener = document.activeElement as HTMLElement | null;
+    closeRef.current?.focus();
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onCloseRef.current();
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const panel = panelRef.current;
+      if (!panel) return;
+      const focusable = Array.from(
+        panel.querySelectorAll<HTMLElement>("button, video[controls], a[href]")
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement;
+      if (!panel.contains(active)) {
+        e.preventDefault();
+        first.focus();
+      } else if (e.shiftKey && active === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && active === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKey);
+    return () => {
+      document.removeEventListener("keydown", handleKey);
+      document.body.style.overflow = previousOverflow;
+      opener?.focus?.();
+    };
+  }, []);
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${title} Video Walkthrough`}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 sm:p-8"
+      onClick={onClose}
+    >
+      <div
+        ref={panelRef}
+        className="relative w-full max-w-5xl rounded-2xl border border-[#F2FBFA]/30 bg-[#071E24] p-4 sm:p-6 shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between gap-4 pb-3 mb-3 border-b border-[#F2FBFA]/20">
+          <div>
+            <span className="font-mono text-[0.75rem] uppercase tracking-widest text-[#7CE8DD] block">
+              SYSTEM WALKTHROUGH // {title.toUpperCase()}
+            </span>
+            <h4 className="font-fraunces text-[1.375rem] sm:text-[1.5rem] text-[#F2FBFA] m-0">
+              {title} — Software UI Walkthrough
+            </h4>
+          </div>
+          <button
+            ref={closeRef}
+            type="button"
+            onClick={onClose}
+            aria-label="Close video (Escape)"
+            className="px-3.5 py-1.5 rounded-lg border border-[#F2FBFA]/40 bg-[#0B2A30] text-[#F2FBFA] font-mono text-[0.75rem] hover:bg-[#134E5A] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F2FBFA]"
+          >
+            CLOSE [ESC]
+          </button>
+        </div>
+        <div className="w-full aspect-video rounded-xl overflow-hidden bg-black border border-[#F2FBFA]/20">
+          <video
+            src={videoUrl}
+            poster={posterUrl}
+            autoPlay={autoPlay}
+            loop
+            muted={isMuted}
+            controls
+            playsInline
+            className="w-full h-full object-contain"
+          />
+        </div>
+      </div>
     </div>
   );
 }
@@ -845,6 +959,7 @@ function VideoControlsBar({
   onToggleMute,
   onOpenCinema,
   onSeek,
+  onSeekBy,
 }: {
   isPlaying: boolean;
   isMuted: boolean;
@@ -854,6 +969,7 @@ function VideoControlsBar({
   onToggleMute: () => void;
   onOpenCinema: () => void;
   onSeek: (e: React.MouseEvent<HTMLDivElement>) => void;
+  onSeekBy?: (deltaSeconds: number) => void;
 }) {
   const currentSec = Math.floor(playbackTime);
   const totalSec = Math.max(1, Math.floor(duration));
@@ -983,8 +1099,25 @@ function VideoControlsBar({
 
       {/* Interactive Seek Bar */}
       <div
-        className="w-full h-1.5 rounded-full bg-[#18181b]/90 overflow-hidden border border-white/20 relative cursor-pointer"
+        role="slider"
+        tabIndex={0}
+        aria-label="Video position"
+        aria-valuemin={0}
+        aria-valuemax={totalSec}
+        aria-valuenow={Math.min(totalSec, currentSec)}
+        aria-valuetext={`${currentSec} of ${totalSec} seconds`}
+        className="w-full h-1.5 rounded-full bg-[#18181b]/90 overflow-hidden border border-white/20 relative cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7CE8DD]"
         onClick={onSeek}
+        onKeyDown={(e) => {
+          if (!onSeekBy) return;
+          if (e.key === "ArrowRight" || e.key === "ArrowUp") {
+            e.preventDefault();
+            onSeekBy(1);
+          } else if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
+            e.preventDefault();
+            onSeekBy(-1);
+          }
+        }}
       >
         <div
           className="h-full bg-gradient-to-r from-[#06b6d4] via-[#10b981] to-[#38bdf8] transition-all duration-150"

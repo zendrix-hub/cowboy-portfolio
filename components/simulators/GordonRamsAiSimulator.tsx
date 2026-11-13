@@ -122,6 +122,7 @@ export function GordonRamsAiSimulator() {
               </div>
               <input
                 type="range"
+                aria-label="Calories eaten today (demo input)"
                 min="1000"
                 max="3200"
                 step="50"
@@ -139,6 +140,7 @@ export function GordonRamsAiSimulator() {
               </div>
               <input
                 type="range"
+                aria-label="Protein eaten today, grams (demo input)"
                 min="60"
                 max="220"
                 step="2"

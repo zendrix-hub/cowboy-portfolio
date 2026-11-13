@@ -58,6 +58,7 @@ export function DaloyAquaSimulator() {
             </div>
             <input
               type="range"
+              aria-label="Soil moisture, percent (demo input)"
               min="15"
               max="85"
               value={moisture}
@@ -74,6 +75,7 @@ export function DaloyAquaSimulator() {
             </div>
             <input
               type="range"
+              aria-label="Canal water level, centimetres (demo input)"
               min="0"
               max="15"
               step="0.2"
@@ -91,6 +93,7 @@ export function DaloyAquaSimulator() {
             </div>
             <input
               type="range"
+              aria-label="Copra moisture, percent (demo input)"
               min="5"
               max="22"
               step="0.5"

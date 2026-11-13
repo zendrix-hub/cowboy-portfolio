@@ -402,6 +402,22 @@
   font-variation-settings: "SOFT" 100, "WONK" 0, "wght" 300;
 }
 
+/* Japanese text: use the reader's own system Japanese fonts (no download) */
+[lang="ja"] {
+  font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI",
+    "Yu Gothic", "Meiryo", "Noto Sans JP", "Noto Sans CJK JP", sans-serif;
+  font-variation-settings: normal;
+  letter-spacing: 0;
+}
+
+/* Fold-outs (Decisions, English meaning): hide the native marker */
+.project-decisions > summary::-webkit-details-marker {
+  display: none;
+}
+.project-decisions > summary::marker {
+  content: "";
+}
+
 /* Micro-interactions (§6.3.11) */
 .drawn-link {
   position: relative;
@@ -675,6 +691,13 @@
     animation: none !important;
     transform: none !important;
   }
+  /* Tailwind's built-in looping animations (status dots, badges) */
+  .animate-pulse,
+  .animate-ping,
+  .animate-bounce,
+  .animate-spin {
+    animation: none !important;
+  }
 }
 
 /* Forced Colors (§11.5, Audit §12) */
@@ -690,5 +713,71 @@
   }
   :focus-visible {
     outline: 3px solid Highlight !important;
+  }
+}
+
+/* Print / Save as PDF: a clean light summary, no navigation chrome */
+@media print {
+  @page {
+    margin: 14mm;
+  }
+  html,
+  body,
+  #current-page-wrapper,
+  .zone-1,
+  .zone-2,
+  .zone-3,
+  .zone-4,
+  .zone-4-alt,
+  .zone-5,
+  .zone-6 {
+    background: #ffffff !important;
+    --zone-bg: #ffffff !important;
+    --fg: #0b2a30 !important;
+    --fg-2: #254b52 !important;
+    --line: #0d5c68 !important;
+    --tributary-surface: #ffffff !important;
+    --tributary-glow: transparent !important;
+    color: #0b2a30 !important;
+  }
+  section {
+    min-height: 0 !important;
+    padding-top: 1.25rem !important;
+    padding-bottom: 1.25rem !important;
+  }
+  article,
+  li,
+  figure,
+  .project-decisions {
+    break-inside: avoid;
+  }
+  h2,
+  h3,
+  h4 {
+    break-after: avoid;
+  }
+  /* Fold-outs print open so nothing is hidden on paper */
+  details::details-content {
+    content-visibility: visible !important;
+    display: block !important;
+  }
+  .animate-portrait-enter,
+  .animate-current-float,
+  .animate-ambient-pulse {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.7em;
+    word-break: break-all;
+  }
+  .drawn-link::after {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    background: none !important;
+    transform: none !important;
   }
 }
