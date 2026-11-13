@@ -28,6 +28,20 @@ export interface StoryboardBeat {
 }
 
 
+export interface EvaluationResult {
+  figure: string;
+  label: string;
+  basis: string;
+}
+
+export interface ProjectEvaluation {
+  title: string;
+  summary: string;
+  results: EvaluationResult[];
+  quote?: { text: string; source: string };
+  note: string;
+}
+
 export interface Project {
   slug: "playit" | "readhub" | "daloyaqua" | "gordon-ramsai";
   title: string;
@@ -49,6 +63,7 @@ export interface Project {
   image?: string;
   featured?: boolean;
   status?: string;
+  evaluation?: ProjectEvaluation;
   category?: "Mobile" | "Web" | "Backend" | "AI / Full-Stack";
 }
 
@@ -231,6 +246,48 @@ export const projects: Project[] = [
       "Coroutines & StateFlow",
       "Hilt",
     ],
+    evaluation: {
+      title: "Field evaluation with real users",
+      summary:
+        "Tested with 30 participants across two rounds (Sept to Nov 2026): 16 Grade 1 learners, 5 parents or supervising adults, and 9 teachers and reading specialists.",
+      results: [
+        {
+          figure: "15 of 16",
+          label: "learners chose the happy face",
+          basis: "Smileyometer, 16 learners",
+        },
+        {
+          figure: "14 of 16",
+          label: "learners wanted to play again",
+          basis: "Smileyometer, 16 learners",
+        },
+        {
+          figure: "4.6 / 5",
+          label: "fit for Grade 1, rated by parents",
+          basis: "Mean of 5 parents",
+        },
+        {
+          figure: "4.4 / 5",
+          label: "would recommend, rated by parents",
+          basis: "Mean of 5 parents",
+        },
+        {
+          figure: "75.5",
+          label: "System Usability Scale score",
+          basis: "5 parents; 68 is the usual average",
+        },
+        {
+          figure: "4.7 / 5",
+          label: "teaching design, rated by teachers",
+          basis: "Mean of a 16-item rubric, 5 of the 9 teachers",
+        },
+      ],
+      quote: {
+        text: "The app is very useful and engaging for Grade 1 learners.",
+        source: "DepEd Grade 1 teacher, Round 1",
+      },
+      note: "Capstone evaluation data frozen on 12 Nov 2026 for TekCon 2026. Small samples: these are early signals, not proof of learning gains.",
+    },
     githubUrl: "https://github.com/zendrix-hub/playIt",
     videoUrl: "/videos/playit.mp4?v=playit-current-v8",
     posterUrl: "/images/projects/playit-poster.webp",

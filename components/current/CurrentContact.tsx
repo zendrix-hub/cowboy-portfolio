@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import { social } from "@/data/social";
+import JaLabel from "./JaLabel";
+import { sectionLabelsJa } from "@/data/japan";
 
 export default function CurrentContact() {
   const [copied, setCopied] = useState<boolean>(false);
@@ -31,6 +33,7 @@ export default function CurrentContact() {
         <div className="lg:col-span-8 flex flex-col items-start max-w-[42rem]">
           <span className="font-mono text-[0.8125rem] uppercase tracking-widest text-[var(--fg-2)] block mb-3">
             SECTION 06 // CONTACT & DIRECT INQUIRIES
+            <JaLabel>{sectionLabelsJa.contact}</JaLabel>
           </span>
           <h2
             id="contact-title"

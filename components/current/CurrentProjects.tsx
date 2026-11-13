@@ -9,6 +9,9 @@ import {
 } from "./CurrentContext";
 import { TributaryStationVisualizer } from "./TributaryTelemetry";
 import { TechLogo } from "./BrandLogos";
+import JaLabel from "./JaLabel";
+import { ProjectDecisions, ProjectEvaluationPanel } from "./ProjectProof";
+import { sectionLabelsJa } from "@/data/japan";
 
 function mapProjectTitleToTributaryId(
   title: string
@@ -109,6 +112,7 @@ export default function CurrentProjects() {
           <div className="max-w-[38rem]">
             <span className="font-mono text-[0.8125rem] uppercase tracking-widest text-[var(--fg-2)] block mb-3">
               SECTION 03 // FEATURED ENGINEERING PROJECTS
+            <JaLabel>{sectionLabelsJa.projects}</JaLabel>
             </span>
             <h2
               id="projects-title"
@@ -123,7 +127,7 @@ export default function CurrentProjects() {
             <span className="font-mono text-[0.75rem] uppercase tracking-wider text-[var(--fg-2)]">
               {activeMeta
                 ? `ACTIVE PROJECT // ${activeMeta.projectTitle.toUpperCase()}`
-                : "PROJECT OVERVIEW // 4 BUILT SYSTEMS"}
+                : "PROJECT OVERVIEW // 3 BUILT SYSTEMS + 1 IN SPECIFICATION"}
             </span>
             <div
               className="flex flex-wrap items-center gap-2"
@@ -256,6 +260,12 @@ export default function CurrentProjects() {
               </div>
             </div>
 
+            {/* Decisions I made (folded by default) */}
+            <ProjectDecisions
+              steps={flagshipProject.architectureSteps}
+              projectTitle={flagshipProject.title}
+            />
+
             {/* Links */}
             <div className="mt-8 flex flex-wrap items-center gap-6">
               {flagshipProject.githubUrl && (
@@ -310,10 +320,18 @@ export default function CurrentProjects() {
                 </a>
               )}
             </div>
+
+            {/* Field evaluation: measured results with real users */}
+            {flagshipProject.evaluation && (
+              <ProjectEvaluationPanel
+                id="playit-evaluation"
+                evaluation={flagshipProject.evaluation}
+              />
+            )}
           </div>
 
           {/* Right Channel Showcase for Flagship Project */}
-          <div className="lg:col-span-5 flex justify-center lg:justify-end items-start lg:sticky lg:top-24 h-full relative">
+          <div className="lg:col-span-5 flex justify-center lg:justify-end items-start lg:sticky lg:top-24 h-full relative print:hidden">
             <TributaryStationVisualizer
               tributaryId="playit"
               isActive={activeTributary === "playit"}
@@ -461,6 +479,13 @@ export default function CurrentProjects() {
                     </div>
                   </div>
 
+                  {/* Decisions (folded by default) */}
+                  <ProjectDecisions
+                    steps={project.architectureSteps}
+                    projectTitle={project.title}
+                    planned={project.slug === "daloyaqua"}
+                  />
+
                   {/* Links */}
                   <div className="mt-7 flex flex-wrap items-center gap-6">
                     {project.liveUrl && (
@@ -518,7 +543,7 @@ export default function CurrentProjects() {
                 </div>
 
                 {/* Station Node Target & Animated Short Video Showcase in Channel */}
-                <div className="lg:col-span-5 flex justify-center lg:justify-end items-start lg:sticky lg:top-24 h-full relative">
+                <div className="lg:col-span-5 flex justify-center lg:justify-end items-start lg:sticky lg:top-24 h-full relative print:hidden">
                   <TributaryStationVisualizer
                     tributaryId={tribId}
                     isActive={isStationActive}

@@ -78,7 +78,7 @@ export const experiences: ExperienceItem[] = [
       "Sustained daily study habit applied to systems engineering and language acquisition.",
     highlights: [
       "1,200+ consecutive days of self-directed daily language study (Japanese, uncertified proficiency).",
-      "Candidate preparation for the PhilNITS Fundamental Information Technology Engineer (FE) examination.",
+      "PhilNITS Fundamental Information Technology Engineer (FE) examination: result pending.",
     ],
   },
 ];

@@ -1,6 +1,8 @@
 import React from "react";
 import { skillCategories } from "@/data/skills";
 import { TechLogo } from "./BrandLogos";
+import JaLabel from "./JaLabel";
+import { sectionLabelsJa } from "@/data/japan";
 
 export default function CurrentSkills() {
   return (
@@ -16,6 +18,7 @@ export default function CurrentSkills() {
           <div className="lg:col-span-7 max-w-[40rem]">
             <span className="font-mono text-[0.8125rem] uppercase tracking-widest text-[var(--fg-2)] block mb-3">
               SECTION 04 // TECHNICAL SKILLS & EXPERTISE
+            <JaLabel>{sectionLabelsJa.skills}</JaLabel>
             </span>
             <h2
               id="skills-title"

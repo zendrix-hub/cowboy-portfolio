@@ -1,10 +1,12 @@
 import React from "react";
 import { social } from "@/data/social";
+import { sectionLabelsJa } from "@/data/japan";
 import {
   NecLogo,
   CitUniversityLogo,
   PhilNitsLogo,
 } from "./BrandLogos";
+import JaLabel from "./JaLabel";
 
 export default function CurrentAbout() {
   const fullText = social.about;
@@ -13,29 +15,6 @@ export default function CurrentAbout() {
     periodIndex !== -1 ? fullText.slice(0, periodIndex + 1) : fullText;
   const remainingText =
     periodIndex !== -1 ? fullText.slice(periodIndex + 1).trim() : "";
-
-  const metrics = [
-    {
-      figure: "500 hrs",
-      label: "Enterprise GDC Internship",
-      detail: "NEC Telecom Software Philippines",
-    },
-    {
-      figure: "4 Systems",
-      label: "Built & Architected",
-      detail: "Android, Spring Boot, FastAPI & RAG",
-    },
-    {
-      figure: "1,200+ Days",
-      label: "Daily Study Streak",
-      detail: "Japanese & Systems Engineering",
-    },
-    {
-      figure: "Jan 2027",
-      label: "Expected Graduation",
-      detail: "BSIT • CIT – University",
-    },
-  ];
 
   return (
     <section
@@ -91,7 +70,7 @@ export default function CurrentAbout() {
                   LOCATION & CERTIFICATION TRACK
                 </span>
                 <span className="text-[1rem] font-medium text-[var(--fg)]">
-                  {social.location} • PhilNITS FE Candidate
+                  {social.location} • PhilNITS FE (result pending)
                 </span>
               </div>
               <PhilNitsLogo className="shrink-0" />
@@ -103,6 +82,7 @@ export default function CurrentAbout() {
         <div className="lg:col-span-7 flex flex-col items-start max-w-[40rem] order-1 lg:order-2">
           <span className="font-mono text-[0.8125rem] uppercase tracking-widest text-[var(--fg-2)] block mb-3">
             SECTION 02 // PROFESSIONAL BACKGROUND
+            <JaLabel>{sectionLabelsJa.about}</JaLabel>
           </span>
           <h2
             id="about-title"
@@ -122,26 +102,6 @@ export default function CurrentAbout() {
           <p className="mt-5 text-[1.0625rem] leading-[1.65] text-[var(--fg-2)] italic border-l-2 border-[var(--line)]/40 pl-4">
             &ldquo;{social.tagline}&rdquo;
           </p>
-
-          {/* 4-Metric Engineering Telemetry Snapshot Grid */}
-          <div className="mt-8 w-full grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {metrics.map((m) => (
-              <div
-                key={m.label}
-                className="p-3.5 rounded-xl bg-[var(--tributary-surface)]/75 border border-[var(--line)]/25 flex flex-col justify-between"
-              >
-                <span className="font-fraunces text-[1.5rem] leading-tight text-[var(--fg)] font-normal">
-                  {m.figure}
-                </span>
-                <span className="mt-1.5 text-[0.8125rem] font-medium text-[var(--fg)] leading-snug">
-                  {m.label}
-                </span>
-                <span className="mt-0.5 font-mono text-[0.6875rem] text-[var(--fg-2)] leading-tight">
-                  {m.detail}
-                </span>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </section>

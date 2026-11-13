@@ -8,6 +8,9 @@ import {
   OpenLearningLogo,
   PhilNitsLogo,
 } from "./BrandLogos";
+import JaLabel from "./JaLabel";
+import CurrentBearing from "./CurrentBearing";
+import { sectionLabelsJa } from "@/data/japan";
 
 function renderCategoryEmblems(category: string) {
   if (category === "Internship") {
@@ -40,6 +43,7 @@ export default function CurrentExperience() {
         <div className="max-w-[38rem]">
           <span className="font-mono text-[0.8125rem] uppercase tracking-widest text-[var(--fg-2)] block mb-3">
             SECTION 05 // WORK EXPERIENCE & EDUCATION
+            <JaLabel>{sectionLabelsJa.experience}</JaLabel>
           </span>
           <h2
             id="experience-title"
@@ -174,6 +178,9 @@ export default function CurrentExperience() {
               </article>
             );
           })}
+
+          {/* Japan bearing: where the route is heading (anchored as #japan) */}
+          <CurrentBearing />
         </div>
       </div>
     </section>

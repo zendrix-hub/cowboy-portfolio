@@ -10,6 +10,7 @@ import {
   IbmLogo,
   TechLogo,
 } from "./BrandLogos";
+import CurrentSoundings from "./CurrentSoundings";
 
 const CORE_HERO_STACK = [
   "Kotlin",
@@ -282,8 +283,7 @@ export default function CurrentHero() {
                   alt={social.name}
                   width={1254}
                   height={1254}
-                  priority
-                  unoptimized
+                  preload
                   className="w-full h-full object-contain brightness-[1.01] contrast-[1.02] dark:brightness-[0.96] dark:contrast-[1.01] transition-transform duration-500 ease-out hover:scale-[1.02]"
                   sizes="(max-width: 640px) 21rem, (max-width: 1024px) 26rem, 33rem"
                 />
@@ -292,6 +292,9 @@ export default function CurrentHero() {
           </div>
         </div>
       </div>
+
+      {/* Soundings: headline facts, each linked to its source */}
+      <CurrentSoundings />
     </section>
   );
 }
