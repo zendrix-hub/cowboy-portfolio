@@ -64,7 +64,7 @@ export default function CurrentContact() {
                 type="button"
                 onClick={handleCopy}
                 className="drawn-link text-[1rem] font-medium text-[var(--fg-2)] hover:text-[var(--fg)] cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
-                aria-label="Copy email address to clipboard"
+                aria-label="Copy address to clipboard"
               >
                 <span>{copied ? "Copied" : "Copy address"}</span>
                 <svg
@@ -102,7 +102,6 @@ export default function CurrentContact() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="drawn-link text-[1.125rem] text-[var(--fg)]"
-                aria-label="GitHub Profile (opens in new tab)"
               >
                 <span>GitHub — @zendrix-hub</span>
                 <svg
@@ -127,7 +126,6 @@ export default function CurrentContact() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="drawn-link text-[1.125rem] text-[var(--fg)]"
-                aria-label="LinkedIn Profile (opens in new tab)"
               >
                 <span>LinkedIn — in/zendrix-riva</span>
                 <svg
@@ -175,7 +173,6 @@ export default function CurrentContact() {
               <a
                 href={`mailto:${social.academicEmail}`}
                 className="drawn-link text-[1.125rem] text-[var(--fg)]"
-                aria-label="Academic Email Inquiries"
               >
                 <span>Academic — {social.academicEmail}</span>
                 <svg

@@ -494,7 +494,7 @@ export default function CurrentProjects() {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="drawn-link text-[1rem] font-medium"
-                        aria-label={`Open project ${project.title}`}
+                        aria-label={`Live deployment of ${project.title} (opens in a new tab)`}
                       >
                         <span>Live deployment</span>
                         <svg

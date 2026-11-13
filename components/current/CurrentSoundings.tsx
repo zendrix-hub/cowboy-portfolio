@@ -45,7 +45,7 @@ export default function CurrentSoundings() {
                 ? { target: "_blank", rel: "noopener noreferrer" }
                 : {})}
               className="drawn-link mt-auto pt-2.5 font-mono text-[0.6875rem] font-semibold text-[var(--fg)]"
-              aria-label={`Source for "${s.figure} ${s.label}": ${s.sourceLabel}${
+              aria-label={`Source: ${s.sourceLabel}, for "${s.figure} ${s.label}"${
                 s.external ? " (opens in a new tab)" : ""
               }`}
             >

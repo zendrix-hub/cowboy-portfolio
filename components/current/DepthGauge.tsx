@@ -252,6 +252,18 @@ export default function DepthGauge() {
           })}
         </div>
 
+        {/* Japan Bearing Jump Button */}
+        <a
+          href="#japan"
+          aria-label="Jump to Japan bearing"
+          title="Japan bearing"
+          className="mt-3 w-11 h-11 rounded-full border border-[#F2FBFA] bg-[#0B2A30] text-[#F2FBFA] flex items-center justify-center shadow-md hover:scale-105 active:scale-95 transition-transform duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2FBFA]"
+        >
+          <span lang="ja" aria-hidden="true" className="text-[0.8125rem] font-medium leading-none">
+            日本
+          </span>
+        </a>
+
         {/* Quick Resume Download Button */}
         <a
           href="/resume.pdf"

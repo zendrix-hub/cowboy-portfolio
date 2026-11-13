@@ -106,7 +106,7 @@ export function ReadHubSimulator() {
               onClick={() => setSelectedCat(cat)}
               className={`px-1.5 py-0.5 rounded text-[0.6rem] font-mono transition-all ${
                 selectedCat === cat
-                  ? "bg-cyan-600 text-white font-semibold"
+                  ? "bg-cyan-700 text-white font-semibold"
                   : "bg-[#162133] text-zinc-400 hover:text-white"
               }`}
             >
@@ -145,7 +145,7 @@ export function ReadHubSimulator() {
                 onClick={() => toggleBorrow(book.id)}
                 className={`px-2 py-1 rounded text-[0.65rem] font-bold transition-all ${
                   book.available
-                    ? "bg-cyan-600 hover:bg-cyan-500 text-white"
+                    ? "bg-cyan-700 hover:bg-cyan-600 text-white"
                     : "bg-zinc-800 hover:bg-zinc-700 text-zinc-300"
                 }`}
               >

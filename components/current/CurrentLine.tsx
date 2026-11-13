@@ -74,6 +74,72 @@ function catmullRomToBezier(points: [number, number][], tension = 0.5): string {
   return d;
 }
 
+// Sample the same Catmull-Rom curve in plain JS (same control points as
+// catmullRomToBezier). Asking the browser for getPointAtLength() a thousand
+// times on a 25,000px path cost ~0.8s of blocked main thread per rebuild on a
+// mid-range phone; this is pure arithmetic and takes about a millisecond.
+function sampleCatmullRom(
+  points: [number, number][],
+  tension = 0.5,
+  step = 24
+): SamplePoint[] {
+  if (points.length < 2) return [];
+
+  const samples: SamplePoint[] = [{ x: points[0][0], y: points[0][1], len: 0 }];
+  let travelled = 0;
+  let sinceLast = 0;
+  let prevX = points[0][0];
+  let prevY = points[0][1];
+
+  for (let i = 0; i < points.length - 1; i++) {
+    const p0 = i === 0 ? points[0] : points[i - 1];
+    const p1 = points[i];
+    const p2 = points[i + 1];
+    const p3 = i + 2 < points.length ? points[i + 2] : p2;
+
+    let c1x = p1[0];
+    let c1y = p1[1];
+    let c2x = p2[0];
+    let c2y = p2[1];
+    if (points.length > 2) {
+      c1x = p1[0] + ((p2[0] - p0[0]) / 6) * (1 - tension);
+      c1y = p1[1] + ((p2[1] - p0[1]) / 6) * (1 - tension);
+      c2x = p2[0] - ((p3[0] - p1[0]) / 6) * (1 - tension);
+      c2y = p2[1] - ((p3[1] - p1[1]) / 6) * (1 - tension);
+    }
+
+    const chord = Math.hypot(p2[0] - p1[0], p2[1] - p1[1]);
+    const subdivisions = Math.max(2, Math.ceil(chord / 8));
+
+    for (let k = 1; k <= subdivisions; k++) {
+      const t = k / subdivisions;
+      const mt = 1 - t;
+      const a = mt * mt * mt;
+      const b = 3 * mt * mt * t;
+      const c = 3 * mt * t * t;
+      const d = t * t * t;
+      const x = a * p1[0] + b * c1x + c * c2x + d * p2[0];
+      const y = a * p1[1] + b * c1y + c * c2y + d * p2[1];
+
+      const seg = Math.hypot(x - prevX, y - prevY);
+      travelled += seg;
+      sinceLast += seg;
+      prevX = x;
+      prevY = y;
+
+      if (sinceLast >= step) {
+        samples.push({ x, y, len: travelled });
+        sinceLast = 0;
+      }
+    }
+  }
+
+  if (sinceLast > 0) {
+    samples.push({ x: prevX, y: prevY, len: travelled });
+  }
+  return samples;
+}
+
 export default function CurrentLine() {
   const { activeTributary } = useCurrentContext();
   const containerRef = useRef<SVGSVGElement | null>(null);
@@ -87,6 +153,7 @@ export default function CurrentLine() {
   const [visibleNodeIds, setVisibleNodeIds] = useState<Set<string>>(new Set());
 
   const samplesRef = useRef<SamplePoint[]>([]);
+  const rawSamplesRef = useRef<SamplePoint[]>([]);
   const totalLengthRef = useRef<number>(0);
   const introProgressRef = useRef<number>(0);
   const lastDimensionsRef = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
@@ -451,6 +518,7 @@ export default function CurrentLine() {
     }
 
     const svgPath = catmullRomToBezier(waypoints, 0.5);
+    rawSamplesRef.current = sampleCatmullRom(waypoints, 0.5, 24);
     setPathData(svgPath);
     setNodes(detectedNodes);
     setTicks(detectedTicks);
@@ -465,12 +533,16 @@ export default function CurrentLine() {
       const len = pathEl.getTotalLength();
       totalLengthRef.current = len;
 
-      const samples: SamplePoint[] = [];
-      const step = 24;
-      for (let d = 0; d <= len; d += step) {
-        const pt = pathEl.getPointAtLength(d);
-        samples.push({ x: pt.x, y: pt.y, len: d });
-      }
+      // Samples were computed arithmetically in rebuildPath; scale their
+      // lengths to the browser's exact total so the dash offset lines up.
+      const raw = rawSamplesRef.current;
+      const approxTotal = raw.length > 0 ? raw[raw.length - 1].len : 0;
+      const scale = approxTotal > 0 ? len / approxTotal : 1;
+      const samples: SamplePoint[] = raw.map((pt) => ({
+        x: pt.x,
+        y: pt.y,
+        len: pt.len * scale,
+      }));
       samplesRef.current = samples;
 
       requestAnimationFrame(() => {

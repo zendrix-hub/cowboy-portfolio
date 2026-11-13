@@ -554,7 +554,7 @@ export function TributaryStationVisualizer({
                 </div>
                 <div className="flex-1 flex items-center justify-center px-1 sm:px-4">
                   <div className="max-w-md w-full flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-[#09090b] border border-[#27272a] font-mono text-[0.625rem] text-[#a1a1aa] truncate">
-                    <span className="text-[#a855f7] font-semibold text-[0.7rem]">
+                    <span className="text-[#C084FC] font-semibold text-[0.7rem]">
                       STREAMLIT
                     </span>
                     <span className="truncate">

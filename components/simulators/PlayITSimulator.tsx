@@ -103,7 +103,7 @@ export function PlayITSimulator() {
               onClick={() => setActiveStep(step)}
               className={`py-1 rounded text-[0.65rem] font-medium transition-all ${
                 isActive
-                  ? "bg-emerald-600 text-white shadow-sm font-semibold"
+                  ? "bg-emerald-700 text-white shadow-sm font-semibold"
                   : "bg-[#162032] text-zinc-400 hover:text-white"
               }`}
             >
@@ -171,7 +171,7 @@ export function PlayITSimulator() {
                   isListeningMic
                     ? "bg-rose-500 border-white text-white animate-pulse"
                     : micRecognized
-                    ? "bg-emerald-600 border-emerald-400 text-white"
+                    ? "bg-emerald-700 border-emerald-400 text-white"
                     : "bg-[#1e293b] hover:bg-[#334155] border-rose-500 text-rose-300"
                 }`}
               >
@@ -192,7 +192,7 @@ export function PlayITSimulator() {
                 <span className="text-zinc-400">Tap mic and pronounce &quot;Mouse&quot;</span>
               )}
             </div>
-            <span className="text-[0.6rem] text-zinc-500 font-mono mt-1">
+            <span className="text-[0.6rem] text-zinc-400 font-mono mt-1">
               Zero network permission • In-memory ring buffer
             </span>
           </div>

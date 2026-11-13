@@ -70,7 +70,7 @@ export function GordonRamsAiSimulator() {
       {/* Top Header */}
       <div className="flex items-center justify-between pb-2 border-b border-[#222]">
         <div className="flex items-center gap-2">
-          <span className="text-[0.7rem] font-black text-[#E32636] font-mono tracking-wider">
+          <span className="text-[0.7rem] font-black text-[#FF6B76] font-mono tracking-wider">
             GORDON RAMSAI
           </span>
           <span className="text-[0.6rem] text-zinc-400 font-mono hidden sm:inline">
@@ -79,7 +79,7 @@ export function GordonRamsAiSimulator() {
         </div>
 
         <div className="flex items-center gap-2 text-[0.6rem] font-mono">
-          <span className="px-1.5 py-0.5 rounded bg-[#1C080A] text-[#E32636] border border-[#E32636]/40 font-bold">
+          <span className="px-1.5 py-0.5 rounded bg-[#1C080A] text-[#FF6B76] border border-[#E32636]/40 font-bold">
             HELL&apos;S KITCHEN INFERNO
           </span>
         </div>
@@ -192,7 +192,7 @@ export function GordonRamsAiSimulator() {
               isQuerying ? "opacity-50" : "opacity-100"
             }`}
           >
-            <span className="text-[0.58rem] font-mono font-bold text-[#E32636] block tracking-wide uppercase mb-0.5">
+            <span className="text-[0.58rem] font-mono font-bold text-[#FF6B76] block tracking-wide uppercase mb-0.5">
               Chef Gordon Critique (Inferno Mood)
             </span>
             <p className="text-[0.65rem] text-[#FAFAFA] font-sans leading-relaxed line-clamp-3">
@@ -204,7 +204,7 @@ export function GordonRamsAiSimulator() {
 
       {/* Telemetry Footer */}
       <div className="pt-2 border-t border-[#222] flex items-center justify-between text-[0.6rem] font-mono text-zinc-400">
-        <span className="flex items-center gap-1.5 text-[#E32636]">
+        <span className="flex items-center gap-1.5 text-[#FF6B76]">
           <span className="w-1.5 h-1.5 rounded-full bg-[#E32636] animate-pulse" />
           <span>GEMINI 1.5 PRO // LOCAL RAG GROUNDED</span>
         </span>

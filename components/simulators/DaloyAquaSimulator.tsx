@@ -138,7 +138,7 @@ export function DaloyAquaSimulator() {
             </div>
           </div>
 
-          <span className="text-[0.55rem] font-mono text-zinc-500">
+          <span className="text-[0.55rem] font-mono text-zinc-400">
             Eliminates middleman price gouging via transparent field curve
           </span>
         </div>

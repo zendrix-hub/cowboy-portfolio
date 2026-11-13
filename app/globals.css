@@ -740,10 +740,36 @@
     --tributary-glow: transparent !important;
     color: #0b2a30 !important;
   }
-  section {
+  html {
+    font-size: 10px !important;
+  }
+  section,
+  #current-page-wrapper [class*="min-h-"] {
     min-height: 0 !important;
-    padding-top: 1.25rem !important;
-    padding-bottom: 1.25rem !important;
+  }
+  section {
+    padding-top: 0.9rem !important;
+    padding-bottom: 0.9rem !important;
+  }
+  /* Screen-sized gaps and viewport-scaled headings are far too large on paper */
+  #current-page-wrapper [class*="gap-"] {
+    gap: 1.1rem !important;
+  }
+  #current-page-wrapper [class*="mb-14"] {
+    margin-bottom: 1rem !important;
+  }
+  h1 {
+    font-size: 4rem !important;
+  }
+  h2 {
+    font-size: 2.6rem !important;
+  }
+  h3 {
+    font-size: 1.9rem !important;
+  }
+  /* The portrait and its glow waste most of a page on paper */
+  #home [class*="will-change-transform"] {
+    display: none !important;
   }
   article,
   li,
@@ -768,16 +794,18 @@
     opacity: 1 !important;
     transform: none !important;
   }
-  a[href^="http"]::after {
-    content: " (" attr(href) ")";
-    font-size: 0.7em;
-    word-break: break-all;
-  }
+  /* Text links print their address; logo links stay clean */
   .drawn-link::after {
     position: static !important;
     width: auto !important;
     height: auto !important;
     background: none !important;
     transform: none !important;
+    content: none;
+  }
+  .drawn-link[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.7em;
+    word-break: break-all;
   }
 }
