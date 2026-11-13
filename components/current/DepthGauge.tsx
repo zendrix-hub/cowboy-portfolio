@@ -34,7 +34,6 @@ export default function DepthGauge() {
     activeSection,
     setActiveSection,
     activeTributary,
-    setScrollDepthMeters,
   } = useCurrentContext();
 
   const [markerY, setMarkerY] = useState<number>(0);
@@ -77,7 +76,7 @@ export default function DepthGauge() {
     return () => observer.disconnect();
   }, [setActiveSection]);
 
-  // Piecewise linear marker tracking & continuous depth meters calculation
+  // Piecewise linear marker tracking
   useEffect(() => {
     let rafId: number | null = null;
 
@@ -90,14 +89,6 @@ export default function DepthGauge() {
         const isDesktop = window.innerWidth >= 1024;
         const railHeight = isDesktop ? 240 : 200;
         const step = railHeight / (SECTIONS.length - 1);
-
-        // Calculate overall scroll depth in meters (0m to 850m)
-        const docHeight = Math.max(
-          1,
-          document.documentElement.scrollHeight - window.innerHeight
-        );
-        const totalRatio = Math.max(0, Math.min(1, window.scrollY / docHeight));
-        setScrollDepthMeters(Math.round(totalRatio * 850));
 
         const currentIndex = SECTIONS.findIndex((s) => s.id === activeSection);
         if (currentIndex === -1) return;
@@ -128,7 +119,7 @@ export default function DepthGauge() {
       window.removeEventListener("scroll", handleScroll);
       if (rafId) cancelAnimationFrame(rafId);
     };
-  }, [activeSection, setScrollDepthMeters]);
+  }, [activeSection]);
 
   const activeIndex = Math.max(
     0,
@@ -155,7 +146,7 @@ export default function DepthGauge() {
       {/* Desktop / Tablet Section Navigation Rail (§6.3.5) */}
       <nav
         aria-label="Section Navigation"
-        className="hidden sm:flex fixed right-3 lg:right-6 top-1/2 -translate-y-1/2 z-40 flex-col items-center select-none"
+        className="hidden sm:flex print:hidden fixed right-3 lg:right-6 top-1/2 -translate-y-1/2 z-40 flex-col items-center select-none"
         onMouseEnter={() => setIsGaugeHovered(true)}
         onMouseLeave={() => setIsGaugeHovered(false)}
         onFocus={() => setIsGaugeHovered(true)}
@@ -319,7 +310,7 @@ export default function DepthGauge() {
       </nav>
 
       {/* Mobile Bottom-Center Depth Pill (§6.3.5) */}
-      <div className="sm:hidden fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 z-40">
+      <div className="sm:hidden print:hidden fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 z-40">
         <button
           type="button"
           popoverTarget="mobile-depth-popover"
@@ -353,7 +344,7 @@ export default function DepthGauge() {
         <div
           id="mobile-depth-popover"
           popover="auto"
-          className="m-0 p-3 rounded-2xl bg-[#0B2A30] border border-[#F2FBFA] text-[#F2FBFA] shadow-2xl backdrop-blur-md fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 min-w-[260px] flex flex-col gap-1 max-h-[75vh] overflow-y-auto"
+          className="m-0 p-3 rounded-2xl bg-[#0B2A30] border border-[#F2FBFA] text-[#F2FBFA] shadow-2xl backdrop-blur-md fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 min-w-[260px] hidden [&:popover-open]:flex flex-col gap-1 max-h-[75vh] overflow-y-auto"
         >
           {SECTIONS.map((section) => {
             const isCurrent = section.id === activeSection;
@@ -415,6 +406,29 @@ export default function DepthGauge() {
                         </a>
                       );
                     })}
+                  </div>
+                )}
+
+                {/* Japan bearing sub-link underneath Experience */}
+                {section.id === "experience" && (
+                  <div className="pl-4 flex flex-col gap-1 my-1 border-l border-[#1E6B75] ml-4">
+                    <a
+                      href="#japan"
+                      className="min-h-[38px] px-3 rounded-lg flex items-center justify-between text-[0.8125rem] font-mono transition-colors text-[#CDE7E4] hover:bg-[#134E5A]"
+                      onClick={() => {
+                        const pop = document.getElementById(
+                          "mobile-depth-popover"
+                        ) as HTMLElement & {
+                          hidePopover?: () => void;
+                        };
+                        if (pop && typeof pop.hidePopover === "function") {
+                          pop.hidePopover();
+                        }
+                      }}
+                    >
+                      <span>↳ Japan bearing</span>
+                      <span lang="ja">進路</span>
+                    </a>
                   </div>
                 )}
               </React.Fragment>

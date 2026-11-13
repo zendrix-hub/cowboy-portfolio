@@ -211,7 +211,7 @@ export default function CurrentLine() {
       if (z3) {
         waypoints.push([rightX, z3.top + z3.height * 0.08]);
 
-        const eddyEl = document.getElementById("node-daloyaqua");
+        const eddyEl = document.getElementById("node-playit");
         let eddyY = z3.top + z3.height * 0.25;
         if (eddyEl) {
           const er = eddyEl.getBoundingClientRect();
@@ -220,13 +220,13 @@ export default function CurrentLine() {
 
         const eddyRadius = isTablet ? 40 : 56;
         detectedNodes.push({
-          id: "node-daloyaqua",
+          id: "node-playit",
           x: rightX,
           y: eddyY,
           isFilled: false,
           lengthOnPath: 0,
           isEddy: true,
-          tributaryId: "daloyaqua",
+          tributaryId: "playit",
         });
 
         for (let angle = 0; angle <= 360; angle += 45) {
@@ -354,26 +354,27 @@ export default function CurrentLine() {
         }
       }
     } else {
-      waypoints.push([leftX, originY + 80]);
+      waypoints.push([leftX + 28, originY + 9]);
+      waypoints.push([leftX, originY + 64]);
 
       zoneRects.forEach((z, zIdx) => {
         if (!z) return;
         waypoints.push([leftX, z.top + z.height * 0.2]);
 
         if (zIdx === 2) {
-          const eddyEl = document.getElementById("node-daloyaqua");
+          const eddyEl = document.getElementById("node-playit");
           if (eddyEl) {
             const er = eddyEl.getBoundingClientRect();
             const ey = er.top + er.height / 2 - wrapperRect.top;
             waypoints.push([leftX, ey]);
             detectedNodes.push({
-              id: "node-daloyaqua",
+              id: "node-playit",
               x: leftX,
               y: ey,
               isFilled: false,
               lengthOnPath: 0,
               isEddy: true,
-              tributaryId: "daloyaqua",
+              tributaryId: "playit",
             });
           }
 
@@ -409,6 +410,10 @@ export default function CurrentLine() {
           );
           expEls.forEach((expEl, eIdx) => {
             const er = expEl.getBoundingClientRect();
+            // Waypoint targets are hidden below desktop width; a hidden
+            // element measures as 0×0 at the top of the page, which used to
+            // yank the line (and a stray node) back up to y = 0.
+            if (er.width === 0 && er.height === 0) return;
             const ey = er.top + er.height / 2 - wrapperRect.top;
             const isFilled = expEl.getAttribute("data-current") === "true";
             waypoints.push([leftX, ey]);
@@ -653,7 +658,7 @@ export default function CurrentLine() {
   return (
     <svg
       ref={containerRef}
-      className="current absolute inset-0 w-full pointer-events-none z-0 overflow-visible"
+      className="current print:hidden absolute inset-0 w-full pointer-events-none z-[1] overflow-visible"
       style={{ height: totalHeight }}
       aria-hidden="true"
       focusable="false"

@@ -75,8 +75,6 @@ interface CurrentContextValue {
   setActiveSection: (section: string) => void;
   activeTributary: TributaryId;
   setActiveTributary: (tributary: TributaryId) => void;
-  scrollDepthMeters: number;
-  setScrollDepthMeters: (meters: number) => void;
 }
 
 const CurrentContext = createContext<CurrentContextValue>({
@@ -84,14 +82,11 @@ const CurrentContext = createContext<CurrentContextValue>({
   setActiveSection: () => {},
   activeTributary: "none",
   setActiveTributary: () => {},
-  scrollDepthMeters: 0,
-  setScrollDepthMeters: () => {},
 });
 
 export function CurrentProvider({ children }: { children: React.ReactNode }) {
   const [activeSection, setActiveSection] = useState<string>("home");
   const [activeTributary, setActiveTributary] = useState<TributaryId>("none");
-  const [scrollDepthMeters, setScrollDepthMeters] = useState<number>(0);
 
   const value = useMemo(
     () => ({
@@ -99,10 +94,8 @@ export function CurrentProvider({ children }: { children: React.ReactNode }) {
       setActiveSection,
       activeTributary,
       setActiveTributary,
-      scrollDepthMeters,
-      setScrollDepthMeters,
     }),
-    [activeSection, activeTributary, scrollDepthMeters]
+    [activeSection, activeTributary]
   );
 
   return (

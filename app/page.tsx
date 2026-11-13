@@ -19,7 +19,10 @@ export default function Home() {
       <CurrentLine />
 
       {/* Main Content Sections */}
-      <main id="content" className="relative z-10 w-full flex flex-col">
+      {/* No z-index here: <main> must not form its own layer, or the opaque
+          zone backgrounds would cover the drawn line (z-[1]). Section content
+          sits above the line through each section's inner z-10 container. */}
+      <main id="content" className="relative w-full flex flex-col">
         {/* Section 1: Hero Profile */}
         <CurrentHero />
 
